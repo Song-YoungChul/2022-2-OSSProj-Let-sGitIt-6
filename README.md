@@ -2,6 +2,3 @@
 
 ## 팀원 :
 ### 정재혁 송영철 김재홍
-
-## 송영철 first commit
-## 정재혁 first commit
