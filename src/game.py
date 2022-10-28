@@ -244,12 +244,23 @@ def selectMode():
     # hardmode button
     btn_hardmode, btn_hardmode_rect = load_image('hard.png', 150, 50, -1)
     r_btn_hardmode, r_btn_hardmode_rect = load_image(*resize('hard.png', 150, 50, -1))
+    # runningmode button, 임시로 hardmode 이미지로 진행
+    btn_runningmode, btn_runningmode_rect = load_image('hard.png', 150, 50, -1)
+    r_btn_runningmode, r_btn_runningmode_rect = load_image(*resize('hard.png', 150, 50, -1))
+    # battlemode button, 임시로 hardmode 이미지로 진행
+    btn_battlemode, btn_battlemode_rect = load_image('hard.png', 150, 50, -1)
+    r_btn_battlemode, r_btn_battlemode_rect = load_image(*resize('hard.png', 150, 50, -1))
+    
+    
     # 배경 이미지
     Background, Background_rect = load_image('intro_bg.png', width, height, -1)
 
-
-    easymode_btn_rect.center = (width * 0.5, height * 0.5)
-    btn_hardmode_rect.center = (width * 0.5, height * 0.75)
+    # 이지, 하드모드 버튼
+    easymode_btn_rect.center = (width * 0.66, height * 0.5)
+    btn_hardmode_rect.center = (width * 0.66, height * 0.75)
+    # 러닝, 배틀모드 버튼
+    btn_runningmode_rect.center = (width * 0.33, height * 0.5)
+    btn_battlemode_rect.center = (width * 0.33, height * 0.75)
 
 
     while not gameStart:
@@ -270,16 +281,28 @@ def selectMode():
                     if r_btn_hardmode_rect.collidepoint(x, y):
                         gameplay_hard()
 
+                    if r_btn_runningmode_rect.collidepoint(x, y):
+                        gameplay_hard()
+                    
+                    if r_btn_battlemode_rect.collidepoint(x, y):
+                        gameplay_hard()
+
             if event.type == pygame.VIDEORESIZE:
                 checkscrsize(event.w, event.h)
 
-        r_easy_btn_rect.centerx, r_easy_btn_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * 0.5
-        r_btn_hardmode_rect.centerx, r_btn_hardmode_rect.centery = resized_screen.get_width() * 0.5, resized_screen.get_height() * (
-                0.5 + button_offset)
+        r_easy_btn_rect.centerx, r_easy_btn_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * 0.5
+        r_btn_hardmode_rect.centerx, r_btn_hardmode_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * (
+                0.75)
+        r_btn_runningmode_rect.centerx, r_btn_runningmode_rect.centery = resized_screen.get_width() * 0.33, resized_screen.get_height() * (
+                0.5)
+        r_btn_battlemode_rect.centerx, r_btn_battlemode_rect.centery = resized_screen.get_width() * 0.33, resized_screen.get_height() * (
+                0.75)
 
         screen.blit(Background, Background_rect)
         screen.blit(easymode_btn_image, easymode_btn_rect)
         screen.blit(btn_hardmode, btn_hardmode_rect)
+        screen.blit(btn_runningmode, btn_runningmode_rect)
+        screen.blit(btn_battlemode, btn_battlemode_rect)
 
 
         resized_screen.blit(
