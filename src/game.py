@@ -1446,6 +1446,97 @@ def board():
 
 def gamerule():
     global resized_screen
+    done = False
+    btnpush_interval = 500
+
+    largeText = pygame.font.Font('freesansbold.ttf', 60)
+    TextSurf, TextRect = text_objects("[ CONTROL ]", largeText)
+
+    TextRect.center = (width * 0.5, height * 0.2)
+
+    # 버튼 이미지
+
+    ##easy mode button
+    easymoderule_btn_image, easymoderule_btn_rect = load_image('easy.png', 150, 50, -1)
+    r_easymoderule_btn_image, r_easyrule_btn_rect = load_image(*resize('easy.png', 150, 50, -1))
+    # hardmode button
+    btn_hardmoderule, btn_hardmoderule_rect = load_image('hard.png', 150, 50, -1)
+    r_btn_hardmoderule, r_btn_hardmoderule_rect = load_image(*resize('hard.png', 150, 50, -1))
+    # runningmode button, 임시로 hardmode 이미지로 진행
+    btn_runningmoderule, btn_runningmoderule_rect = load_image('hard.png', 150, 50, -1)
+    r_btn_runningmoderule, r_btn_runningmoderule_rect = load_image(*resize('hard.png', 150, 50, -1))
+    # battlemode button, 임시로 hardmode 이미지로 진행
+    btn_battlemoderule, btn_battlemoderule_rect = load_image('hard.png', 150, 50, -1)
+    r_btn_battlemoderule, r_btn_battlemoderule_rect = load_image(*resize('hard.png', 150, 50, -1))
+    
+    
+    # 배경 이미지, 일단 인트로 사진으로 대체
+    Background, Background_rect = load_image('intro_bg.png', width, height, -1)
+
+    # 이지, 하드모드 버튼
+    easymoderule_btn_rect.center = (width * 0.66, height * 0.5)
+    btn_hardmoderule_rect.center = (width * 0.66, height * 0.75)
+    # 러닝, 배틀모드 버튼
+    btn_runningmoderule_rect.center = (width * 0.33, height * 0.5)
+    btn_battlemoderule_rect.center = (width * 0.33, height * 0.75)
+
+
+    while not done:
+        for event in pygame.event.get():
+            
+            if event.type == pygame.QUIT:
+                gameStart = True
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    return False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if pygame.mouse.get_pressed() == (1, 0, 0):
+                    x, y = event.pos
+                    if r_easyrule_btn_rect.collidepoint(x, y):
+                        gamerule_image()
+
+                    if r_btn_hardmoderule_rect.collidepoint(x, y):
+                        gamerule_image()
+
+                    if r_btn_runningmoderule_rect.collidepoint(x, y):
+                        gamerule_image()
+                    
+                    if r_btn_battlemoderule_rect.collidepoint(x, y):
+                        gamerule_image()
+
+            if event.type == pygame.VIDEORESIZE:
+                checkscrsize(event.w, event.h)
+
+        r_easyrule_btn_rect.centerx, r_easyrule_btn_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * 0.5
+        r_btn_hardmoderule_rect.centerx, r_btn_hardmoderule_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * (
+                0.75)
+        r_btn_runningmoderule_rect.centerx, r_btn_runningmoderule_rect.centery = resized_screen.get_width() * 0.33, resized_screen.get_height() * (
+                0.5)
+        r_btn_battlemoderule_rect.centerx, r_btn_battlemoderule_rect.centery = resized_screen.get_width() * 0.33, resized_screen.get_height() * (
+                0.75)
+
+        
+        screen.blit(Background, Background_rect)
+        screen.blit(TextSurf, TextRect)
+        screen.blit(easymoderule_btn_image, easymoderule_btn_rect)
+        screen.blit(btn_hardmoderule, btn_hardmoderule_rect)
+        screen.blit(btn_runningmoderule, btn_runningmoderule_rect)
+        screen.blit(btn_battlemoderule, btn_battlemoderule_rect)
+
+
+        resized_screen.blit(
+            pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
+            resized_screen_centerpos)
+        pygame.display.update()
+
+        clock.tick(FPS)
+    pygame.quit()
+    quit()
+
+
+def gamerule_image():
+    global resized_screen
     gameQuit = False
     max_per_screen = 10
     screen_board_height = resized_screen.get_height()
