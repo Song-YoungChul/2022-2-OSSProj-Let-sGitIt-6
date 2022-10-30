@@ -21,7 +21,6 @@ class CoinItem(pygame.sprite.Sprite):
         screen.blit(self.image, self.rect)
 
     def update(self):
-
         if self.counter % 10 == 0:
             self.index = (self.index + 1) % 2
         self.image = self.images[self.index]
