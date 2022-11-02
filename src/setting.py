@@ -2,10 +2,13 @@ import os
 import sys
 import random
 import pygame
-from pygame import *
+from pygame import display
+from pygame import mixer
+from pygame import Rect
+from pygame import Surface
+from pygame import time
 from pygame import transform # 11/1 추가
 from pygame.locals import RESIZABLE, RLEACCEL # 11/1 추가
-
 
 pygame.mixer.pre_init(44100, -16, 2, 2048)
 pygame.init()
@@ -13,6 +16,8 @@ gamername=''
 scr_size = (width, height) = (800, 400)
 FPS = 60
 gravity = 0.65
+
+
 font = pygame.font.Font('DungGeunMo.ttf', 32)
 full_screen=False
 monitor_size = (monitor_width, monitor_height) = (pygame.display.Info().current_w, pygame.display.Info().current_h)
@@ -89,41 +94,31 @@ def load_image(
     name,
     sizex=-1,
     sizey=-1,
-    colorkey=None,
+    color_key=None,
     ):
 
     fullname = os.path.join('sprites', name)
     image = pygame.image.load(fullname)
     image = image.convert()
-    if colorkey is not None:
-        if colorkey is -1:
-            colorkey = image.get_at((0, 0))
-        image.set_colorkey(colorkey, RLEACCEL)
+    if color_key is not None:
+        if color_key is -1:
+            color_key = image.get_at((0, 0))
+        image.set_colorkey(color_key, RLEACCEL)
 
     if sizex != -1 or sizey != -1:
         image = pygame.transform.scale(image, (sizex, sizey))
 
     return (image, image.get_rect())
 
-def load_sprite_sheet(
-        sheetname,
-        nx,
-        ny,
-        scalex = -1,
-        scaley = -1,
-        colorkey = None,
-        ):
+def load_sprite_sheet(sheetname, nx, ny, scalex = -1,
+                        scaley = -1, color_key = None,):
     fullname = os.path.join('sprites', sheetname)
     sheet = pygame.image.load(fullname)
     sheet = sheet.convert()
-
     sheet_rect = sheet.get_rect()
-
     sprites = []
-
     sizex = sheet_rect.width/nx
     sizey = sheet_rect.height/ny
-
     for i in range(0,ny):
         for j in range(0,nx):
             rect = pygame.Rect((j*sizex,i*sizey,sizex,sizey))
@@ -131,34 +126,30 @@ def load_sprite_sheet(
             image = image.convert()
             image.blit(sheet,(0,0),rect)
 
-            if colorkey is not None:
-                if colorkey is -1:
-                    colorkey = image.get_at((0,0))
-                image.set_colorkey(colorkey,RLEACCEL)
+            if color_key is not None:
+                if color_key is -1:
+                    color_key = image.get_at((0,0))
+                image.set_colorkey(color_key,RLEACCEL)
 
             if scalex != -1 or scaley != -1:
                 image = pygame.transform.scale(image,(scalex,scaley))
-
             sprites.append(image)
-
     sprite_rect = sprites[0].get_rect()
-
     return sprites, sprite_rect
 
-def disp_gameOver_msg(gameover_image):
-
+def disp_gameover_msg(gameover_image):
     gameover_rect = gameover_image.get_rect()
     gameover_rect.centerx = width / 2
     gameover_rect.centery = height*0.35
-
     screen.blit(gameover_image, gameover_rect)
 
 def disp_intro_buttons(btn_gamestart, btn_board, btn_option):
     btn_gamestart_rect = btn_gamestart.get_rect()
     btn_board_rect = btn_board.get_rect()
     btn_option_rect = btn_option.get_rect()
-
-    btn_gamestart_rect.centerx, btn_board_rect.centerx, btn_option_rect.centerx = width * 0.72, width * 0.72, width * 0.72
+    btn_gamestart_rect.centerx = width * 0.72
+    btn_board_rect.centerx = width * 0.72
+    btn_option_rect.centerx = width * 0.72
     btn_gamestart_rect.centery, btn_board_rect.centery, btn_option_rect.centery = height * 0.5, height * (0.5+button_offset), height * (0.5+2*button_offset)
     
     screen.blit(btn_gamestart, btn_gamestart_rect)
