@@ -669,7 +669,7 @@ def gameplay_easy():
 
             highsc.update(high_score)
             if pygame.display.get_surface() != None:
-                disp_gameOver_msg(gameover_image)
+                disp_gameover_msg(gameover_image)
                 if high_score != 0:
                     highsc.draw()
                     screen.blit(HI_image, HI_rect)
@@ -1368,7 +1368,7 @@ def gameplay_hard():
 
             highsc.update(high_score)
             if pygame.display.get_surface() != None:
-                disp_gameOver_msg(gameover_image)
+                disp_gameover_msg(gameover_image)
                 if high_score != 0:
                     highsc.draw()
                     screen.blit(HI_image, HI_rect)
