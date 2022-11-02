@@ -106,8 +106,8 @@ class SlowItem(pygame.sprite.Sprite):
         if self.rect.right < 0:
             self.kill()
 
-### 미사일을 쉽게 만들기 위한 미사일 클래스 ###
-class obj(pygame.sprite.Sprite):
+### 미사일을 쉽게 만들기 위한 미사일 클래스 # 11/1 표기 변경
+class Obj(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.x = 0

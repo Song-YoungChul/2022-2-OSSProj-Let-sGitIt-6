@@ -2,14 +2,13 @@ import os
 import sys
 import random
 import pygame
-import pygame
 from pygame import display
 from pygame import mixer
 from pygame import Rect
 from pygame import Surface
 from pygame import time
-from pygame import transform
-from pygame.locals import RESIZABLE, RLEACCEL
+from pygame import transform # 11/1 추가
+from pygame.locals import RESIZABLE, RLEACCEL # 11/1 추가
 
 pygame.mixer.pre_init(44100, -16, 2, 2048)
 pygame.init()
@@ -32,6 +31,8 @@ blue = (0,0,225)
 bright_red = (255,0,0)
 bright_green = (0,255,0)
 bright_orange = (255,215,0)
+
+large_font = pygame.font.Font('DungGeunMo.ttf', 75) # 11/1 추가 pvp에서 폰트입력
 
 high_score = 0
 resized_screen = pygame.display.set_mode((scr_size), RESIZABLE)
@@ -75,7 +76,7 @@ def text_objects(text, font):
     textSurface = font.render(text, True, (black))
     return textSurface, textSurface.get_rect()
 
-# 투명한 이미지 불러오기
+# 투명한 이미지 불러오기 11/1 투석투주에서 추가
 def alpha_image(name, sizex=-1, sizey=-1,color_key=None):
     full_name = os.path.join('sprites', name)
     img = pygame.image.load(full_name)
@@ -155,7 +156,32 @@ def disp_intro_buttons(btn_gamestart, btn_board, btn_option):
     screen.blit(btn_board, btn_board_rect)
     screen.blit(btn_option, btn_option_rect)
 
+# pvp 사용함수 추가
+def disp_pvp_gameover_buttons(btn_restart, btn_exit):
+    btn_restart_rect = btn_restart.get_rect()
+    btn_exit_rect = btn_exit.get_rect()
+    btn_restart_rect.centerx = width * 0.35
+    btn_exit_rect.centerx = width * 0.65
+    btn_restart_rect.centery = height * 0.55
+    btn_exit_rect.centery = height * 0.55
+    screen.blit(btn_restart, btn_restart_rect)
+    screen.blit(btn_exit, btn_exit_rect)
 
+# pvp 사용함수 추가
+def disp_pvp_winner_loser(player1):
+    win = large_font.render("WIN", True, black)
+    lose = large_font.render("LOSE", True, black)
+    if not player1.is_dead:
+        win_width = width * 0.17
+        lose_width = width * 0.70
+    else:
+        win_width = width * 0.70
+        lose_width = width * 0.17
+
+    screen.blit(win, (win_width, height * 0.2))
+    screen.blit(lose, (lose_width, height * 0.2))
+
+# 표기법 수정 필요
 def checkscrsize(eventw, eventh):
     if (eventw < width and eventh < height) or eventw < width or eventh < height: #최소해상도
         resized_screen = pygame.display.set_mode((scr_size), RESIZABLE)
