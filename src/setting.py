@@ -13,7 +13,7 @@ from pygame.locals import RESIZABLE, RLEACCEL
 
 mixer.pre_init(44100, -16, 2, 2048)
 pygame.init()
-display.set_caption("Coin-T-REX by_TwoSeokTwoJoo")
+display.set_caption("RunningPVP-T-rex by_Let`sGitIt")
 gamer_name = ''
 scr_size = (width, height) = (800, 400)
 FPS = 60
