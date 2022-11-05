@@ -303,6 +303,11 @@ def select_mode():
 def gameplay_easy():
     global resized_screen
     global high_score
+    spring_image, spring_rect = load_image('ex_spring.png', 230, 210, -1)
+    r_spring_image, r_spring_rect = load_image(*resize('ex_spring.png', 230, 210, -1))
+    un_spring_image, un_spring_rect = load_image('unselect_spring.png', 230, 210, -1)
+    r_un_spring_image, r_un_spring_rect = load_image(*resize('unselect_spring.png', 230, 210, -1))
+    screen.blit(spring_image, spring_rect)
     result = db.query_db("select score from user order by score desc;", one=True)
     if result is not None:
         high_score = result['score']
@@ -676,6 +681,8 @@ def gameplay_hard():
     # 
 
     new_ground = Ground(-1 * game_speed)
+    #배경 변경하는 코드
+    new_ground = ImgBack(-1 * game_speed, "pvp_back")
     scb = Scoreboard()
     highsc = Scoreboard(width * 0.78)
     heart = HeartIndicator(life)
