@@ -1435,17 +1435,17 @@ def gamerule():
     # 버튼 이미지
 
     ##easy mode button
-    easymoderule_btn_image, easymoderule_btn_rect = load_image('easy.png', 150, 50, -1)
-    r_easymoderule_btn_image, r_easyrule_btn_rect = load_image(*resize('easy.png', 150, 50, -1))
+    easymoderule_btn_image, easymoderule_btn_rect = load_image('Easy-Mode.png', 150, 50, -1)
+    r_easymoderule_btn_image, r_easyrule_btn_rect = load_image(*resize('Easy-Mode.png', 150, 50, -1))
     # hardmode button
-    btn_hardmoderule, btn_hardmoderule_rect = load_image('hard.png', 150, 50, -1)
-    r_btn_hardmoderule, r_btn_hardmoderule_rect = load_image(*resize('hard.png', 150, 50, -1))
+    btn_hardmoderule, btn_hardmoderule_rect = load_image('Hard-Mode.png', 150, 50, -1)
+    r_btn_hardmoderule, r_btn_hardmoderule_rect = load_image(*resize('Hard-Mode.png', 150, 50, -1))
     # runningmode button, 임시로 hardmode 이미지로 진행
-    btn_runningmoderule, btn_runningmoderule_rect = load_image('hard.png', 150, 50, -1)
-    r_btn_runningmoderule, r_btn_runningmoderule_rect = load_image(*resize('hard.png', 150, 50, -1))
+    btn_runningmoderule, btn_runningmoderule_rect = load_image('PvP-Running.png', 150, 50, -1)
+    r_btn_runningmoderule, r_btn_runningmoderule_rect = load_image(*resize('PvP-Running.png', 150, 50, -1))
     # battlemode button, 임시로 hardmode 이미지로 진행
-    btn_battlemoderule, btn_battlemoderule_rect = load_image('hard.png', 150, 50, -1)
-    r_btn_battlemoderule, r_btn_battlemoderule_rect = load_image(*resize('hard.png', 150, 50, -1))
+    btn_battlemoderule, btn_battlemoderule_rect = load_image('PvP-Battle.png', 150, 50, -1)
+    r_btn_battlemoderule, r_btn_battlemoderule_rect = load_image(*resize('PvP-Battle.png', 150, 50, -1))
     
     
     # 배경 이미지, 일단 인트로 사진으로 대체
