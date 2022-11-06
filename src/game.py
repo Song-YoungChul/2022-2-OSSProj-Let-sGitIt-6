@@ -40,7 +40,6 @@ def intro_screen():
     btn_board, btn_board_rect = load_image('btn_board.png', 150, 50, -1)
     r_btn_option, r_btn_option_rect = load_image(*resize('btn_option.png', 150, 50, -1))
     btn_option, btn_option_rect = load_image('btn_option.png', 150, 50, -1)
-    
     # DINO IMAGE
     while not game_start:
         if pygame.display.get_surface() == None:
@@ -51,7 +50,10 @@ def intro_screen():
                 if event.type == pygame.VIDEORESIZE and not full_screen:
                     background_rect.bottomleft = (width * 0, height)
                 if event.type == pygame.QUIT:
-                    return True
+                    game_start = True
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        return False
                 # 버튼 클릭했을 때 event
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if pygame.mouse.get_pressed() == (1, 0, 0):
@@ -79,17 +81,16 @@ def intro_screen():
                             option()
 
         # interface draw
-        if pygame.display.get_surface() != None:
+        if pygame.display.get_surface() is not None:
             r_btn_gamestart_rect.centerx = resized_screen.get_width() * 0.8
-            # r_btn_2p_rect.centerx = resized_screen.get_width() * 0.8
             r_btn_board_rect.centerx = resized_screen.get_width() * 0.8
             r_btn_option_rect.centerx = resized_screen.get_width() * 0.8
-            r_r_btn_gamestart_tery = resized_screen.get_height() * 0.25
-            # r_btn_2p_rect.centery = resized_screen.get_height() * (0.25 + 0.75 * button_offset)
+
+            r_btn_gamestart_rect.centery = resized_screen.get_height() * (0.25 + 0.75 * button_offset)
             r_btn_board_rect.centery = resized_screen.get_height() * (0.25 + 1.5 * button_offset)
             r_btn_option_rect.centery = resized_screen.get_height() * (0.25 + 2.25 * button_offset)
             screen.blit(background, background_rect)
-            disp_intro_buttons(r_btn_gamestart, btn_board, btn_option)
+            disp_intro_buttons(btn_gamestart, btn_board, btn_option)
 
 
             resized_screen.blit(
@@ -99,6 +100,7 @@ def intro_screen():
 
     pygame.quit()
     quit()
+
 
 
 def option():
@@ -220,17 +222,17 @@ def select_mode():
     # 버튼 이미지
 
     ##easy mode button
-    easymode_btn_image, easymode_btn_rect = load_image('easy.png', 150, 50, -1)
-    r_easymode_btn_image, r_easy_btn_rect = load_image(*resize('easy.png', 150, 50, -1))
+    easymode_btn_image, easymode_btn_rect = load_image('Easy-Mode.png', 150, 50, -1)
+    r_easymode_btn_image, r_easy_btn_rect = load_image(*resize('Easy-Mode.png', 150, 50, -1))
     # hardmode button
-    btn_hardmode, btn_hardmode_rect = load_image('hard.png', 150, 50, -1)
-    r_btn_hardmode, r_btn_hardmode_rect = load_image(*resize('hard.png', 150, 50, -1))
+    btn_hardmode, btn_hardmode_rect = load_image('Hard-Mode.png', 150, 50, -1)
+    r_btn_hardmode, r_btn_hardmode_rect = load_image(*resize('Hard-Mode.png', 150, 50, -1))
     # runningmode button, 임시로 hardmode 이미지로 진행
-    btn_runningmode, btn_runningmode_rect = load_image('hard.png', 150, 50, -1)
-    r_btn_runningmode, r_btn_runningmode_rect = load_image(*resize('hard.png', 150, 50, -1))
+    btn_runningmode, btn_runningmode_rect = load_image('PvP-Running.png', 150, 50, -1)
+    r_btn_runningmode, r_btn_runningmode_rect = load_image(*resize('PvP-Running.png', 150, 50, -1))
     # battlemode button, 임시로 hardmode 이미지로 진행
-    btn_battlemode, btn_battlemode_rect = load_image('hard.png', 150, 50, -1)
-    r_btn_battlemode, r_btn_battlemode_rect = load_image(*resize('hard.png', 150, 50, -1))
+    btn_battlemode, btn_battlemode_rect = load_image('PvP-Battle.png', 150, 50, -1)
+    r_btn_battlemode, r_btn_battlemode_rect = load_image(*resize('PvP-Battle.png', 150, 50, -1))
     
     
     # 배경 이미지
@@ -682,7 +684,7 @@ def gameplay_hard():
 
     new_ground = Ground(-1 * game_speed)
     #배경 변경하는 코드
-    new_ground = ImgBack(-1 * game_speed, "pvp_back")
+    new_ground = ImgBack(-1 * game_speed, "spring")
     scb = Scoreboard()
     highsc = Scoreboard(width * 0.78)
     heart = HeartIndicator(life)
