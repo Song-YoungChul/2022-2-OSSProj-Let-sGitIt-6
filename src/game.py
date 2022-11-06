@@ -114,7 +114,7 @@ def option():
     done = False
     db_init = False
     large_text = pygame.font.Font('freesansbold.ttf', 60)
-    text_surf, text_rect = text_objects("[ OPTION ]", large_text)
+    text_surf, text_rect = load_image("Big_Option.png", 300, 50, -1)
     btn_bgm_on, btn_bgm_on_rect = load_image('btn_bgm_on.png', 80, 80, -1)
     btn_bgm_off, btn_bgm_off_rect = load_image('btn_bgm_off.png', 80, 80, -1)
     r_btn_bgm_on, r_btn_bgm_on_rect = load_image(*resize('btn_bgm_on.png', 80, 80, -1))
@@ -1430,7 +1430,7 @@ def gamerule():
     btnpush_interval = 500
 
     largeText = pygame.font.Font('freesansbold.ttf', 60)
-    TextSurf, TextRect = text_objects("[ CONTROL ]", largeText)
+    TextSurf, TextRect = load_image("CONTROL.png", 350, 50, -1)
 
     TextRect.center = (width * 0.5, height * 0.2)
 
@@ -1451,7 +1451,7 @@ def gamerule():
     
     
     # 배경 이미지, 일단 인트로 사진으로 대체
-    Background, Background_rect = load_image('intro_bg.png', width, height, -1)
+    Background, Background_rect = load_image('winter.png', width, height, -1)
 
     # 이지, 하드모드 버튼
     easymoderule_btn_rect.center = (width * 0.66, height * 0.5)
