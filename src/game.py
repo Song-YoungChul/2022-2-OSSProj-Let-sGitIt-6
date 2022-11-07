@@ -220,7 +220,8 @@ def select_mode():
     btnpush_interval = 500
 
     # 버튼 이미지
-
+    back_btn_image, back_btn_rect = load_image('back.png', 75, 30, -1)
+    r_back_btn_image, r_back_btn_rect = load_image(*resize('back.png', 75, 30, -1))
     ##easy mode button
     easymode_btn_image, easymode_btn_rect = load_image('Easy-Mode.png', 150, 50, -1)
     r_easymode_btn_image, r_easy_btn_rect = load_image(*resize('Easy-Mode.png', 150, 50, -1))
@@ -238,6 +239,8 @@ def select_mode():
     # 배경 이미지
     Background, Background_rect = load_image('intro_bg.png', width, height, -1)
 
+    # 뒤로가기 버튼
+    back_btn_rect =  (width * 0.05, height * 0.1)
     # 이지, 하드모드 버튼
     easymode_btn_rect.center = (width * 0.66, height * 0.5)
     btn_hardmode_rect.center = (width * 0.66, height * 0.75)
@@ -258,6 +261,9 @@ def select_mode():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed() == (1, 0, 0):
                     x, y = event.pos
+                    if r_back_btn_rect.collidepoint(x, y):
+                        intro_screen()
+
                     if r_easy_btn_rect.collidepoint(x, y):
                         gameplay_easy()
 
@@ -272,7 +278,7 @@ def select_mode():
 
             if event.type == pygame.VIDEORESIZE:
                 check_scr_size(event.w, event.h)
-
+        r_back_btn_rect.centerx, r_back_btn_rect.centery = resized_screen.get_width() * 0.075, resized_screen.get_height() * 0.1
         r_easy_btn_rect.centerx, r_easy_btn_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * 0.5
         r_btn_hardmode_rect.centerx, r_btn_hardmode_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * (
                 0.75)
@@ -281,7 +287,9 @@ def select_mode():
         r_btn_battlemode_rect.centerx, r_btn_battlemode_rect.centery = resized_screen.get_width() * 0.33, resized_screen.get_height() * (
                 0.75)
 
+        
         screen.blit(Background, Background_rect)
+        screen.blit(back_btn_image, back_btn_rect)
         screen.blit(easymode_btn_image, easymode_btn_rect)
         screen.blit(btn_hardmode, btn_hardmode_rect)
         screen.blit(btn_runningmode, btn_runningmode_rect)
@@ -325,8 +333,8 @@ def gameplay_easy():
     player_dino = Dino(dino_size[0], dino_size[1])
 
     new_ground = Ground(-1 * game_speed)
-    scb = Scoreboard()
-    highsc = Scoreboard(width * 0.78)
+    scb = Scoreboard( y = height * SCB_HEIGHT)
+    highsc = Scoreboard(width * SCB_WIDTH, height * SCB_HEIGHT)
     heart = HeartIndicator(life)
     speed_indicator = Scoreboard(width * INDICATOR_X, height * INDICATOR_Y)
     counter = 0
@@ -1101,7 +1109,7 @@ def gameplay_hard():
                 PTERA_INTERVAL = 12
                 #
                 CLOUD_INTERVAL = 300
-                SHIELD_INTERVAL = 500
+                SHIELD_INTERVAL = 100
                 LIFE_INTERVAL = 1000
                 SLOW_INTERVAL = 1000
 
@@ -1200,7 +1208,7 @@ def gameplay_hard():
                     if len(clouds) < 5 and random.randrange(CLOUD_INTERVAL) == MAGIC_NUM:
                         Cloud(width, random.randrange(height / 5, height / 2))
 
-                    if len(shield_items) == 0 and random.randrange(
+                    if len(shield_items) < 0 and random.randrange(
                             SHIELD_INTERVAL) == MAGIC_NUM and counter > SHIELD_INTERVAL:
                         for l in last_obstacle:
                             if l.rect.right < OBJECT_REFRESH_LINE:
@@ -1379,12 +1387,19 @@ def board():
     title_rect.centerx = width * 0.5
     title_rect.centery = height * 0.2
 
+    # 버튼 이미지
+    back_btn_image, back_btn_rect = load_image('back.png', 75, 30, -1)
+    r_back_btn_image, r_back_btn_rect = load_image(*resize('back.png', 75, 30, -1))
+    # 뒤로가기 버튼
+    back_btn_rect =  (width * 0.05, height * 0.1)
+
     while not game_quit:
         if pygame.display.get_surface() is None:
             game_quit = True
         else:
             screen_board.fill(background_col)
             screen_board.blit(title_image, title_rect)
+
             for i, result in enumerate(results):
                 top_i_surface = font.render(f"TOP {i + 1}", True, black)
                 name_inform_surface = font.render("Name", True, black)
@@ -1407,15 +1422,21 @@ def board():
                     if event.key == pygame.K_UP: scroll_y = min(scroll_y + 15, 0)
                     if event.key == pygame.K_DOWN: scroll_y = max(scroll_y - 15, -(len(results)//max_per_screen)*scr_size[1])
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    if pygame.mouse.get_pressed() == (1, 0, 0):
+                        x, y = event.pos
+                        if r_back_btn_rect.collidepoint(x, y):
+                            intro_screen()
                     if event.button == 4: scroll_y = min(scroll_y + 15, 0)
                     if event.button == 5: scroll_y = max(scroll_y - 15, -(len(results)//max_per_screen)*scr_size[1])
-                    if event.button == 1:
-                        game_quit = True
-                        intro_screen()
+                    # if event.button == 1:
+                    #     game_quit = True
+                    #     intro_screen()
                 if event.type == pygame.VIDEORESIZE:
                     check_scr_size(event.w, event.h)
-
+            r_back_btn_rect.centerx, r_back_btn_rect.centery = resized_screen.get_width() * 0.075, resized_screen.get_height() * 0.1
+            
             screen.blit(screen_board, (0, scroll_y))
+            screen.blit(back_btn_image, back_btn_rect)
             resized_screen.blit(
                 pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())), resized_screen_center)
             pygame.display.update()
