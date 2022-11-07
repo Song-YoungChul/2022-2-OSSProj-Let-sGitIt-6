@@ -6,7 +6,7 @@ from src.setting import load_sprite_sheet
 from src.game_value import LIFE
 
 class Dino:
-    def __init__(self, sizex=-1, sizey=-1, loc=-1):
+    def __init__(self, sizex=-1, sizey=-1, type = None ,loc=-1):
         self.type = type
         if type == 'ORIGINAL':
             self.images, self.rect = load_sprite_sheet('dino.png',

@@ -268,7 +268,7 @@ def select_mode():
                         gameplay_hard()
                     
                     if r_btn_battlemode_rect.collidepoint(x, y):
-                        gameplay_hard()
+                        pvp()
 
             if event.type == pygame.VIDEORESIZE:
                 check_scr_size(event.w, event.h)
