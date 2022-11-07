@@ -31,7 +31,7 @@ def pvp():
 
     # Stone_pvp.containers = stones
     Cactus_pvp.containers = cacti
-    FireCactus.containers = fire_cacti
+    fire_Cactus.containers = fire_cacti
     Ptera_pvp.containers = pteras
     Cloud.containers = clouds
 
@@ -44,8 +44,8 @@ def pvp():
 
     #
 
-    player1_dino = Dino(dino_size[0], dino_size[1], type='original')
-    player2_dino = Dino(dino_size[0], dino_size[1], type='2p_original', loc=1)
+    player1_dino = Dino(dino_size[0], dino_size[1], type='original' )
+    player2_dino = Dino(dino_size[0], dino_size[1], type='2p_original', loc=1) 
 
     # 플레이어1과 플레이어 2의 목숨 수
     heart_1p = HeartIndicator(player1_dino)
@@ -175,7 +175,7 @@ def pvp():
                         if event.key == pygame.K_o:
                             jumpingx2_2p = False
                     if event.type == pygame.VIDEORESIZE:
-                        checkscrsize(event.w, event.h)
+                        check_scr_size(event.w, event.h)
 
             if not paused:
                 if go_left_1p:
@@ -338,7 +338,7 @@ def pvp():
                 player2_dino.draw()
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-                    resized_screen_centerpos)
+                    resized_screen_center)
                 pygame.display.update()
                 clock.tick(FPS)
 
@@ -390,7 +390,7 @@ def pvp():
                                 src.game.intro_screen()
 
                     if event.type == pygame.VIDEORESIZE:
-                        checkscrsize(event.w, event.h)
+                        check_scr_size(event.w, event.h)
                 r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.35, resized_screen.get_height() * 0.55
                 r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.65, resized_screen.get_height() * 0.55
                 disp_pvp_gameover_buttons(btn_restart, btn_exit)
@@ -398,12 +398,12 @@ def pvp():
 
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-                    resized_screen_centerpos)
+                    resized_screen_center)
                 pygame.display.update()
             if pygame.display.get_surface() is not None:
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
-                    resized_screen_centerpos)
+                    resized_screen_center)
                 pygame.display.update()
             clock.tick(FPS)
 
