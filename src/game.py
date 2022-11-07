@@ -9,6 +9,7 @@ from src.game_value import *
 from db.db_interface import InterfDB
 # from src.store import store
 from src.pvp import *
+from src.story import *
 from time import sleep
 import threading
 import time
@@ -265,8 +266,7 @@ def select_mode():
                         intro_screen()
 
                     if r_easy_btn_rect.collidepoint(x, y):
-                        gameplay_easy()
-
+                        gameplay_story1()
                     if r_btn_hardmode_rect.collidepoint(x, y):
                         gameplay_hard()
 
@@ -1733,3 +1733,5 @@ def credit():
 
     pygame.quit()
     quit()
+
+# =====================================================================================================

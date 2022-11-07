@@ -309,3 +309,24 @@ class Ptera_pvp(PvP, pygame.sprite.Sprite):
         self.counter = (self.counter + 1)
 
         super().update()
+
+
+class Hole(pygame.sprite.Sprite):
+    def __init__(self, speed=5, sizex=-1, sizey=-1, left=0):
+        pygame.sprite.Sprite.__init__(self,self.containers)
+        rand_width = random.randrange(80, 150)
+        self.images, self.rect = load_sprite_sheet('holes3.png', 1, 1, rand_width, 47, -1)
+        self.rect.top = height *0.993
+        self.rect.bottom = int(0.995*height)
+        self.rect.left = width + self.rect.width + left
+        self.image = self.images[0]
+        self.movement = [-1*speed, 0]
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self):
+        self.rect = self.rect.move(self.movement)
+
+        if self.rect.right < 0:
+            self.kill()
