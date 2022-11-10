@@ -107,7 +107,7 @@ class SlowItem(pygame.sprite.Sprite):
             self.kill()
 
 ### 미사일을 쉽게 만들기 위한 미사일 클래스 # 11/1 표기 변경
-class Obj(pygame.sprite.Sprite):
+class obj(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
         self.x = 0
@@ -115,6 +115,7 @@ class Obj(pygame.sprite.Sprite):
         self.move = 0
         self.x_move = 0  # self.xmove => self.x_move
         self.y_move = 0  # self.ymove => self.y_move
+        self.movement = [0, 0]
         self.rect=None
     
     def put_img(self, address):

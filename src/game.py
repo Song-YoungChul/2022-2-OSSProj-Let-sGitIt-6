@@ -267,7 +267,7 @@ def select_mode():
                         intro_screen()
 
                     if r_easy_btn_rect.collidepoint(x, y):
-                        gameplay_story1()
+                        gameplay_story4()
                     if r_btn_hardmode_rect.collidepoint(x, y):
                         gameplay_hard()
 
@@ -330,6 +330,8 @@ def gameplay_easy():
     game_quit = False
     paused = False
     life = 5
+
+    
     # # 캐릭터 생성
     player_dino = Dino(dino_size[0], dino_size[1])
 
@@ -352,6 +354,8 @@ def gameplay_easy():
     life_items = pygame.sprite.Group()
     slow_items = pygame.sprite.Group()
     # highjump_items = pygame.sprite.Group()
+    # 아이템 추가 11/08
+    mask_items = pygame.sprite.Group()
 
     Stone.containers = stones
     Cactus.containers = cacti
@@ -361,6 +365,8 @@ def gameplay_easy():
     ShieldItem.containers = shield_items
     LifeItem.containers = life_items
     SlowItem.containers = slow_items
+# 아이템 추가 11/08
+    Mask_item.containers = mask_items
     # HighJumpItem.containers = highjump_items
     # BUTTON IMG LOAD
     # retbutton_image, retbutton_rect = load_image('replay_button.png', 70, 62, -1)
@@ -473,6 +479,18 @@ def gameplay_easy():
                         immune_time = pygame.time.get_ticks()
                         if immune_time - collision_time > collision_immune_time:
                             player_dino.collision_immune = False
+                
+                for m in mask_items:
+                    m.movement[0] = -1 * game_speed
+                    if not player_dino.collision_immune:
+                        if pygame.sprite.collide_mask(player_dino, m):
+                            player_dino.collision_immune = True
+                            collision_time = pygame.time.get_ticks()
+                            player_dino.score2 = 0
+                            m.image.set_alpha(0)
+                            
+                            # if pygame.mixer.get_init() is not None:
+                            #     checkPoint_sound.play()
 
                 for p in pteras:
                     p.movement[0] = -1 * game_speed
@@ -748,6 +766,7 @@ def gameplay_hard():
     # 방향키 구현
     go_left=False
     go_right=False
+    
     #
 
     # 보스몬스터 변수설정
@@ -867,7 +886,7 @@ def gameplay_hard():
                 # 4. space_go가 True이고, 일정 시간이 지나면, 미사일을 만들고, 이를 미사일 배열에 넣습니다.
                 if (space_go==True) and (int(bk%15)==0):
                     # print(bk)
-                    mm=Obj()
+                    mm=obj()
 
                     # # 디노의 종류에 따라 다른 총알이 나가도록 합니다.
                     # if player_dino.type == 'RED':
@@ -919,7 +938,7 @@ def gameplay_hard():
 
                 # 보스 몬스터 패턴0(위에서 가만히 있는 패턴): 보스 익룡이 쏘는 미사일.
                 if (isPkingTime) and (pking.pattern_idx == 0) and (int(pm_pattern0_count % 20) == 0):
-                    pm=Obj()
+                    pm=obj()
                     pm.put_img("./sprites/pking bullet.png")
                     pm.change_size(15,15)
                     pm.x = round(pking.rect.centerx)
@@ -947,7 +966,7 @@ def gameplay_hard():
                 # 보스 몬스터 패턴1(좌우로 왔다갔다 하는 패턴): 보스 익룡이 쏘는 미사일.
                 if (isPkingTime) and (pking.pattern_idx == 1) and (int(pm_pattern1_count % 20) == 0):
                     # print(pm_list)
-                    pm=Obj()
+                    pm=obj()
                     pm.put_img("./sprites/pking bullet.png")
                     pm.change_size(15,15)
                     pm.x = round(pking.rect.centerx)
@@ -1014,7 +1033,7 @@ def gameplay_hard():
                         if (m.x>=p.rect.left)and(m.x<=p.rect.right)and(m.y>p.rect.top)and(m.y<p.rect.bottom):
                             print("격추 성공")
                             isDown=True
-                            boom=Obj()
+                            boom=obj()
                             boom.put_img("./sprites/boom.png")
                             boom.change_size(200,100)
                             boom.x=p.rect.centerx-round(p.rect.width)*2.5
@@ -1148,7 +1167,7 @@ def gameplay_hard():
                     else:
                         if (m.x>=pking.rect.left)and(m.x<=pking.rect.right)and(m.y>pking.rect.top)and(m.y<pking.rect.bottom):
                             isDown=True
-                            boom=Obj()
+                            boom=obj()
                             boom.put_img("./sprites/boom.png")
                             boom.change_size(200,100)
                             boom.x=pking.rect.centerx-round(pking.rect.width)

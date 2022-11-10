@@ -57,6 +57,8 @@ class Dino:
         self.index = 0
         self.counter = 0
         self.score = 0
+        self.score2 = 0
+        self.item_time = 0
         self.is_jumping = False
         self.is_dead = False
         self.is_ducking = False
@@ -71,6 +73,15 @@ class Dino:
         self.player1 = True
         self.life = LIFE
 
+        # 아이템 사용 상태
+        self.Superglass = False
+        self.Sovel = False
+        self.Mask = False
+
+        self.stand_pos_width = self.rect.width
+        self.duck_pos_width = self.rect1.width      
+        
+
     def draw(self):
         screen.blit(self.image, self.rect)
 
@@ -81,52 +92,152 @@ class Dino:
             self.is_jumping = False
 
     def update(self, mode=''):
-        if self.is_jumping:
-            self.movement[1] = self.movement[1] + gravity
-        ##
-        if self.is_jumping:
-            self.index = 0
-        #
-        elif self.is_blinking:
-            if self.index == 0:
-                if self.counter % 400 == 399:
-                    # 눈깜빡
-                    self.index = (self.index + 1) % 2
-            else:  # 눈 깜빡
-                if self.counter % 20 == 19:
-                    self.index = (self.index + 1) % 2
-        # is ducking이 True면
-        elif self.is_ducking:
-            if self.counter % 5 == 0:
-                self.index = (self.index + 1) % 2
-        else:
-            if self.counter % 5 == 0:
-                self.index = (self.index + 1) % 2 + 2
-        if self.is_dead:
+                # 1. movement y값 변경
+        if self.is_jumping: 
+            self.movement[1] = self.movement[1] + gravity # 움직임의 y값에 gravity값을 더해 점프 높이를 적용
+
+        # 2. Dino의 상황별 모션 구현
+        if self.Superglass: # 안경쓰고 있을 때
+            if self.is_jumping: self.index = 5 # 뛰고있을 때
+            # 걸어갈 때
+            if self.is_ducking: # 숙이고있으면
+                if self.counter % 5 == 0: 
+                    if self.index==2: self.index=3
+                    elif self.index==3: self.index=2
+                    else: self.index=2
+            else: # 서있으면
+                if self.counter % 5 == 0: 
+                    if self.index == 6: self.index=7
+                    elif self.index == 7: self.index=6
+                    else: self.index = 6
+
+        elif self.Sovel: # 삽들고 있을 때
+            if self.is_jumping: self.index = 8 # 뛰고있을 때
+            # 걸어갈 때
+            if not self.is_ducking: # 서있으면
+                if self.counter % 5 == 0:
+                    if self.index==9: self.index=10
+                    elif self.index==10: self.index=9
+                    else: self.index=9
+            else: # 숙이고있으면
+                if self.counter % 5 == 0:
+                    if self.index==4: self.index=5
+                    elif self.index==5: self.index=4
+                    else: self.index=4
+
+        elif self.Mask: # 마스크 쓰고 있을 때
+            if self.is_jumping: self.index = 11 # 뛰고있을 때
+            # 걸어갈 때
+            if not self.is_ducking: # 서있으면
+                if self.counter % 5 == 0:
+                    if self.index==12: self.index=13
+                    elif self.index==13: self.index=12
+                    else: self.index=12
+            else: # 숙이고있으면
+                if self.counter % 5 == 0:
+                    if self.index==6: self.index=7
+                    elif self.index==7: self.index=6
+                    else: self.index=6
+
+        # elif self.is_blinking: # 눈 깜빡이기
+        #     if self.index == 0:
+        #         if self.counter % 400 == 399:
+        #             self.index = 2
+        #     else:
+        #         if self.counter % 20 == 19:
+        #             self.index = 2
+
+        else: # 아무것도 안입고 있을 때
+            if self.is_jumping: self.index = 0 # 뛰고있을 때
+             # 걸어갈 때
+            if not self.is_ducking: # 서있으면
+                if self.counter % 5 == 0:
+                    if self.index==2: self.index=3
+                    elif self.index==3: self.index=2
+                    else: self.index=2
+            else: # 숙이고있으면
+                if self.counter % 5 == 0:
+                    if self.index==0: self.index=1
+                    elif self.index==1: self.index=0
+                    else: self.index=0
+
+        if self.is_dead: # 죽었을 경우
             self.index = 4
+
         if self.collision_immune:
-            if self.counter % 10 == 0:
-                self.index = 5
-        #
+            if self.counter % 10 == 0: self.index = 2
+
+        # 숙이고 있는 모션 구현
         if not self.is_ducking:
-            self.image = self.images[self.index]
-            self.rect.width = self.stand_width
+            if self.counter % 5 == 0:
+                self.image = self.images[self.index]
+            self.rect.width = self.stand_pos_width
         else:
-            self.image = self.images1[self.index % 2]
+            if self.counter % 5 == 0: 
+                self.image = self.images1[self.index]
             if self.collision_immune is True:
                 if self.counter % 5 == 0:
                     self.image = self.images[5]
-            self.rect.width = self.duck_width
+            self.rect.width = self.duck_pos_width
+
         self.rect = self.rect.move(self.movement)
         self.check_bounds()
 
-        if not self.is_dead and self.counter % 7 == 6 and not self.is_blinking:
+        if not self.is_dead and self.counter % 7 == 6 and self.is_blinking == False:
             self.score += 1
-            # if mode != 'pvp':
-            #     if self.score % 100 == 0 and self.score != 0:
-            #         if mixer.get_init() is not None:
-            #             check_point_sound.play()
+            self.score2 += 1
+            self.item_time += 1
+            # if self.score % 100 == 0 and self.score != 0:
+            #     if pygame.mixer.get_init() != None:
+            #         checkPoint_sound.play()
+
         self.counter = (self.counter + 1)
+        # if self.is_jumping:
+        #     self.movement[1] = self.movement[1] + gravity
+        # ##
+        # if self.is_jumping:
+        #     self.index = 0
+        # #
+        # elif self.is_blinking:
+        #     if self.index == 0:
+        #         if self.counter % 400 == 399:
+        #             # 눈깜빡
+        #             self.index = (self.index + 1) % 2
+        #     else:  # 눈 깜빡
+        #         if self.counter % 20 == 19:
+        #             self.index = (self.index + 1) % 2
+        # # is ducking이 True면
+        # elif self.is_ducking:
+        #     if self.counter % 5 == 0:
+        #         self.index = (self.index + 1) % 2
+        # else:
+        #     if self.counter % 5 == 0:
+        #         self.index = (self.index + 1) % 2 + 2
+        # if self.is_dead:
+        #     self.index = 4
+        # if self.collision_immune:
+        #     if self.counter % 10 == 0:
+        #         self.index = 5
+        # #
+        # if not self.is_ducking:
+        #     self.image = self.images[self.index]
+        #     self.rect.width = self.stand_width
+        # else:
+        #     self.image = self.images1[self.index % 2]
+        #     if self.collision_immune is True:
+        #         if self.counter % 5 == 0:
+        #             self.image = self.images[5]
+        #     self.rect.width = self.duck_width
+        # self.rect = self.rect.move(self.movement)
+        # self.check_bounds()
+
+        # if not self.is_dead and self.counter % 7 == 6 and not self.is_blinking:
+        #     self.score += 1
+        #     # if mode != 'pvp':
+        #     #     if self.score % 100 == 0 and self.score != 0:
+        #     #         if mixer.get_init() is not None:
+        #     #             check_point_sound.play()
+        # self.counter = (self.counter + 1)
 
     def increase_life(self):
         self.life += 1
