@@ -9,6 +9,7 @@ from src.game_value import *
 from db.db_interface import InterfDB
 # from src.store import store
 from src.pvp import *
+from src.pvprunning import *
 from src.story import *
 from time import sleep
 import threading
@@ -271,7 +272,7 @@ def select_mode():
                         gameplay_hard()
 
                     if r_btn_runningmode_rect.collidepoint(x, y):
-                        gameplay_hard()
+                        pvprunning()
                     
                     if r_btn_battlemode_rect.collidepoint(x, y):
                         pvp()

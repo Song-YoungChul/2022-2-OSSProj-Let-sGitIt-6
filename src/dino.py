@@ -46,6 +46,9 @@ class Dino:
         if loc == -1:
             self.rect.bottom = int(0.98 * height)
             self.rect.left = width / 15
+        elif loc == -2:
+            self.rect.bottom = int(0.49 * height)
+            self.rect.left = width /15
         else:
             self.rect.bottom = int(0.98 * height)
             self.rect.left = width * (13 / 15)
