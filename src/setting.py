@@ -205,22 +205,26 @@ def disp_pvp_winner_loser(player1):
     screen.blit(lose, (lose_width, height * 0.2))
 
 
-def disp_intro_buttons(btn_gamestart, btn_board, btn_option):
+def disp_intro_buttons(btn_gamestart, btn_board, btn_store, btn_option):
     # btn_1p_rect = btn_1p.get_rect()
     btn_gamestart_rect = btn_gamestart.get_rect()
     btn_board_rect = btn_board.get_rect()
+    btn_store_rect = btn_store.get_rect()
     btn_option_rect = btn_option.get_rect()
     # btn_1p_rect.centerx = width * 0.8
     btn_gamestart_rect.centerx = width * 0.8
     btn_board_rect.centerx = width * 0.8
+    btn_store_rect.centerx = width * 0.8
     btn_option_rect.centerx = width * 0.8
     # btn_1p_rect.centery = height * 0.25
-    btn_gamestart_rect.centery = height * (0.25 + 0.75 * button_offset)
-    btn_board_rect.centery = height * (0.25 + 1.5 * button_offset)
+    btn_gamestart_rect.centery = height * 0.25
+    btn_board_rect.centery = height * (0.25 + 0.75 * button_offset)
+    btn_store_rect.centery = height * (0.25 + 1.5 * button_offset)
     btn_option_rect.centery = height * (0.25 + 2.25 * button_offset)
     # screen.blit(btn_1p, btn_1p_rect)
     screen.blit(btn_gamestart, btn_gamestart_rect)
     screen.blit(btn_board, btn_board_rect)
+    screen.blit(btn_store, btn_store_rect)
     screen.blit(btn_option, btn_option_rect)
 
 
@@ -230,11 +234,13 @@ def disp_select_buttons(btn_easy, btn_hard, btn_store, btn_set, btn_back):
     btn_store_rect = btn_store.get_rect()
     btn_set_rect = btn_set.get_rect()
     btn_back_rect = btn_back.get_rect()
+
     btn_easy_rect.centerx = width * 0.5
     btn_hard_rect.centerx = width * 0.5
     btn_store_rect.centerx = width * 0.5
     btn_set_rect.centerx = width * 0.5
     btn_back_rect.centerx = width * 0.1
+
     btn_easy_rect.centery = height * 0.26
     btn_hard_rect.centery = height * (0.26 + select_offset)
     btn_store_rect.centery = height * (0.26 + 2 * select_offset)
