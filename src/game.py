@@ -886,7 +886,7 @@ def gameplay_hard():
                 # 4. space_go가 True이고, 일정 시간이 지나면, 미사일을 만들고, 이를 미사일 배열에 넣습니다.
                 if (space_go==True) and (int(bk%15)==0):
                     # print(bk)
-                    mm=obj()
+                    mm=Obj()
 
                     # # 디노의 종류에 따라 다른 총알이 나가도록 합니다.
                     # if player_dino.type == 'RED':
@@ -938,7 +938,7 @@ def gameplay_hard():
 
                 # 보스 몬스터 패턴0(위에서 가만히 있는 패턴): 보스 익룡이 쏘는 미사일.
                 if (isPkingTime) and (pking.pattern_idx == 0) and (int(pm_pattern0_count % 20) == 0):
-                    pm=obj()
+                    pm=Obj()
                     pm.put_img("./sprites/pking bullet.png")
                     pm.change_size(15,15)
                     pm.x = round(pking.rect.centerx)
@@ -966,7 +966,7 @@ def gameplay_hard():
                 # 보스 몬스터 패턴1(좌우로 왔다갔다 하는 패턴): 보스 익룡이 쏘는 미사일.
                 if (isPkingTime) and (pking.pattern_idx == 1) and (int(pm_pattern1_count % 20) == 0):
                     # print(pm_list)
-                    pm=obj()
+                    pm=Obj()
                     pm.put_img("./sprites/pking bullet.png")
                     pm.change_size(15,15)
                     pm.x = round(pking.rect.centerx)
@@ -1033,7 +1033,7 @@ def gameplay_hard():
                         if (m.x>=p.rect.left)and(m.x<=p.rect.right)and(m.y>p.rect.top)and(m.y<p.rect.bottom):
                             print("격추 성공")
                             isDown=True
-                            boom=obj()
+                            boom=Obj()
                             boom.put_img("./sprites/boom.png")
                             boom.change_size(200,100)
                             boom.x=p.rect.centerx-round(p.rect.width)*2.5
@@ -1167,7 +1167,7 @@ def gameplay_hard():
                     else:
                         if (m.x>=pking.rect.left)and(m.x<=pking.rect.right)and(m.y>pking.rect.top)and(m.y<pking.rect.bottom):
                             isDown=True
-                            boom=obj()
+                            boom=Obj()
                             boom.put_img("./sprites/boom.png")
                             boom.change_size(200,100)
                             boom.x=pking.rect.centerx-round(pking.rect.width)
@@ -1314,9 +1314,11 @@ def gameplay_hard():
                     resized_screen.blit(
                         pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
                         resized_screen_center)
+                    if life == 1:
+                        gameplay_story4()
                     pygame.display.update()
                 clock.tick(FPS)
-
+                
                 if player_dino.is_dead:
                     game_over = True
                     pygame.mixer.music.stop()  # 죽으면 배경음악 멈춤

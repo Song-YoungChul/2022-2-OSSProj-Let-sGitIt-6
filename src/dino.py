@@ -53,7 +53,7 @@ class Dino:
             self.rect.bottom = int(0.95 * height)
             self.rect.left = width * (13 / 15)
         self.image = self.images[0]
-        # self.type = type
+        self.type = type
         self.index = 0
         self.counter = 0
         self.score = 0
