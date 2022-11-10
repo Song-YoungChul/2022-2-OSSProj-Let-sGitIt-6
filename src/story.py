@@ -1,11 +1,11 @@
-from src.dino import *
-from src.obstacle import *
-from src.item import *
-from src.interface import *
-from src.game import * 
-from db.db_interface import InterfDB
 from time import sleep
 
+from db.db_interface import InterfDB
+from src.dino import *
+from src.interface import *
+from src.item import *
+from src.obstacle import *
+import src.game
 db = InterfDB("db/score.db")
 clear_score = 200
 item_story1 = False
@@ -14,8 +14,7 @@ item_story3 = False
 item_story4 = False
 #아이템 체크 횟수
 item_cnt=0
-
-
+clearImage, clearImage_rect = alpha_image('ClearText.png', width, height)
 
 def ItemSelectMode():
     global item_story1
@@ -277,7 +276,7 @@ def gameplay_story4():
 
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_SPACE or event.key == pygame.K_UP:  # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
-                            if playerDino.rect.bottom == int(0.98 * height):
+                            if playerDino.rect.bottom == int(0.95 * height):
                                 playerDino.is_jumping = True
                                 if pygame.mixer.get_init() != None:
                                     jump_sound.play()
@@ -294,8 +293,8 @@ def gameplay_story4():
                             go_right=True
 
                         if event.key == pygame.K_ESCAPE:
-                            paused = not paused
-                            paused = pausing()
+                            paused = False
+                            paused = src.game.pausing()
 
                         if event.key == pygame.K_s:
                             jumpingx2=True
@@ -327,7 +326,7 @@ def gameplay_story4():
                         
 
                     if event.type == pygame.MOUSEBUTTONDOWN:
-                        if pygame.mouse.get_pressed() == (1, 0, 0) and playerDino.rect.bottom == int(0.9 * height):
+                        if pygame.mouse.get_pressed() == (1, 0, 0) and playerDino.rect.bottom == int(0.95 * height):
                             # (mouse left button, wheel button, mouse right button)
                             playerDino.is_jumping = True
                             if pygame.mixer.get_init() != None:
@@ -343,7 +342,7 @@ def gameplay_story4():
                         playerDino.is_ducking = False
 
                     if event.type == pygame.VIDEORESIZE:
-                        checkscrsize(event.w, event.h)
+                        check_scr_size(event.w, event.h)
 
             if not paused:
 
@@ -390,7 +389,7 @@ def gameplay_story4():
                 #
 
                 if jumpingx2 :
-                    if  playerDino.rect.bottom == int(height * 0.98):
+                    if  playerDino.rect.bottom == int(height * 0.95):
                         playerDino.is_jumping = True
                         playerDino.movement[1] = -1 * playerDino.super_jump_speed 
 
@@ -460,6 +459,7 @@ def gameplay_story4():
                     if not playerDino.collision_immune:
                         if pygame.sprite.collide_mask(playerDino, m):
                             playerDino.collision_immune = True
+                            playerDino.rect.bottom == int(height)
                             collision_time = pygame.time.get_ticks()
                             playerDino.score2 = 0
                             m.image.set_alpha(0)
@@ -697,19 +697,19 @@ def gameplay_story4():
                         if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                             game_over = False
                             game_quit = True
-                            introscreen()
+                            src.game.intro_screen()
 
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         game_over = False
                         game_quit = True
-                        introscreen()
+                        src.game.intro_screen()
 
                     if event.type == pygame.VIDEORESIZE:
-                        checkscrsize(event.w, event.h)
+                        check_scr_size(event.w, event.h)
 
 
             if pygame.display.get_surface() != None:
-                disp_game_over_msg(gameover_image)
+                disp_gameover_msg(gameover_image)
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
                     resized_screen_center)

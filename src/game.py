@@ -394,7 +394,7 @@ def gameplay_easy():
 
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_SPACE or event.key == pygame.K_UP:  # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
-                            if player_dino.rect.bottom == int(0.98 * height):
+                            if player_dino.rect.bottom == int(0.95 * height):
                                 player_dino.is_jumping = True
                                 if pygame.mixer.get_init() != None:
                                     jump_sound.play()
@@ -413,7 +413,7 @@ def gameplay_easy():
                             player_dino.is_ducking = False
 
                     if event.type == pygame.MOUSEBUTTONDOWN:
-                        if pygame.mouse.get_pressed() == (1, 0, 0) and player_dino.rect.bottom == int(0.98 * height):
+                        if pygame.mouse.get_pressed() == (1, 0, 0) and player_dino.rect.bottom == int(0.95 * height):
                             # (mouse left button, wheel button, mouse right button)
                             player_dino.is_jumping = True
                             if pygame.mixer.get_init() != None:
@@ -798,7 +798,7 @@ def gameplay_hard():
 
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_SPACE or event.key == pygame.K_UP:  # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
-                            if player_dino.rect.bottom == int(0.98 * height):
+                            if player_dino.rect.bottom == int(0.95 * height):
                                 player_dino.is_jumping = True
                                 if pygame.mixer.get_init() != None:
                                     jump_sound.play()
@@ -852,7 +852,7 @@ def gameplay_hard():
                             jumpingx2 = False
 
                     if event.type == pygame.MOUSEBUTTONDOWN:
-                        if pygame.mouse.get_pressed() == (1, 0, 0) and player_dino.rect.bottom == int(0.98 * height):
+                        if pygame.mouse.get_pressed() == (1, 0, 0) and player_dino.rect.bottom == int(0.95 * height):
                             # (mouse left button, wheel button, mouse right button)
                             player_dino.is_jumping = True
                             if pygame.mixer.get_init() != None:
@@ -931,7 +931,7 @@ def gameplay_hard():
                 #
 
                 if jumpingx2 :
-                    if  player_dino.rect.bottom == int(height * 0.98):
+                    if  player_dino.rect.bottom == int(height * 0.95):
                         player_dino.is_jumping = True
                         player_dino.movement[1] = -1 * player_dino.super_jump_speed
 

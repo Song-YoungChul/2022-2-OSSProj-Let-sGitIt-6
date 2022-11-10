@@ -3,10 +3,10 @@ from src.setting import *
 
 class Ground:
     def __init__(self, speed=-5):
-        self.image, self.rect = load_image('ground.png', -1, -1, -1)
-        self.image1, self.rect1 = load_image('ground.png', -1, -1, -1)
-        self.rect.bottom = height
-        self.rect1.bottom = height
+        self.image, self.rect = load_image('ground1.png', -1, -1, -1)
+        self.image1, self.rect1 = load_image('ground1.png', -1, -1, -1)
+        self.rect.top = int(0.95*height)
+        self.rect1.top = int(0.95*height)
         self.rect1.left = self.rect.right
         self.speed = speed
 
