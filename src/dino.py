@@ -44,16 +44,16 @@ class Dino:
             self.images1, self.rect1 = load_sprite_sheet('dino_ducking.png',
                                                          2, 1, 59, sizey, -1)
         if loc == -1:
-            self.rect.bottom = int(0.98 * height)
+            self.rect.bottom = int(0.95 * height)
             self.rect.left = width / 15
         elif loc == -2:
             self.rect.bottom = int(0.49 * height)
             self.rect.left = width /15
         else:
-            self.rect.bottom = int(0.98 * height)
+            self.rect.bottom = int(0.95 * height)
             self.rect.left = width * (13 / 15)
         self.image = self.images[0]
-        # self.type = type
+        self.type = type
         self.index = 0
         self.counter = 0
         self.score = 0
@@ -87,8 +87,8 @@ class Dino:
 
     # 충돌판단
     def check_bounds(self):
-        if self.rect.bottom > int(0.98 * height):
-            self.rect.bottom = int(0.98 * height)
+        if self.rect.bottom > int(0.95 * height):
+            self.rect.bottom = int(0.95 * height)
             self.is_jumping = False
 
     def update(self, mode=''):
@@ -152,9 +152,9 @@ class Dino:
              # 걸어갈 때
             if not self.is_ducking: # 서있으면
                 if self.counter % 5 == 0:
-                    if self.index==2: self.index=3
-                    elif self.index==3: self.index=2
-                    else: self.index=2
+                    if self.index==0: self.index=1
+                    elif self.index==1: self.index=0
+                    else: self.index=0
             else: # 숙이고있으면
                 if self.counter % 5 == 0:
                     if self.index==0: self.index=1
