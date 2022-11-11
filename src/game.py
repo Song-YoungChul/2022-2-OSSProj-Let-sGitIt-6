@@ -7,7 +7,7 @@ from src.interface import *
 import src.setting as setting
 from src.game_value import *
 from db.db_interface import InterfDB
-# from src.store import store
+from src.store import store
 from src.pvp import *
 from src.pvprunning import *
 from src.story import *
@@ -40,6 +40,8 @@ def intro_screen():
     btn_gamestart, btn_gamestart_rect = load_image('btn_start.png', 150, 50, -1)
     r_btn_board, r_btn_board_rect = load_image(*resize('btn_board.png', 150, 50, -1))
     btn_board, btn_board_rect = load_image('btn_board.png', 150, 50, -1)
+    r_btn_store, r_btn_store_rect = load_image(*resize('store.png', 150, 50, -1))
+    btn_store, btn_store_rect = load_image('store.png', 150, 50, -1)
     r_btn_option, r_btn_option_rect = load_image(*resize('btn_option.png', 150, 50, -1))
     btn_option, btn_option_rect = load_image('btn_option.png', 150, 50, -1)
     # DINO IMAGE
@@ -78,6 +80,8 @@ def intro_screen():
                         #board button
                         if r_btn_board_rect.collidepoint(x, y):
                             board()
+                        if r_btn_store_rect.collidepoint(x, y):
+                            store()
                         # option button
                         if r_btn_option_rect.collidepoint(x, y):
                             option()
@@ -86,13 +90,15 @@ def intro_screen():
         if pygame.display.get_surface() is not None:
             r_btn_gamestart_rect.centerx = resized_screen.get_width() * 0.8
             r_btn_board_rect.centerx = resized_screen.get_width() * 0.8
+            r_btn_store_rect.centerx = resized_screen.get_width() * 0.8
             r_btn_option_rect.centerx = resized_screen.get_width() * 0.8
 
-            r_btn_gamestart_rect.centery = resized_screen.get_height() * (0.25 + 0.75 * button_offset)
-            r_btn_board_rect.centery = resized_screen.get_height() * (0.25 + 1.5 * button_offset)
+            r_btn_gamestart_rect.centery = resized_screen.get_height() * 0.25
+            r_btn_board_rect.centery = resized_screen.get_height() * (0.25 + 0.75 * button_offset)
+            r_btn_store_rect.centery = resized_screen.get_height() * (0.25 + 1.5 * button_offset)
             r_btn_option_rect.centery = resized_screen.get_height() * (0.25 + 2.25 * button_offset)
             screen.blit(background, background_rect)
-            disp_intro_buttons(btn_gamestart, btn_board, btn_option)
+            disp_intro_buttons(btn_gamestart, btn_board, btn_store, btn_option)
 
 
             resized_screen.blit(
