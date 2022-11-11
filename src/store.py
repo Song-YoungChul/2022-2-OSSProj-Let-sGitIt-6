@@ -48,7 +48,7 @@ def store():
                     if r_item_btn_rect.collidepoint(x, y):
                         item_store()
                     if r_back_btn_rect.collidepoint(x, y):
-                        src.game.select_mode()
+                        src.game.intro_screen()
 
         r_char_btn_rect.centerx = resized_screen.get_width() * 0.2
         r_char_btn_rect.centery = resized_screen.get_height() * 0.5
