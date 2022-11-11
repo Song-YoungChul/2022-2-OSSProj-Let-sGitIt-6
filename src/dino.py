@@ -92,11 +92,9 @@ class Dino:
             self.is_jumping = False
 
     def update(self, mode=''):
-                # 1. movement y값 변경
         if self.is_jumping: 
-            self.movement[1] = self.movement[1] + gravity # 움직임의 y값에 gravity값을 더해 점프 높이를 적용
+            self.movement[1] = self.movement[1] + gravity
 
-        # 2. Dino의 상황별 모션 구현
         if self.Superglass: # 안경쓰고 있을 때
             if self.is_jumping: self.index = 5 # 뛰고있을 때
             # 걸어갈 때
@@ -139,13 +137,13 @@ class Dino:
                     elif self.index==7: self.index=6
                     else: self.index=6
 
-        # elif self.is_blinking: # 눈 깜빡이기
-        #     if self.index == 0:
-        #         if self.counter % 400 == 399:
-        #             self.index = 2
-        #     else:
-        #         if self.counter % 20 == 19:
-        #             self.index = 2
+        elif self.is_blinking: # 눈 깜빡이기
+            if self.index == 0:
+                if self.counter % 400 == 399:
+                    self.index = 1
+            else:
+                if self.counter % 20 == 19:
+                    self.index = 1
 
         else: # 아무것도 안입고 있을 때
             if self.is_jumping: self.index = 0 # 뛰고있을 때
@@ -165,7 +163,7 @@ class Dino:
             self.index = 4
 
         if self.collision_immune:
-            if self.counter % 10 == 0: self.index = 2
+            if self.counter % 10 == 0: self.index = 1
 
         # 숙이고 있는 모션 구현
         if not self.is_ducking:
