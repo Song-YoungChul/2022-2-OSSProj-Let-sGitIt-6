@@ -250,11 +250,11 @@ def select_mode():
     # 뒤로가기 버튼
     back_btn_rect =  (width * 0.05, height * 0.1)
     # 이지, 하드모드 버튼
-    easymode_btn_rect.center = (width * 0.66, height * 0.5)
-    btn_hardmode_rect.center = (width * 0.66, height * 0.75)
+    easymode_btn_rect.center = (width * 0.33, height * 0.33)
+    btn_hardmode_rect.center = (width * 0.33, height * 0.66)
     # 러닝, 배틀모드 버튼
-    btn_runningmode_rect.center = (width * 0.33, height * 0.5)
-    btn_battlemode_rect.center = (width * 0.33, height * 0.75)
+    btn_runningmode_rect.center = (width * 0.66, height * 0.33)
+    btn_battlemode_rect.center = (width * 0.66, height * 0.66)
 
 
     while not game_start:
