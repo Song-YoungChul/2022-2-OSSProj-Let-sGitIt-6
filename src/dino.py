@@ -47,7 +47,7 @@ class Dino:
             self.rect.bottom = int(0.95 * height)
             self.rect.left = width / 15
         elif loc == -2:
-            self.rect.bottom = int(0.49 * height)
+            self.rect.bottom = int(0.475 * height)
             self.rect.left = width /15
         else:
             self.rect.bottom = int(0.95 * height)
@@ -70,7 +70,14 @@ class Dino:
         self.is_super = False
         self.stand_width = self.rect.width
         self.duck_width = self.rect1.width
-        self.player1 = True
+        self.is_battle = False
+        self.player1 = False
+        if loc == -1:
+            self.player1 = True
+        elif loc == -2:
+            self.is_battle = True
+        else:
+            self.is_battle = False
         self.life = LIFE
 
         # 아이템 사용 상태
@@ -87,9 +94,14 @@ class Dino:
 
     # 충돌판단
     def check_bounds(self):
+        if self.is_battle == True and self.player1 == False :
+            if self.rect.bottom > int(0.475 * height):
+                self.rect.bottom = int(0.475 * height)
+                self.is_jumping = False             
         if self.rect.bottom > int(0.95 * height):
             self.rect.bottom = int(0.95 * height)
-            self.is_jumping = False
+            self.is_jumping = False 
+
 
     def update(self, mode=''):
                 # 1. movement y값 변경
