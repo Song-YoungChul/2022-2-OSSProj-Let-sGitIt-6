@@ -1484,30 +1484,31 @@ def gamerule():
     TextRect.center = (width * 0.5, height * 0.2)
 
     # 버튼 이미지
-
+    btn_width_size = 200
+    btn_height_size = 66
     ##easy mode button
-    easymoderule_btn_image, easymoderule_btn_rect = load_image('Easy-Mode.png', 150, 50, -1)
-    r_easymoderule_btn_image, r_easyrule_btn_rect = load_image(*resize('Easy-Mode.png', 150, 50, -1))
+    easymoderule_btn_image, easymoderule_btn_rect = load_image('easy_mode.png', btn_width_size, btn_height_size, -1)
+    r_easymoderule_btn_image, r_easyrule_btn_rect = load_image(*resize('easy_mode.png', btn_width_size, btn_height_size, -1))
     # hardmode button
-    btn_hardmoderule, btn_hardmoderule_rect = load_image('Hard-Mode.png', 150, 50, -1)
-    r_btn_hardmoderule, r_btn_hardmoderule_rect = load_image(*resize('Hard-Mode.png', 150, 50, -1))
+    btn_hardmoderule, btn_hardmoderule_rect = load_image('hard_mode.png', btn_width_size, btn_height_size, -1)
+    r_btn_hardmoderule, r_btn_hardmoderule_rect = load_image(*resize('hard_mode.png', btn_width_size, btn_height_size, -1))
     # runningmode button, 임시로 hardmode 이미지로 진행
-    btn_runningmoderule, btn_runningmoderule_rect = load_image('PvP-Running.png', 150, 50, -1)
-    r_btn_runningmoderule, r_btn_runningmoderule_rect = load_image(*resize('PvP-Running.png', 150, 50, -1))
+    btn_runningmoderule, btn_runningmoderule_rect = load_image('pvp_running.png', btn_width_size, btn_height_size, -1)
+    r_btn_runningmoderule, r_btn_runningmoderule_rect = load_image(*resize('pvp_running.png', btn_width_size, btn_height_size, -1))
     # battlemode button, 임시로 hardmode 이미지로 진행
-    btn_battlemoderule, btn_battlemoderule_rect = load_image('PvP-Battle.png', 150, 50, -1)
-    r_btn_battlemoderule, r_btn_battlemoderule_rect = load_image(*resize('PvP-Battle.png', 150, 50, -1))
+    btn_battlemoderule, btn_battlemoderule_rect = load_image('pvp_battle.png', btn_width_size, btn_height_size, -1)
+    r_btn_battlemoderule, r_btn_battlemoderule_rect = load_image(*resize('pvp-battle.png', btn_width_size, btn_height_size, -1))
     
     
     # 배경 이미지, 일단 인트로 사진으로 대체
     Background, Background_rect = load_image('winter.png', width, height, -1)
 
     # 이지, 하드모드 버튼
-    easymoderule_btn_rect.center = (width * 0.66, height * 0.5)
-    btn_hardmoderule_rect.center = (width * 0.66, height * 0.75)
+    easymoderule_btn_rect.center = (width * 0.33, height * 0.5)
+    btn_hardmoderule_rect.center = (width * 0.33, height * 0.75)
     # 러닝, 배틀모드 버튼
-    btn_runningmoderule_rect.center = (width * 0.33, height * 0.5)
-    btn_battlemoderule_rect.center = (width * 0.33, height * 0.75)
+    btn_runningmoderule_rect.center = (width * 0.66, height * 0.5)
+    btn_battlemoderule_rect.center = (width * 0.66, height * 0.75)
 
 
     while not done:
@@ -1537,12 +1538,12 @@ def gamerule():
             if event.type == pygame.VIDEORESIZE:
                 check_scr_size(event.w, event.h)
 
-        r_easyrule_btn_rect.centerx, r_easyrule_btn_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * 0.5
-        r_btn_hardmoderule_rect.centerx, r_btn_hardmoderule_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * (
+        r_easyrule_btn_rect.centerx, r_easyrule_btn_rect.centery = resized_screen.get_width() * 0.33, resized_screen.get_height() * 0.5
+        r_btn_hardmoderule_rect.centerx, r_btn_hardmoderule_rect.centery = resized_screen.get_width() * 0.33, resized_screen.get_height() * (
                 0.75)
-        r_btn_runningmoderule_rect.centerx, r_btn_runningmoderule_rect.centery = resized_screen.get_width() * 0.33, resized_screen.get_height() * (
+        r_btn_runningmoderule_rect.centerx, r_btn_runningmoderule_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * (
                 0.5)
-        r_btn_battlemoderule_rect.centerx, r_btn_battlemoderule_rect.centery = resized_screen.get_width() * 0.33, resized_screen.get_height() * (
+        r_btn_battlemoderule_rect.centerx, r_btn_battlemoderule_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * (
                 0.75)
 
         
