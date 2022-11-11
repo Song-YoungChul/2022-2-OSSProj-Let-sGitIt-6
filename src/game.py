@@ -534,17 +534,6 @@ def gameplay_easy():
                         elif s.rect.right < 0:
                             s.kill()
 
-                STONE_INTERVAL = 50
-                CACTUS_INTERVAL = 50
-                PTERA_INTERVAL = 300
-                CLOUD_INTERVAL = 300
-                SHIELD_INTERVAL = 500
-                LIFE_INTERVAL = 1000
-                SLOW_INTERVAL = 1000
-                HIGHJUMP_INTERVAL = 300
-                OBJECT_REFRESH_LINE = width * 0.8
-                MAGIC_NUM = 10
-
                 if len(cacti) < 2:
                     if len(cacti) == 0:
                         last_obstacle.empty()
@@ -1127,20 +1116,6 @@ def gameplay_hard():
                         k.kill()
                     elif k.rect.right < 0:
                         k.kill()
-
-
-                STONE_INTERVAL = 100
-                CACTUS_INTERVAL = 50
-                # 익룡을 더 자주 등장시키기 위해 12로 수정했습니다. (원래값은 300)
-                PTERA_INTERVAL = 12
-                #
-                CLOUD_INTERVAL = 300
-                SHIELD_INTERVAL = 100
-                LIFE_INTERVAL = 1000
-                SLOW_INTERVAL = 1000
-
-                OBJECT_REFRESH_LINE = width * 0.8
-                MAGIC_NUM = 10
 
                 # print(pking.hp)
                 if (isPkingAlive)and(player_dino.score>pking_appearance_score):
