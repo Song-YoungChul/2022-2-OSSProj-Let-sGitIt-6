@@ -12,25 +12,39 @@ db = InterfDB("db/data.db")
 
 def pvprunning():
     global resized_screen
-    global high_score
     global cacti
     global fire_cacti
     global pteras
-    global clouds
     global stones
     global last_obstacle
+
+    global cacti2
+    global fire_cacti2
+    global pteras2
+    global stones2
+    global last_obstacle2
+
     cacti = pygame.sprite.Group()
     fire_cacti = pygame.sprite.Group()
     pteras = pygame.sprite.Group()
-    clouds = pygame.sprite.Group()
     stones = pygame.sprite.Group()
     last_obstacle = pygame.sprite.Group()
 
-    # Stone_pvp.containers = stones
-    Cactus_pvp.containers = cacti
+    cacti2 = pygame.sprite.Group()
+    fire_cacti2 = pygame.sprite.Group()
+    pteras2 = pygame.sprite.Group()
+    stones2 = pygame.sprite.Group()
+    last_obstacle2 = pygame.sprite.Group()
+
+    Cactus.containers = cacti
     fire_Cactus.containers = fire_cacti
-    Ptera_pvp.containers = pteras
-    Cloud.containers = clouds
+    Ptera.containers = pteras
+    Stone.containers = stones # add stone containers
+
+    Cactus_pvp_running.containers = cacti2
+    fire_Cactus_pvp_running.containers = fire_cacti2
+    Ptera_pvp_running.containers = pteras2
+    Stone_pvp_running.containers = stones2 # add stone containers
 
     start_menu = False
     game_over = False
@@ -47,17 +61,19 @@ def pvprunning():
     # 플레이어1과 플레이어 2의 목숨 수
     heart_1p = HeartIndicator(player1_dino)
     heart_2p = HeartIndicator(player2_dino, loc=1)
-    PVP_GAME_SPEED = 4
     new_ground = Ground(PVP_GAME_SPEED)
     new_ground = ImgBack(PVP_GAME_SPEED, "pvprunning_back")
     # alpha_back, alpha_back_rect = alpha_image('alpha_back2.png', width + 20, height)
     # alpha_back_rect.left = -20
     speed_indicator = Scoreboard(width * 0.12, height * 0.15)
     counter = 0
+    
     # 게임 중  pause 상태
     paused = False
+    
     # 게임 종료 후 노출 문구
     game_over_image, game_over_rect = load_image('game_over.png', 380, 100, -1)
+    
     # 게임 후 버튼
     r_btn_restart, r_btn_restart_rect = load_image(*resize('btn_restart.png', 150, 80, -1))
     btn_restart, btn_restart_rect = load_image('btn_restart.png', 150, 80, -1)
@@ -70,18 +86,24 @@ def pvprunning():
     go_left_2p = False
     go_right_2p = False
 
+    # 이단 점프
+    jumpingx2_1p = False
+    jumpingx2_2p = False
+
     # 미사일 발사.
     space_go_1p = False
     m_list_1p = []
     bk_1p = 0
 
+    # 익룡이 격추되었을때
+    isDown1=False
+    boomCount=0
+    isDown2=False
+    boomCount=0
+    
     space_go_2p = False
     m_list_2p = []
     bk_2p = 0
-
-    # 이단 점프
-    jumpingx2_1p = False
-    jumpingx2_2p = False
 
     while not game_quit:
         while start_menu:
@@ -101,11 +123,11 @@ def pvprunning():
                         # 1p dino
                         if event.key == pygame.K_w:
                             # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
-                            if player1_dino.rect.bottom == int(0.98 * height):
+                            if player1_dino.rect.bottom == int(0.95 * height):
                                 player1_dino.is_jumping = True
                                 if pygame.mixer.get_init() is not None:
                                     jump_sound.play()
-                                player1_dino.movement[1] = -1 * player1_dino.jump_speed
+                                player1_dino.movement[1] = -1 * player1_dino.jump_speed_runnung
 
                         if event.key == pygame.K_s:
                             # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
@@ -124,11 +146,11 @@ def pvprunning():
                         # 2p dino        
                         if event.key == pygame.K_UP:
                             # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
-                            if player2_dino.rect.bottom == int(0.98 * height):
+                            if player2_dino.rect.bottom == int(0.475 * height):
                                 player2_dino.is_jumping = True
                                 if pygame.mixer.get_init() is not None:
                                     jump_sound.play()
-                                player2_dino.movement[1] = -1 * player2_dino.jump_speed
+                                player2_dino.movement[1] = -1 * player2_dino.jump_speed_runnung
                         if event.key == pygame.K_DOWN:
                             # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
                             if not (player2_dino.is_jumping and player2_dino.is_dead):
@@ -209,10 +231,7 @@ def pvprunning():
                         missile_1p.x = round(player1_dino.rect.centerx)
                         missile_1p.y = round(player1_dino.rect.centery * 1.01)
                     missile_1p.move = MISSILE_SPEED
-                    if len(m_list_1p) >= ONETIME_MISSILE:
-                        pass
-                    else:
-                        m_list_1p.append(missile_1p)
+                    m_list_1p.append(missile_1p)
                     
                 bk_1p = bk_1p + 1
                 d_list_1p = []
@@ -237,9 +256,9 @@ def pvprunning():
                 for d in d_list_1p:
                     del m_list_1p[d]
                 if jumpingx2_1p:
-                    if player1_dino.rect.bottom == int(height * 0.98):
+                    if player1_dino.rect.bottom == int(height * 0.95):
                         player1_dino.is_jumping = True
-                        player1_dino.movement[1] = -1 * player1_dino.super_jump_speed
+                        player1_dino.movement[1] = -1 * player1_dino.super_jump_speed_running
                 if go_left_2p:
                     if player2_dino.rect.left <= 0:
                         player2_dino.rect.left = 0.5
@@ -274,15 +293,12 @@ def pvprunning():
                         missile_2p.x = round(player2_dino.rect.centerx)
                         missile_2p.y = round(player2_dino.rect.centery * 1.01)
                     missile_2p.move = MISSILE_SPEED
-                    if len(m_list_2p) >= ONETIME_MISSILE:
-                        pass
-                    else:
-                        m_list_2p.append(missile_2p)
+                    m_list_2p.append(missile_2p)
                 bk_2p = bk_2p + 1
                 d_list_2p = []
                 for i in range(len(m_list_2p)):
                     m = m_list_2p[i]
-                    m.x -= m.move
+                    m.x += m.move
                     if m.x > width:
                         d_list_2p.append(i)
                 # 2p의 미사일이 1p를 맞추었을 때
@@ -299,20 +315,195 @@ def pvprunning():
                         if m.x < 0:
                             m_list_2p.remove(m_2p)
 
+                for c in cacti:
+                    c.movement[0] = -1 * PVP_GAME_SPEED
+                    if not player1_dino.collision_immune:
+                        if pygame.sprite.collide_mask(player1_dino, c):
+                            player1_dino.collision_immune = True
+                            player1_dino.life -= 1
+                            collision_time = pygame.time.get_ticks()
+                            if player1_dino.life == 0:
+                                player1_dino.is_dead = True
+                            if pygame.mixer.get_init() is not None:
+                                die_sound.play()
+
+                    elif not player1_dino.is_super:
+                        immune_time = pygame.time.get_ticks()
+                        if immune_time - collision_time > collision_immune_time:
+                            player1_dino.collision_immune = False
+
+                for f in fire_cacti:
+                    f.movement[0] = -1 * PVP_GAME_SPEED
+                    if not player1_dino.collision_immune:
+                        if pygame.sprite.collide_mask(player1_dino, f):
+                            player1_dino.collision_immune = True
+                            player1_dino.life -= 1
+                            collision_time = pygame.time.get_ticks()
+                            if player1_dino.life == 0:
+                                player1_dino.is_dead = True
+                            if pygame.mixer.get_init() is not None:
+                                die_sound.play()
+
+                    elif not player1_dino.is_super:
+                        immune_time = pygame.time.get_ticks()
+                        if immune_time - collision_time > collision_immune_time:
+                            player1_dino.collision_immune = False
+
+                for p in pteras:
+                    p.movement[0] = -1 * PVP_GAME_SPEED
+
+                    # 7. 익룡이 미사일에 맞으면 익룡과 미사일 모두 사라집니다.
+
+                    if (len(m_list_1p)==0):
+                        pass
+                    else:
+                        if (m_1p.x>=p.rect.left)and(m_1p.x<=p.rect.right)and(m_1p.y>p.rect.top)and(m_1p.y<p.rect.bottom):
+                            print("격추 성공")
+                            isDown1=True
+                            boom=Obj()
+                            boom.put_img("./sprites/boom.png")
+                            boom.change_size(200,100)
+                            boom.x=p.rect.centerx-round(p.rect.width)*2.5
+                            boom.y=p.rect.centery-round(p.rect.height)*1.5
+                            p.kill()
+                            # 여기만 바꿈
+                            m_list_1p.remove(m_1p)
+                            #
+                    #
+
+                    if not player1_dino.collision_immune:
+                        if pygame.sprite.collide_mask(player1_dino, p):
+                            player1_dino.collision_immune = True
+                            player1_dino.life -= 1
+                            collision_time = pygame.time.get_ticks()
+                            if player1_dino.life == 0:
+                                player1_dino.is_dead = True
+                            if pygame.mixer.get_init() is not None:
+                                die_sound.play()
+
+                    elif not player1_dino.is_super:
+                        immune_time = pygame.time.get_ticks()
+                        if immune_time - collision_time > collision_immune_time:
+                            player1_dino.collision_immune = False
+
+                for s in stones:
+                    s.movement[0] = -1 * PVP_GAME_SPEED
+                    if not player1_dino.collision_immune:
+                        if pygame.sprite.collide_mask(player1_dino, s):
+                            player1_dino.collision_immune = True
+                            player1_dino.life -= 1
+                            collision_time = pygame.time.get_ticks()
+                            if player1_dino.life == 0:
+                                player1_dino.is_dead = True
+                            if pygame.mixer.get_init() is not None:
+                                die_sound.play()
+
+                # 2p 장애물
+                for c in cacti2:
+                    c.movement[0] = -1 * PVP_GAME_SPEED
+                    if not player2_dino.collision_immune:
+                        if pygame.sprite.collide_mask(player2_dino, c):
+                            player2_dino.collision_immune = True
+                            player2_dino.life -= 1
+                            collision_time = pygame.time.get_ticks()
+                            if player2_dino.life == 0:
+                                player2_dino.is_dead = True
+                            if pygame.mixer.get_init() is not None:
+                                die_sound.play()
+
+                    elif not player2_dino.is_super:
+                        immune_time = pygame.time.get_ticks()
+                        if immune_time - collision_time > collision_immune_time:
+                            player2_dino.collision_immune = False
+
+                for f in fire_cacti2:
+                    f.movement[0] = -1 * PVP_GAME_SPEED
+                    if not player2_dino.collision_immune:
+                        if pygame.sprite.collide_mask(player2_dino, f):
+                            player2_dino.collision_immune = True
+                            player2_dino.life -= 1
+                            collision_time = pygame.time.get_ticks()
+                            if player2_dino.life == 0:
+                                player2_dino.is_dead = True
+                            if pygame.mixer.get_init() is not None:
+                                die_sound.play()
+
+                    elif not player2_dino.is_super:
+                        immune_time = pygame.time.get_ticks()
+                        if immune_time - collision_time > collision_immune_time:
+                            player2_dino.collision_immune = False
+
+                for p in pteras2:
+                    p.movement[0] = -1 * PVP_GAME_SPEED
+
+                    # 7. 익룡이 미사일에 맞으면 익룡과 미사일 모두 사라집니다.
+
+                    if (len(m_list_2p)==0):
+                        pass
+                    else:
+                        if (m_2p.x>=p.rect.left)and(m_2p.x<=p.rect.right)and(m_2p.y>p.rect.top)and(m_2p.y<p.rect.bottom):
+                            print("격추 성공")
+                            isDown2=True
+                            boom = Obj()
+                            boom.put_img("./sprites/boom.png")
+                            boom.change_size(200,100)
+                            boom.x=p.rect.centerx-round(p.rect.width)*2.5
+                            boom.y=p.rect.centery-round(p.rect.height)*1.5
+                            p.kill()
+                            # 여기만 바꿈
+                            m_list_2p.remove(m_2p)
+                            #
+                    #
+
+                    if not player2_dino.collision_immune:
+                        if pygame.sprite.collide_mask(player2_dino, p):
+                            player2_dino.collision_immune = True
+                            player2_dino.life -= 1
+                            collision_time = pygame.time.get_ticks()
+                            if player2_dino.life == 0:
+                                player2_dino.is_dead = True
+                            if pygame.mixer.get_init() is not None:
+                                die_sound.play()
+
+                    elif not player2_dino.is_super:
+                        immune_time = pygame.time.get_ticks()
+                        if immune_time - collision_time > collision_immune_time:
+                            player2_dino.collision_immune = False
+
+                for s in stones2:
+                    s.movement[0] = -1 * PVP_GAME_SPEED
+                    if not player2_dino.collision_immune:
+                        if pygame.sprite.collide_mask(player2_dino, s):
+                            player2_dino.collision_immune = True
+                            player2_dino.life -= 1
+                            collision_time = pygame.time.get_ticks()
+                            if player2_dino.life == 0:
+                                player2_dino.is_dead = True
+                            if pygame.mixer.get_init() is not None:
+                                die_sound.play()
+
                 d_list_2p.reverse()
                 for d in d_list_2p:
                     del m_list_2p[d]
                 if jumpingx2_2p:
-                    if player2_dino.rect.bottom == int(height * 0.98):
+                    if player2_dino.rect.bottom == int(height * 0.475):
                         player2_dino.is_jumping = True
-                        player2_dino.movement[1] = -1 * player2_dino.super_jump_speed
-
-                display_obstacle(player1_dino, counter, "left")
-                display_obstacle(player2_dino, counter, "right")
+                        player2_dino.movement[1] = -1 * player2_dino.super_jump_speed_running
+                # display_obstacle(player1_dino, counter, "left")
+                # display_obstacle(player2_dino, counter, "right")
                 player1_dino.update('pvp')
                 player2_dino.update('pvp')
+                cacti.update()
+                fire_cacti.update()
+                pteras.update()
+                stones.update()
+
+                cacti2.update()
+                fire_cacti2.update()
+                pteras2.update()
+                stones2.update()                
                 # new_ground.update()
-                speed_indicator.update(PVP_GAME_SPEED - 3)
+                speed_indicator.update(PVP_GAME_SPEED)
                 heart_1p.update(player1_dino.life)
                 heart_2p.update(player2_dino.life)
 
@@ -331,6 +522,14 @@ def pvprunning():
                         m.show()
                 cacti.draw(screen)
                 pteras.draw(screen)
+                stones.draw(screen)
+                fire_cacti.draw(screen)
+                
+                cacti2.draw(screen)
+                pteras2.draw(screen)
+                stones2.draw(screen)
+                fire_cacti2.draw(screen)
+                
                 player1_dino.draw()
                 player2_dino.draw()
                 resized_screen.blit(
@@ -339,9 +538,66 @@ def pvprunning():
                 pygame.display.update()
                 clock.tick(FPS)
 
-                # if player1_dino.is_life_zero() or player2_dino.is_life_zero():
-                #     game_over = True
-                #     pygame.mixer.music.stop()
+                if len(cacti) < 2:
+                    if len(cacti) == 0:
+                        last_obstacle.empty()
+                        last_obstacle.add(Cactus(PVP_GAME_SPEED, object_size[0], object_size[1]))
+                    else:
+                        for l in last_obstacle:
+                            if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL) == MAGIC_NUM:
+                                last_obstacle.empty()
+                                last_obstacle.add(Cactus(PVP_GAME_SPEED, object_size[0], object_size[1]))
+
+                if len(fire_cacti) < 2:
+                    for l in last_obstacle:
+                        if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL * 5) == MAGIC_NUM:
+                            last_obstacle.empty()
+                            last_obstacle.add(fire_Cactus(PVP_GAME_SPEED, object_size[0], object_size[1]))
+
+                if len(stones) < 2:
+                    for l in last_obstacle:
+                        if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(STONE_INTERVAL * 3) == MAGIC_NUM:
+                            last_obstacle.empty()
+                            last_obstacle.add(Stone(PVP_GAME_SPEED, object_size[0], object_size[1]))
+
+                if len(pteras) == 0 and random.randrange(PTERA_INTERVAL) == MAGIC_NUM and counter > PTERA_INTERVAL:
+                    for l in last_obstacle:
+                        if l.rect.right < OBJECT_REFRESH_LINE:
+                            last_obstacle.empty()
+                            last_obstacle.add(Ptera(PVP_GAME_SPEED, ptera_size[0], ptera_size[1]))
+
+                if len(cacti2) < 2:
+                    if len(cacti2) == 0:
+                        last_obstacle.empty()
+                        last_obstacle.add(Cactus_pvp_running(PVP_GAME_SPEED, object_size[0], object_size[1]))
+                    else:
+                        for l in last_obstacle:
+                            if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL) == MAGIC_NUM:
+                                last_obstacle.empty()
+                                last_obstacle.add(Cactus(PVP_GAME_SPEED, object_size[0], object_size[1]))
+
+                if len(fire_cacti2) < 2:
+                    for l in last_obstacle:
+                        if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL * 5) == MAGIC_NUM:
+                            last_obstacle.empty()
+                            last_obstacle.add(fire_Cactus_pvp_running(PVP_GAME_SPEED, object_size[0], object_size[1]))
+
+                if len(stones2) < 2:
+                    for l in last_obstacle:
+                        if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(STONE_INTERVAL * 3) == MAGIC_NUM:
+                            last_obstacle.empty()
+                            last_obstacle.add(Stone_pvp_running(PVP_GAME_SPEED, object_size[0], object_size[1]))
+
+                if len(pteras2) == 0 and random.randrange(PTERA_INTERVAL) == MAGIC_NUM and counter > PTERA_INTERVAL:
+                    for l in last_obstacle:
+                        if l.rect.right < OBJECT_REFRESH_LINE:
+                            last_obstacle.empty()
+                            last_obstacle.add(Ptera_pvp_running(PVP_GAME_SPEED, ptera_size[0], ptera_size[1]))
+
+                    resized_screen.blit(
+                        pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
+                        resized_screen_center)
+                    pygame.display.update()
 
                 if player1_dino.is_dead:
                     game_over = True
@@ -408,74 +664,74 @@ def pvprunning():
     quit()
 
 
-def display_obstacle(dino, counter, moving):
-    global cacti
-    global fire_cacti
-    global pteras
-    global clouds
-    global stones
-    global last_obstacle
-    global collision_time
+# def display_obstacle(dino, counter, moving):
+#     global cacti
+#     global fire_cacti
+#     global pteras
+#     global clouds
+#     global stones
+#     global last_obstacle
+#     global collision_time
 
-    for c in cacti:
-        if not dino.collision_immune:
-            if pygame.sprite.collide_mask(dino, c):
-                dino.collision_immune = True
-                dino.decrease_life()
-                collision_time = pygame.time.get_ticks()
-                if dino.is_life_zero():
-                    dino.is_dead = True
-                if pygame.mixer.get_init() is not None:
-                    die_sound.play()
+#     for c in cacti:
+#         if not dino.collision_immune:
+#             if pygame.sprite.collide_mask(dino, c):
+#                 dino.collision_immune = True
+#                 dino.decrease_life()
+#                 collision_time = pygame.time.get_ticks()
+#                 if dino.is_life_zero():
+#                     dino.is_dead = True
+#                 if pygame.mixer.get_init() is not None:
+#                     die_sound.play()
 
-        elif not dino.is_super:
-            immune_time = pygame.time.get_ticks()
-            if immune_time - collision_time > collision_immune_time:
-                dino.collision_immune = False
+#         elif not dino.is_super:
+#             immune_time = pygame.time.get_ticks()
+#             if immune_time - collision_time > collision_immune_time:
+#                 dino.collision_immune = False
 
-    for p in pteras:
-        if not dino.collision_immune:
-            if pygame.sprite.collide_mask(dino, p):
-                dino.collision_immune = True
-                dino.decrease_life()
-                collision_time = pygame.time.get_ticks()
-                if dino.is_life_zero():
-                    dino.is_dead = True
-                if pygame.mixer.get_init() is not None:
-                    die_sound.play()
+#     for p in pteras:
+#         if not dino.collision_immune:
+#             if pygame.sprite.collide_mask(dino, p):
+#                 dino.collision_immune = True
+#                 dino.decrease_life()
+#                 collision_time = pygame.time.get_ticks()
+#                 if dino.is_life_zero():
+#                     dino.is_dead = True
+#                 if pygame.mixer.get_init() is not None:
+#                     die_sound.play()
 
-        elif not dino.is_super:
-            immune_time = pygame.time.get_ticks()
-            if immune_time - collision_time > collision_immune_time:
-                dino.collision_immune = False
+#         elif not dino.is_super:
+#             immune_time = pygame.time.get_ticks()
+#             if immune_time - collision_time > collision_immune_time:
+#                 dino.collision_immune = False
 
-    if len(cacti) < 1:
-        if len(cacti) == 0:
-            last_obstacle.empty()
-            last_obstacle.add(Cactus_pvp(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
-        else:
-            for l in last_obstacle:
-                if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL) == MAGIC_NUM:
-                    last_obstacle.empty()
-                    last_obstacle.add(Cactus_pvp(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
+#     if len(cacti) < 1:
+#         if len(cacti) == 0:
+#             last_obstacle.empty()
+#             last_obstacle.add(Cactus_pvp(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
+#         else:
+#             for l in last_obstacle:
+#                 if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL) == MAGIC_NUM:
+#                     last_obstacle.empty()
+#                     last_obstacle.add(Cactus_pvp(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
 
-    # if len(fire_cacti) < 2:
-    #     for l in last_obstacle:
-    #         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL * 5) == MAGIC_NUM:
-    #             last_obstacle.empty()
-    #             last_obstacle.add(fire_cacti(PVP_GAME_SPEED, object_size[0], object_size[1]))
+#     # if len(fire_cacti) < 2:
+#     #     for l in last_obstacle:
+#     #         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL * 5) == MAGIC_NUM:
+#     #             last_obstacle.empty()
+#     #             last_obstacle.add(fire_cacti(PVP_GAME_SPEED, object_size[0], object_size[1]))
 
-    # if len(stones) < 1:
-    #     for l in last_obstacle:
-    #         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(STONE_INTERVAL * 3) == MAGIC_NUM:
-    #             last_obstacle.empty()
-    #             last_obstacle.add(Stone_pvp(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
+#     # if len(stones) < 1:
+#     #     for l in last_obstacle:
+#     #         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(STONE_INTERVAL * 3) == MAGIC_NUM:
+#     #             last_obstacle.empty()
+#     #             last_obstacle.add(Stone_pvp(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
 
-    if len(pteras) == 0 and random.randrange(PTERA_INTERVAL) == MAGIC_NUM and counter > PTERA_INTERVAL:
-        # for l in last_obstacle:
-        #     print("!!!")
-        #     if l.rect.right < OBJECT_REFRESH_LINE:
-        last_obstacle.empty()
-        last_obstacle.add(Ptera_pvp(PVP_GAME_SPEED, ptera_size[0], ptera_size[1], moving=moving))
-    cacti.update()
-    pteras.update()
+#     if len(pteras) == 0 and random.randrange(PTERA_INTERVAL) == MAGIC_NUM and counter > PTERA_INTERVAL:
+#         # for l in last_obstacle:
+#         #     print("!!!")
+#         #     if l.rect.right < OBJECT_REFRESH_LINE:
+#         last_obstacle.empty()
+#         last_obstacle.add(Ptera_pvp(PVP_GAME_SPEED, ptera_size[0], ptera_size[1], moving=moving))
+#     cacti.update()
+#     pteras.update()
