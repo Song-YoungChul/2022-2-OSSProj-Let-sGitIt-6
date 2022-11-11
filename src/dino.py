@@ -65,7 +65,9 @@ class Dino:
         self.is_blinking = False
         self.movement = [0, 0]
         self.jump_speed = 11.5
+        self.jump_speed_runnung = 10.5
         self.super_jump_speed = self.jump_speed * 1.3
+        self.super_jump_speed_running = self.jump_speed_runnung * 1.3
         self.collision_immune = False
         self.is_super = False
         self.stand_width = self.rect.width
