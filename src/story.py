@@ -360,7 +360,7 @@ def gameplay_story4():
 
                 if (space_go==True) and (int(bk%100)==0):
                     # print(bk)
-                    mm=obj()
+                    mm=Obj()
                     mm.put_img("./sprites/fire_bullet.png")
                     mm.change_size(15,15)
                     # 
@@ -483,7 +483,7 @@ def gameplay_story4():
                         if (m.x>=p.rect.left)and(m.x<=p.rect.right)and(m.y>p.rect.top)and(m.y<p.rect.bottom):
                             print("격추 성공")
                             is_down=True
-                            boom=obj()                            
+                            boom=Obj()                            
                             boom.put_img("./sprites/boom.png")
                             boom.change_size(200,100)
                             boom.x=p.rect.centerx-round(p.rect.width)*2.5
@@ -663,8 +663,9 @@ def gameplay_story4():
                         game_over = False
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_ESCAPE:
-                            game_quit = True
                             game_over = False
+                            paused = True
+                            paused = src.game.pausing()
 
                         if event.key == pygame.K_RETURN or event.key == pygame.K_n:
                             gameplay_story3()
@@ -691,8 +692,8 @@ def gameplay_story4():
                         game_over = False
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_ESCAPE:
-                            game_quit = True
-                            game_over = False
+                            paused = not paused
+                            paused = src.game.pausing()
 
                         if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                             game_over = False
@@ -765,7 +766,7 @@ def gameplay_story3():
     player_dino = Dino(dino_size[0], dino_size[1])
 
     new_ground = Ground(-1 * game_speed)
-    speed_indicator = Story_Scoreboard()
+    speed_indicator = Scoreboard()
     speed_indicator = Scoreboard(width * 0.12, height * 0.15)
     heart = HeartIndicator(life)
     item_s = Item_status()
@@ -917,7 +918,7 @@ def gameplay_story3():
 
                 if (space_go==True) and (int(bk%100)==0):
                     # print(bk)
-                    mm=obj()
+                    mm=Obj()
 
                     mm.put_img("./sprites/fire_bullet.png")
                     mm.change_size(15,15)
@@ -964,7 +965,7 @@ def gameplay_story3():
                         player_dino.rect.left = player_dino.rect.left + game_speed
                
                 if  (int(pm_pattern1_count % 20) == 0):
-                    pm=obj()
+                    pm=Obj()
                     pm.put_img("./sprites/water_drop.png")
                     pm.change_size(40,40)
                     pm.x = random.randrange(40, 800-40)
@@ -1043,7 +1044,7 @@ def gameplay_story3():
                         if (m.x>=p.rect.left)and(m.x<=p.rect.right)and(m.y>p.rect.top)and(m.y<p.rect.bottom):
                             print("격추 성공")
                             is_down=True
-                            boom=obj()
+                            boom=Obj()
                             boom.put_img("./sprites/boom.png")
                             boom.change_size(200,100)
                             boom.x=p.rect.centerx-round(p.rect.width)*2.5
@@ -1087,7 +1088,7 @@ def gameplay_story3():
 
                 if Umbrella == True:
                     Umbrella_time+=1
-                    um=obj()
+                    um=Obj()
                     um.put_img("./sprites/umbrella_item.png")
                     um.change_size(70,70)
                     um.x = (player_dino.rect.left+player_dino.rect.right)/2-40
@@ -1225,8 +1226,9 @@ def gameplay_story3():
                         gaem_over = False
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_ESCAPE:
-                            game_quit = True
                             gaem_over = False
+                            paused = True
+                            paused = src.game.pausing()
 
                         if event.key == pygame.K_RETURN or event.key == pygame.K_n:
                             gameplay_story4()
@@ -1258,12 +1260,10 @@ def gameplay_story3():
 
                         if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                             gaem_over = False
-                            game_quit = True
                             src.game.intro_screen()
 
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         gaem_over = False
-                        game_quit = True
                         src.game.intro_screen()
 
                     if event.type == pygame.VIDEORESIZE:
