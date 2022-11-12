@@ -164,9 +164,9 @@ class Dino:
              # 걸어갈 때
             if not self.is_ducking: # 서있으면
                 if self.counter % 5 == 0:
-                    if self.index==0: self.index=1
-                    elif self.index==1: self.index=0
-                    else: self.index=0
+                    if self.index==1: self.index=2
+                    elif self.index==2: self.index=1
+                    else: self.index=1
             else: # 숙이고있으면
                 if self.counter % 5 == 0:
                     if self.index==0: self.index=1

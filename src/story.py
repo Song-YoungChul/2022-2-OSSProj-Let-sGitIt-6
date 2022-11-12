@@ -664,6 +664,7 @@ def gameplay_story4():
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_ESCAPE:
                             game_over = False
+                            src.game.intro_screen()
                             paused = True
                             paused = src.game.pausing()
 
@@ -1227,6 +1228,7 @@ def gameplay_story3():
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_ESCAPE:
                             gaem_over = False
+                            src.game.intro_screen()
                             paused = True
                             paused = src.game.pausing()
 
