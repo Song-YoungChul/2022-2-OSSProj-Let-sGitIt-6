@@ -77,11 +77,12 @@ def intro_screen():
                             temp_dino.movement[1] = -1 * temp_dino.jump_speed
                             game_start = True
                             select_mode()
+                        #store button
+                        if r_btn_store_rect.collidepoint(x, y):
+                            store()
                         #board button
                         if r_btn_board_rect.collidepoint(x, y):
                             board()
-                        if r_btn_store_rect.collidepoint(x, y):
-                            store()
                         # option button
                         if r_btn_option_rect.collidepoint(x, y):
                             option()
@@ -90,10 +91,9 @@ def intro_screen():
         if pygame.display.get_surface() is not None:
             r_btn_gamestart_rect.centerx = resized_screen.get_width() * 0.8
             r_btn_board_rect.centerx = resized_screen.get_width() * 0.8
-            r_btn_store_rect.centerx = resized_screen.get_width() * 0.8
             r_btn_option_rect.centerx = resized_screen.get_width() * 0.8
 
-            r_btn_gamestart_rect.centery = resized_screen.get_height() * 0.25
+            r_btn_gamestart_rect.centery = resized_screen.get_height() * (0.25)
             r_btn_board_rect.centery = resized_screen.get_height() * (0.25 + 0.75 * button_offset)
             r_btn_store_rect.centery = resized_screen.get_height() * (0.25 + 1.5 * button_offset)
             r_btn_option_rect.centery = resized_screen.get_height() * (0.25 + 2.25 * button_offset)
@@ -231,30 +231,30 @@ def select_mode():
     back_btn_image, back_btn_rect = load_image('back.png', 75, 30, -1)
     r_back_btn_image, r_back_btn_rect = load_image(*resize('back.png', 75, 30, -1))
     ##easy mode button
-    easymode_btn_image, easymode_btn_rect = load_image('easy_mode.png', 200, 66, -1)
-    r_easymode_btn_image, r_easy_btn_rect = load_image(*resize('easy_mode.png', 200, 66, -1))
+    easymode_btn_image, easymode_btn_rect = load_image('Easy-Mode.png', 150, 50, -1)
+    r_easymode_btn_image, r_easy_btn_rect = load_image(*resize('Easy-Mode.png', 150, 50, -1))
     # hardmode button
-    btn_hardmode, btn_hardmode_rect = load_image('hard_mode.png', 200, 66, -1)
-    r_btn_hardmode, r_btn_hardmode_rect = load_image(*resize('hard_mode.png', 200, 66, -1))
+    btn_hardmode, btn_hardmode_rect = load_image('Hard-Mode.png', 150, 50, -1)
+    r_btn_hardmode, r_btn_hardmode_rect = load_image(*resize('Hard-Mode.png', 150, 50, -1))
     # runningmode button, 임시로 hardmode 이미지로 진행
-    btn_runningmode, btn_runningmode_rect = load_image('pvp_running.png', 200, 66, -1)
-    r_btn_runningmode, r_btn_runningmode_rect = load_image(*resize('pvp_running.png', 200, 66, -1))
+    btn_runningmode, btn_runningmode_rect = load_image('PvP-Running.png', 150, 50, -1)
+    r_btn_runningmode, r_btn_runningmode_rect = load_image(*resize('PvP-Running.png', 150, 50, -1))
     # battlemode button, 임시로 hardmode 이미지로 진행
-    btn_battlemode, btn_battlemode_rect = load_image('pvp_battle.png', 200, 66, -1)
-    r_btn_battlemode, r_btn_battlemode_rect = load_image(*resize('pvp_battle.png', 200, 66, -1))
+    btn_battlemode, btn_battlemode_rect = load_image('PvP-Battle.png', 150, 50, -1)
+    r_btn_battlemode, r_btn_battlemode_rect = load_image(*resize('PvP-Battle.png', 150, 50, -1))
     
     
     # 배경 이미지
-    Background, Background_rect = load_image('mode_background.png', width, height)
+    Background, Background_rect = load_image('intro_bg.png', width, height, -1)
 
     # 뒤로가기 버튼
     back_btn_rect =  (width * 0.05, height * 0.1)
     # 이지, 하드모드 버튼
-    easymode_btn_rect.center = (width * 0.33, height * 0.33)
-    btn_hardmode_rect.center = (width * 0.33, height * 0.66)
+    easymode_btn_rect.center = (width * 0.66, height * 0.5)
+    btn_hardmode_rect.center = (width * 0.66, height * 0.75)
     # 러닝, 배틀모드 버튼
-    btn_runningmode_rect.center = (width * 0.66, height * 0.33)
-    btn_battlemode_rect.center = (width * 0.66, height * 0.66)
+    btn_runningmode_rect.center = (width * 0.33, height * 0.5)
+    btn_battlemode_rect.center = (width * 0.33, height * 0.75)
 
 
     while not game_start:
@@ -273,7 +273,7 @@ def select_mode():
                         intro_screen()
 
                     if r_easy_btn_rect.collidepoint(x, y):
-                        gameplay_story4()
+                        gameplay_easy()
                     if r_btn_hardmode_rect.collidepoint(x, y):
                         gameplay_hard()
 
@@ -286,13 +286,13 @@ def select_mode():
             if event.type == pygame.VIDEORESIZE:
                 check_scr_size(event.w, event.h)
         r_back_btn_rect.centerx, r_back_btn_rect.centery = resized_screen.get_width() * 0.075, resized_screen.get_height() * 0.1
-        r_easy_btn_rect.centerx, r_easy_btn_rect.centery = resized_screen.get_width() * 0.33, resized_screen.get_height() * 0.33
-        r_btn_hardmode_rect.centerx, r_btn_hardmode_rect.centery = resized_screen.get_width() * 0.33, resized_screen.get_height() * (
-                0.66)
-        r_btn_runningmode_rect.centerx, r_btn_runningmode_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * (
-                0.33)
-        r_btn_battlemode_rect.centerx, r_btn_battlemode_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * (
-                0.66)
+        r_easy_btn_rect.centerx, r_easy_btn_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * 0.5
+        r_btn_hardmode_rect.centerx, r_btn_hardmode_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * (
+                0.75)
+        r_btn_runningmode_rect.centerx, r_btn_runningmode_rect.centery = resized_screen.get_width() * 0.33, resized_screen.get_height() * (
+                0.5)
+        r_btn_battlemode_rect.centerx, r_btn_battlemode_rect.centery = resized_screen.get_width() * 0.33, resized_screen.get_height() * (
+                0.75)
 
         
         screen.blit(Background, Background_rect)
@@ -373,6 +373,7 @@ def gameplay_easy():
     SlowItem.containers = slow_items
 # 아이템 추가 11/08
     Mask_item.containers = mask_items
+
     # HighJumpItem.containers = highjump_items
     # BUTTON IMG LOAD
     # retbutton_image, retbutton_rect = load_image('replay_button.png', 70, 62, -1)
@@ -491,6 +492,7 @@ def gameplay_easy():
                     if not player_dino.collision_immune:
                         if pygame.sprite.collide_mask(player_dino, m):
                             player_dino.collision_immune = True
+                            gameplay_story3()
                             collision_time = pygame.time.get_ticks()
                             player_dino.score2 = 0
                             m.image.set_alpha(0)
@@ -544,6 +546,7 @@ def gameplay_easy():
                 HIGHJUMP_INTERVAL = 300
                 OBJECT_REFRESH_LINE = width * 0.8
                 MAGIC_NUM = 10
+                MASK_INTERVAL = 50
 
                 if len(cacti) < 2:
                     if len(cacti) == 0:
@@ -575,6 +578,12 @@ def gameplay_easy():
 
                 if len(clouds) < 5 and random.randrange(CLOUD_INTERVAL) == MAGIC_NUM:
                     Cloud(width, random.randrange(height / 5, height / 2))
+                
+                if len(mask_items) < 2:
+                    for l in last_obstacle:
+                        if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(MASK_INTERVAL) == MAGIC_NUM:
+                            last_obstacle.empty()
+                            last_obstacle.add(Mask_item(game_speed, object_size[0], object_size[1]))
 
                 player_dino.update()
                 cacti.update()
@@ -590,7 +599,7 @@ def gameplay_easy():
                 speed_indicator.update(game_speed - 3)
                 heart.update(life)
                 slow_items.update()
-
+                mask_items.update()
                 stones.update()
 
                 if pygame.display.get_surface() != None:
@@ -603,7 +612,7 @@ def gameplay_easy():
                     heart.draw()
                     if high_score != 0:
                         highsc.draw()
-                        screen.blit(HI_image, HI_rect)
+                        screen.blit(high_image, high_rect)
                     cacti.draw(screen)
                     stones.draw(screen)
                     fire_cacti.draw(screen)
@@ -611,6 +620,9 @@ def gameplay_easy():
                     shield_items.draw(screen)
                     life_items.draw(screen)
                     slow_items.draw(screen)
+
+                    mask_items.draw(screen)
+
                     # highjump_items.draw(screen)
                     player_dino.draw()
                     resized_screen.blit(
@@ -680,8 +692,8 @@ def gameplay_easy():
             if pygame.display.get_surface() != None:
                 disp_gameover_msg(game_over_image)
                 if high_score != 0:
-                    highsc.draw()
-                    screen.blit(HI_image, HI_rect)
+                        highsc.draw()
+                        screen.blit(high_image, high_rect)
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
                     resized_screen_center)
@@ -751,14 +763,14 @@ def gameplay_hard():
     game_over_image, game_over_rect = load_image('game_over.png', 380, 22, -1)
 
     temp_images, temp_rect = load_sprite_sheet('numbers.png', 12, 1, 11, int(15 * 6 / 5), -1)
-    HI_image = pygame.Surface((30, int(15 * 6 / 5)))
-    HI_rect = HI_image.get_rect()
-    HI_image.fill(background_col)
-    HI_image.blit(temp_images[10], temp_rect)
+    high_image = pygame.Surface((30, int(15 * 6 / 5)))
+    high_rect = high_image.get_rect()
+    high_image.fill(background_col)
+    high_image.blit(temp_images[10], temp_rect)
     temp_rect.left += temp_rect.width
-    HI_image.blit(temp_images[11], temp_rect)
-    HI_rect.top = height * 0.05
-    HI_rect.left = width * 0.73
+    high_image.blit(temp_images[11], temp_rect)
+    high_rect.top = height * 0.05
+    high_rect.left = width * 0.73
 
     # 1. 미사일 발사.
     space_go=False
@@ -1285,7 +1297,7 @@ def gameplay_hard():
                     heart.draw()
                     if high_score != 0:
                         highsc.draw()
-                        screen.blit(HI_image, HI_rect)
+                        screen.blit(high_image, high_rect)
                     cacti.draw(screen)
                     fire_cacti.draw(screen)
                     stones.draw(screen)
@@ -1293,6 +1305,7 @@ def gameplay_hard():
                     shield_items.draw(screen)
                     life_items.draw(screen)
                     slow_items.draw(screen)
+                    
 
                     # pkingtime이면, 보스몬스터를 보여줘라.
                     if isPkingTime:
@@ -1320,8 +1333,11 @@ def gameplay_hard():
                     resized_screen.blit(
                         pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
                         resized_screen_center)
-                    if life == 1:
-                        gameplay_story4()
+
+
+                    # # 목숨 1이면 스토리 모드로 진행     
+                    # if life == 1:
+                    #     gameplay_story4()
                     pygame.display.update()
                 clock.tick(FPS)
                 
@@ -1330,6 +1346,8 @@ def gameplay_hard():
                     pygame.mixer.music.stop()  # 죽으면 배경음악 멈춤
                     if player_dino.score > high_score:
                         high_score = player_dino.score
+                        highsc.update(high_score)
+                        board()
 
                 if counter % speed_up_limit == speed_up_limit - 1:
                     new_ground.speed -= 1
@@ -1352,8 +1370,8 @@ def gameplay_hard():
                         game_over = False
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_ESCAPE:
-                            game_quit = True
                             game_over = False
+                            intro_screen()
 
                         if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                             game_over = False
@@ -1387,7 +1405,7 @@ def gameplay_hard():
                 disp_gameover_msg(game_over_image)
                 if high_score != 0:
                     highsc.draw()
-                    screen.blit(HI_image, HI_rect)
+                    screen.blit(high_image, high_rect)
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
                     resized_screen_center)
@@ -1484,31 +1502,30 @@ def gamerule():
     TextRect.center = (width * 0.5, height * 0.2)
 
     # 버튼 이미지
-    btn_width_size = 200
-    btn_height_size = 66
+
     ##easy mode button
-    easymoderule_btn_image, easymoderule_btn_rect = load_image('easy_mode.png', btn_width_size, btn_height_size, -1)
-    r_easymoderule_btn_image, r_easyrule_btn_rect = load_image(*resize('easy_mode.png', btn_width_size, btn_height_size, -1))
+    easymoderule_btn_image, easymoderule_btn_rect = load_image('Easy-Mode.png', 150, 50, -1)
+    r_easymoderule_btn_image, r_easyrule_btn_rect = load_image(*resize('Easy-Mode.png', 150, 50, -1))
     # hardmode button
-    btn_hardmoderule, btn_hardmoderule_rect = load_image('hard_mode.png', btn_width_size, btn_height_size, -1)
-    r_btn_hardmoderule, r_btn_hardmoderule_rect = load_image(*resize('hard_mode.png', btn_width_size, btn_height_size, -1))
+    btn_hardmoderule, btn_hardmoderule_rect = load_image('Hard-Mode.png', 150, 50, -1)
+    r_btn_hardmoderule, r_btn_hardmoderule_rect = load_image(*resize('Hard-Mode.png', 150, 50, -1))
     # runningmode button, 임시로 hardmode 이미지로 진행
-    btn_runningmoderule, btn_runningmoderule_rect = load_image('pvp_running.png', btn_width_size, btn_height_size, -1)
-    r_btn_runningmoderule, r_btn_runningmoderule_rect = load_image(*resize('pvp_running.png', btn_width_size, btn_height_size, -1))
+    btn_runningmoderule, btn_runningmoderule_rect = load_image('PvP-Running.png', 150, 50, -1)
+    r_btn_runningmoderule, r_btn_runningmoderule_rect = load_image(*resize('PvP-Running.png', 150, 50, -1))
     # battlemode button, 임시로 hardmode 이미지로 진행
-    btn_battlemoderule, btn_battlemoderule_rect = load_image('pvp_battle.png', btn_width_size, btn_height_size, -1)
-    r_btn_battlemoderule, r_btn_battlemoderule_rect = load_image(*resize('pvp-battle.png', btn_width_size, btn_height_size, -1))
+    btn_battlemoderule, btn_battlemoderule_rect = load_image('PvP-Battle.png', 150, 50, -1)
+    r_btn_battlemoderule, r_btn_battlemoderule_rect = load_image(*resize('PvP-Battle.png', 150, 50, -1))
     
     
     # 배경 이미지, 일단 인트로 사진으로 대체
     Background, Background_rect = load_image('winter.png', width, height, -1)
 
     # 이지, 하드모드 버튼
-    easymoderule_btn_rect.center = (width * 0.33, height * 0.5)
-    btn_hardmoderule_rect.center = (width * 0.33, height * 0.75)
+    easymoderule_btn_rect.center = (width * 0.66, height * 0.5)
+    btn_hardmoderule_rect.center = (width * 0.66, height * 0.75)
     # 러닝, 배틀모드 버튼
-    btn_runningmoderule_rect.center = (width * 0.66, height * 0.5)
-    btn_battlemoderule_rect.center = (width * 0.66, height * 0.75)
+    btn_runningmoderule_rect.center = (width * 0.33, height * 0.5)
+    btn_battlemoderule_rect.center = (width * 0.33, height * 0.75)
 
 
     while not done:
@@ -1538,12 +1555,12 @@ def gamerule():
             if event.type == pygame.VIDEORESIZE:
                 check_scr_size(event.w, event.h)
 
-        r_easyrule_btn_rect.centerx, r_easyrule_btn_rect.centery = resized_screen.get_width() * 0.33, resized_screen.get_height() * 0.5
-        r_btn_hardmoderule_rect.centerx, r_btn_hardmoderule_rect.centery = resized_screen.get_width() * 0.33, resized_screen.get_height() * (
+        r_easyrule_btn_rect.centerx, r_easyrule_btn_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * 0.5
+        r_btn_hardmoderule_rect.centerx, r_btn_hardmoderule_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * (
                 0.75)
-        r_btn_runningmoderule_rect.centerx, r_btn_runningmoderule_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * (
+        r_btn_runningmoderule_rect.centerx, r_btn_runningmoderule_rect.centery = resized_screen.get_width() * 0.33, resized_screen.get_height() * (
                 0.5)
-        r_btn_battlemoderule_rect.centerx, r_btn_battlemoderule_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * (
+        r_btn_battlemoderule_rect.centerx, r_btn_battlemoderule_rect.centery = resized_screen.get_width() * 0.33, resized_screen.get_height() * (
                 0.75)
 
         
