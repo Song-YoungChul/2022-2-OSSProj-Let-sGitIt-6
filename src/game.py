@@ -665,7 +665,7 @@ def gameplay_easy():
                         game_over = False
                         game_quit = True
                         type_score(player_dino.score)
-                        if not db.is_limit_data(player_dino.score):
+                        if not db.is_limit_data(player_dino.score, mode = "easy"):
                             db.query_db(
                                 f"insert into easy_mode (username, score) values ('{gamer_name}', '{player_dino.score}');")
                             db.commit()
@@ -1351,9 +1351,9 @@ def gameplay_hard():
                             game_over = False
                             game_quit = True
                             type_score(player_dino.score)
-                            if not db.is_limit_data(player_dino.score):
+                            if not db.is_limit_data(player_dino.score,mode = "hard"):
                                 db.query_db(
-                                    f"insert into user(username, score) values ('{gamername}', '{player_dino.score}');")
+                                    f"insert into hard_mode(username, score) values ('{gamername}', '{player_dino.score}');")
                                 db.commit()
                                 board()
                             else:
@@ -1363,13 +1363,13 @@ def gameplay_hard():
                         game_over = False
                         game_quit = True
                         type_score(player_dino.score)
-                        if not db.is_limit_data(player_dino.score):
+                        if not db.is_limit_data(player_dino.score, mode = "hard"):
                             db.query_db(
-                                f"insert into user(username, score) values ('{gamername}', '{player_dino.score}');")
+                                f"insert into hard_mode(username, score) values ('{gamername}', '{player_dino.score}');")
                             db.commit()
-                            board()
+                            board("hard")
                         else:
-                            board()
+                            board("hard")
 
                     if event.type == pygame.VIDEORESIZE:
                         check_scr_size(event.w, event.h)
@@ -1390,28 +1390,35 @@ def gameplay_hard():
     quit()
 
 
-def board():
+def board(mode=""):
     global resized_screen
     game_quit = False
     scroll_y=0
     # 10
-    max_per_screen = 10
-    results = db.query_db("select username, score from user order by score desc;")
-    screen_board_height = resized_screen.get_height()+(len(results)//max_per_screen)*resized_screen.get_height()
+    max_per_screen = 5
+    length = 0
+    results = ""
+    if mode == "":
+        easy_mode_results = db.query_db(f"select username, score from easy_mode order by score desc;")
+        hard_mode_results = db.query_db(f"select username, score from hard_mode order by score desc;")
+        length = len(easy_mode_results) if len(easy_mode_results) > len(hard_mode_results) else len(hard_mode_results)
+    else:
+        results = db.query_db(f"select username, score from {mode}_mode order by score desc;")
+        length = len(results)
+    screen_board_height = resized_screen.get_height() + (length // max_per_screen) * resized_screen.get_height()
     screen_board = pygame.surface.Surface((
         resized_screen.get_width(),
         screen_board_height
-        ))
+    ))
 
-    title_image, title_rect = load_image("ranking.png", 360, 75, -1)
-    title_rect.centerx = width * 0.5
-    title_rect.centery = height * 0.2
+    title_image, title_rect = load_image("ranking.png", RANKING_WIDTH, RANKING_HEIGHT, -1)
+    title_rect.centerx = width * RANKING_X
+    title_rect.centery = height * RANKING_Y
 
     # 버튼 이미지
-    back_btn_image, back_btn_rect = load_image('back.png', 75, 30, -1)
-    r_back_btn_image, r_back_btn_rect = load_image(*resize('back.png', 75, 30, -1))
-    # 뒤로가기 버튼
-    back_btn_rect =  (width * 0.05, height * 0.1)
+    # back button
+    btn_back, btn_back_rect = load_image('btn_back.png', BACK_WIDTH, BACK_HEIGHT, -1)
+    r_btn_back, r_btn_back_rect = load_image(*resize('btn_back.png', BACK_WIDTH, BACK_HEIGHT, -1))
 
     while not game_quit:
         if pygame.display.get_surface() is None:
@@ -1419,19 +1426,51 @@ def board():
         else:
             screen_board.fill(background_col)
             screen_board.blit(title_image, title_rect)
+            screen_board.blit(btn_back, btn_back_rect)
 
-            for i, result in enumerate(results):
-                top_i_surface = font.render(f"TOP {i + 1}", True, black)
-                name_inform_surface = font.render("Name", True, black)
-                score_inform_surface = font.render("Score", True, black)
-                score_surface = font.render(str(result['score']), True, black)
-                txt_surface = font.render(result['username'], True, black)
+            if results:
+                for i, result in enumerate(results):
+                    top_i_surface = font.render(f"TOP {i + 1}", True, dark_pink)
+                    name_inform_surface = font.render("Name", True, black)
+                    score_inform_surface = font.render("Score", True, black)
+                    score_surface = font.render(str(result['score']), True, black)
+                    txt_surface = font.render(result['username'], True, black)
 
-                screen_board.blit(top_i_surface, (width * 0.25, height * (0.55 + 0.1 * i)))
-                screen_board.blit(name_inform_surface, (width * 0.4, height * 0.40))
-                screen_board.blit(score_inform_surface, (width * 0.6, height * 0.40))
-                screen_board.blit(txt_surface, (width*0.4, height * (0.55 + 0.1 * i)))
-                screen_board.blit(score_surface, (width * 0.6, height * (0.55 + 0.1 * i)))
+                    screen_board.blit(top_i_surface, (width * 0.25, height * (0.55 + RESULT_OFF * i)))
+                    screen_board.blit(name_inform_surface, (width * 0.4, height * 0.40))
+                    screen_board.blit(score_inform_surface, (width * 0.6, height * 0.40))
+                    screen_board.blit(txt_surface, (width * 0.4, height * (0.55 + RESULT_OFF * i)))
+                    screen_board.blit(score_surface, (width * 0.6, height * (0.55 + RESULT_OFF * i)))
+            else:
+                easy_mode_surface = font.render(f"[Easy Mode]", True, black)
+                hard_mode_surface = font.render(f"[Hard Mode]", True, black)
+                screen_board.blit(easy_mode_surface, (width * 0.2, height * 0.35))
+                screen_board.blit(hard_mode_surface, (width * 0.62, height * 0.35))
+                for i, result in enumerate(easy_mode_results):
+                    top_i_surface = font.render(f"TOP {i + 1}", True, dark_pink)
+                    name_inform_surface = font.render("Name", True, black)
+                    score_inform_surface = font.render("Score", True, black)
+                    score_surface = font.render(str(result['score']), True, black)
+                    txt_surface = font.render(result['username'], True, black)
+
+                    screen_board.blit(top_i_surface, (width * 0.05, height * (0.55 + RESULT_OFF * i)))
+                    screen_board.blit(name_inform_surface, (width * 0.2, height * RESULT_HEIGHT))
+                    screen_board.blit(score_inform_surface, (width * (0.2 + RESULT_X_OFF), height * RESULT_HEIGHT))
+                    screen_board.blit(txt_surface, (width * 0.2, height * (0.55 + RESULT_OFF * i)))
+                    screen_board.blit(score_surface, (width * (0.2 + RESULT_X_OFF), height * (0.55 + RESULT_OFF * i)))
+
+                for i, result in enumerate(hard_mode_results):
+                    top_i_surface = font.render(f"TOP {i + 1}", True, dark_blue)
+                    name_inform_surface = font.render("Name", True, black)
+                    score_inform_surface = font.render("Score", True, black)
+                    score_surface = font.render(str(result['score']), True, black)
+                    txt_surface = font.render(result['username'], True, black)
+
+                    screen_board.blit(top_i_surface, (width * 0.5, height * (0.55 + RESULT_OFF * i)))
+                    screen_board.blit(name_inform_surface, (width * 0.62, height * RESULT_HEIGHT))
+                    screen_board.blit(score_inform_surface, (width * (0.62 + RESULT_X_OFF), height *RESULT_HEIGHT))
+                    screen_board.blit(txt_surface, (width * 0.62, height * (0.55 + 0.1 * i)))
+                    screen_board.blit(score_surface, (width * (0.62 + RESULT_X_OFF), height * (0.55 + RESULT_OFF * i)))
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     game_quit = True
@@ -1439,31 +1478,38 @@ def board():
                     if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                         game_quit = True
                         intro_screen()
-                    if event.key == pygame.K_UP: scroll_y = min(scroll_y + 15, 0)
-                    if event.key == pygame.K_DOWN: scroll_y = max(scroll_y - 15, -(len(results)//max_per_screen)*scr_size[1])
+                    if event.key == pygame.K_UP:
+                        scroll_y = min(scroll_y + SCROLL, 0)
+                    if event.key == pygame.K_DOWN:
+                        scroll_y = max(scroll_y - SCROLL, -(length // max_per_screen) * scr_size[1])
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if pygame.mouse.get_pressed() == (1, 0, 0):
                         x, y = event.pos
-                        if r_back_btn_rect.collidepoint(x, y):
+                        if r_btn_back_rect.collidepoint(x, y):
                             intro_screen()
-                    if event.button == 4: scroll_y = min(scroll_y + 15, 0)
-                    if event.button == 5: scroll_y = max(scroll_y - 15, -(len(results)//max_per_screen)*scr_size[1])
+                    if event.button == 4:
+                        scroll_y = min(scroll_y + SCROLL, 0)
+                    if event.button == 5:
+                        scroll_y = max(scroll_y - SCROLL, -(length // max_per_screen) * scr_size[1])
                     # if event.button == 1:
-                    #     game_quit = True
-                    #     intro_screen()
+                    # game_quit = True
+                    # intro_screen()
                 if event.type == pygame.VIDEORESIZE:
                     check_scr_size(event.w, event.h)
-            r_back_btn_rect.centerx, r_back_btn_rect.centery = resized_screen.get_width() * 0.075, resized_screen.get_height() * 0.1
-            
+            r_btn_back_rect.centerx = resized_screen.get_width() * 0.1
+            r_btn_back_rect.centery = resized_screen.get_height() * 0.1
+            score_board(btn_back)
+            screen.blit(btn_back, btn_back_rect)
             screen.blit(screen_board, (0, scroll_y))
-            screen.blit(back_btn_image, back_btn_rect)
             resized_screen.blit(
-                pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())), resized_screen_center)
+                pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
+                resized_screen_center)
             pygame.display.update()
         clock.tick(FPS)
 
     pygame.quit()
     quit()
+
 
 def gamerule():
     global resized_screen
