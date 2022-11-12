@@ -315,7 +315,7 @@ def pvp():
                 player1_dino.update('pvp')
                 player2_dino.update('pvp')
                 # new_ground.update()
-                speed_indicator.update(PVP_GAME_SPEED - 3)
+                speed_indicator.update(PVP_GAME_SPEED)
                 heart_1p.update(player1_dino.life)
                 heart_2p.update(player2_dino.life)
 
