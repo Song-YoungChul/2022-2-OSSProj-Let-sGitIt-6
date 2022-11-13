@@ -61,8 +61,8 @@ def pvprunning():
     # 플레이어1과 플레이어 2의 목숨 수
     heart_1p = HeartIndicator(player1_dino)
     heart_2p = HeartIndicator(player2_dino, loc=1)
-    new_ground = Ground(PVP_GAME_SPEED)
-    new_ground = ImgBack(PVP_GAME_SPEED, "pvprunning_back")
+    new_ground = Ground(RUN_GAME_SPEED)
+    new_ground = ImgBack(RUN_GAME_SPEED, "pvprunning_back")
     # alpha_back, alpha_back_rect = alpha_image('alpha_back2.png', width + 20, height)
     # alpha_back_rect.left = -20
     speed_indicator = Scoreboard(width * 0.12, height * 0.15)
@@ -201,12 +201,12 @@ def pvprunning():
                     if player1_dino.rect.left < 0:
                         player1_dino.rect.left = 0
                     else:
-                        player1_dino.rect.left = player1_dino.rect.left - PVP_GAME_SPEED
+                        player1_dino.rect.left = player1_dino.rect.left - RUN_GAME_SPEED
                 if go_right_1p:
                     if player1_dino.rect.right > width :
                         player1_dino.rect.right = width 
                     else:
-                        player1_dino.rect.left = player1_dino.rect.left + PVP_GAME_SPEED
+                        player1_dino.rect.left = player1_dino.rect.left + RUN_GAME_SPEED
                 if space_go_1p and (int(bk_1p % MISSILE) == 0):
                     # print(bk)
                     missile_1p = Obj()
@@ -263,12 +263,12 @@ def pvprunning():
                     if player2_dino.rect.left <= 0:
                         player2_dino.rect.left = 0.5
                     else:
-                        player2_dino.rect.left = player2_dino.rect.left - PVP_GAME_SPEED
+                        player2_dino.rect.left = player2_dino.rect.left - RUN_GAME_SPEED
                 if go_right_2p:
                     if player2_dino.rect.right > width:
                         player2_dino.rect.right = width
                     else:
-                        player2_dino.rect.left = player2_dino.rect.left + PVP_GAME_SPEED
+                        player2_dino.rect.left = player2_dino.rect.left + RUN_GAME_SPEED
                 if space_go_2p and (int(bk_2p % MISSILE) == 0):
                     # print(bk)
                     missile_2p = Obj()
@@ -316,7 +316,7 @@ def pvprunning():
                             m_list_2p.remove(m_2p)
 
                 for c in cacti:
-                    c.movement[0] = -1 * PVP_GAME_SPEED
+                    c.movement[0] = -1 * RUN_GAME_SPEED
                     if not player1_dino.collision_immune:
                         if pygame.sprite.collide_mask(player1_dino, c):
                             player1_dino.collision_immune = True
@@ -333,7 +333,7 @@ def pvprunning():
                             player1_dino.collision_immune = False
 
                 for f in fire_cacti:
-                    f.movement[0] = -1 * PVP_GAME_SPEED
+                    f.movement[0] = -1 * RUN_GAME_SPEED
                     if not player1_dino.collision_immune:
                         if pygame.sprite.collide_mask(player1_dino, f):
                             player1_dino.collision_immune = True
@@ -350,7 +350,7 @@ def pvprunning():
                             player1_dino.collision_immune = False
 
                 for p in pteras:
-                    p.movement[0] = -1 * PVP_GAME_SPEED
+                    p.movement[0] = -1 * RUN_GAME_SPEED
 
                     # 7. 익룡이 미사일에 맞으면 익룡과 미사일 모두 사라집니다.
 
@@ -387,7 +387,7 @@ def pvprunning():
                             player1_dino.collision_immune = False
 
                 for s in stones:
-                    s.movement[0] = -1 * PVP_GAME_SPEED
+                    s.movement[0] = -1 * RUN_GAME_SPEED
                     if not player1_dino.collision_immune:
                         if pygame.sprite.collide_mask(player1_dino, s):
                             player1_dino.collision_immune = True
@@ -400,7 +400,7 @@ def pvprunning():
 
                 # 2p 장애물
                 for c in cacti2:
-                    c.movement[0] = -1 * PVP_GAME_SPEED
+                    c.movement[0] = -1 * RUN_GAME_SPEED
                     if not player2_dino.collision_immune:
                         if pygame.sprite.collide_mask(player2_dino, c):
                             player2_dino.collision_immune = True
@@ -417,7 +417,7 @@ def pvprunning():
                             player2_dino.collision_immune = False
 
                 for f in fire_cacti2:
-                    f.movement[0] = -1 * PVP_GAME_SPEED
+                    f.movement[0] = -1 * RUN_GAME_SPEED
                     if not player2_dino.collision_immune:
                         if pygame.sprite.collide_mask(player2_dino, f):
                             player2_dino.collision_immune = True
@@ -434,7 +434,7 @@ def pvprunning():
                             player2_dino.collision_immune = False
 
                 for p in pteras2:
-                    p.movement[0] = -1 * PVP_GAME_SPEED
+                    p.movement[0] = -1 * RUN_GAME_SPEED
 
                     # 7. 익룡이 미사일에 맞으면 익룡과 미사일 모두 사라집니다.
 
@@ -471,7 +471,7 @@ def pvprunning():
                             player2_dino.collision_immune = False
 
                 for s in stones2:
-                    s.movement[0] = -1 * PVP_GAME_SPEED
+                    s.movement[0] = -1 * RUN_GAME_SPEED
                     if not player2_dino.collision_immune:
                         if pygame.sprite.collide_mask(player2_dino, s):
                             player2_dino.collision_immune = True
@@ -503,7 +503,7 @@ def pvprunning():
                 pteras2.update()
                 stones2.update()                
                 # new_ground.update()
-                speed_indicator.update(PVP_GAME_SPEED)
+                speed_indicator.update(RUN_GAME_SPEED)
                 heart_1p.update(player1_dino.life)
                 heart_2p.update(player2_dino.life)
 
@@ -541,58 +541,58 @@ def pvprunning():
                 if len(cacti) < 2:
                     if len(cacti) == 0:
                         last_obstacle.empty()
-                        last_obstacle.add(Cactus(PVP_GAME_SPEED, object_size[0], object_size[1]))
+                        last_obstacle.add(Cactus(RUN_GAME_SPEED, object_size[0], object_size[1]))
                     else:
                         for l in last_obstacle:
                             if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL) == MAGIC_NUM:
                                 last_obstacle.empty()
-                                last_obstacle.add(Cactus(PVP_GAME_SPEED, object_size[0], object_size[1]))
+                                last_obstacle.add(Cactus(RUN_GAME_SPEED, object_size[0], object_size[1]))
 
                 if len(fire_cacti) < 2:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL * 5) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(fire_Cactus(PVP_GAME_SPEED, object_size[0], object_size[1]))
+                            last_obstacle.add(fire_Cactus(RUN_GAME_SPEED, object_size[0], object_size[1]))
 
                 if len(stones) < 2:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(STONE_INTERVAL * 3) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(Stone(PVP_GAME_SPEED, object_size[0], object_size[1]))
+                            last_obstacle.add(Stone(RUN_GAME_SPEED, object_size[0], object_size[1]))
 
                 if len(pteras) == 0 and random.randrange(PTERA_INTERVAL) == MAGIC_NUM and counter > PTERA_INTERVAL:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE:
                             last_obstacle.empty()
-                            last_obstacle.add(Ptera(PVP_GAME_SPEED, ptera_size[0], ptera_size[1]))
+                            last_obstacle.add(Ptera(RUN_GAME_SPEED, ptera_size[0], ptera_size[1]))
 
                 if len(cacti2) < 2:
                     if len(cacti2) == 0:
                         last_obstacle.empty()
-                        last_obstacle.add(Cactus_pvp_running(PVP_GAME_SPEED, object_size[0], object_size[1]))
+                        last_obstacle.add(Cactus_pvp_running(RUN_GAME_SPEED, object_size[0], object_size[1]))
                     else:
                         for l in last_obstacle:
                             if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL) == MAGIC_NUM:
                                 last_obstacle.empty()
-                                last_obstacle.add(Cactus(PVP_GAME_SPEED, object_size[0], object_size[1]))
+                                last_obstacle.add(Cactus(RUN_GAME_SPEED, object_size[0], object_size[1]))
 
                 if len(fire_cacti2) < 2:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL * 5) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(fire_Cactus_pvp_running(PVP_GAME_SPEED, object_size[0], object_size[1]))
+                            last_obstacle.add(fire_Cactus_pvp_running(RUN_GAME_SPEED, object_size[0], object_size[1]))
 
                 if len(stones2) < 2:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(STONE_INTERVAL * 3) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(Stone_pvp_running(PVP_GAME_SPEED, object_size[0], object_size[1]))
+                            last_obstacle.add(Stone_pvp_running(RUN_GAME_SPEED, object_size[0], object_size[1]))
 
                 if len(pteras2) == 0 and random.randrange(PTERA_INTERVAL) == MAGIC_NUM and counter > PTERA_INTERVAL:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE:
                             last_obstacle.empty()
-                            last_obstacle.add(Ptera_pvp_running(PVP_GAME_SPEED, ptera_size[0], ptera_size[1]))
+                            last_obstacle.add(Ptera_pvp_running(RUN_GAME_SPEED, ptera_size[0], ptera_size[1]))
 
                     resized_screen.blit(
                         pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
@@ -708,30 +708,30 @@ def pvprunning():
 #     if len(cacti) < 1:
 #         if len(cacti) == 0:
 #             last_obstacle.empty()
-#             last_obstacle.add(Cactus_pvp(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
+#             last_obstacle.add(Cactus_pvp(RUN_GAME_SPEED, object_size[0], object_size[1], moving=moving))
 #         else:
 #             for l in last_obstacle:
 #                 if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL) == MAGIC_NUM:
 #                     last_obstacle.empty()
-#                     last_obstacle.add(Cactus_pvp(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
+#                     last_obstacle.add(Cactus_pvp(RUN_GAME_SPEED, object_size[0], object_size[1], moving=moving))
 
 #     # if len(fire_cacti) < 2:
 #     #     for l in last_obstacle:
 #     #         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL * 5) == MAGIC_NUM:
 #     #             last_obstacle.empty()
-#     #             last_obstacle.add(fire_cacti(PVP_GAME_SPEED, object_size[0], object_size[1]))
+#     #             last_obstacle.add(fire_cacti(RUN_GAME_SPEED, object_size[0], object_size[1]))
 
 #     # if len(stones) < 1:
 #     #     for l in last_obstacle:
 #     #         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(STONE_INTERVAL * 3) == MAGIC_NUM:
 #     #             last_obstacle.empty()
-#     #             last_obstacle.add(Stone_pvp(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
+#     #             last_obstacle.add(Stone_pvp(RUN_GAME_SPEED, object_size[0], object_size[1], moving=moving))
 
 #     if len(pteras) == 0 and random.randrange(PTERA_INTERVAL) == MAGIC_NUM and counter > PTERA_INTERVAL:
 #         # for l in last_obstacle:
 #         #     print("!!!")
 #         #     if l.rect.right < OBJECT_REFRESH_LINE:
 #         last_obstacle.empty()
-#         last_obstacle.add(Ptera_pvp(PVP_GAME_SPEED, ptera_size[0], ptera_size[1], moving=moving))
+#         last_obstacle.add(Ptera_pvp(RUN_GAME_SPEED, ptera_size[0], ptera_size[1], moving=moving))
 #     cacti.update()
 #     pteras.update()
