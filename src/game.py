@@ -718,7 +718,7 @@ def gameplay_hard():
 
     new_ground = Ground(-1 * game_speed)
     #배경 변경하는 코드
-    new_ground = ImgBack(-1 * game_speed, "spring")
+    new_background = ImgBack(-1 * game_speed, "spring")
     scb = Scoreboard( y = height * SCB_HEIGHT)
     highsc = Scoreboard(width * SCB_WIDTH, height * SCB_HEIGHT)
     heart = HeartIndicator(player_dino.life)
@@ -1249,7 +1249,7 @@ def gameplay_hard():
                 clouds.update()
                 shield_items.update()
                 life_items.update()
-
+                new_background.update()
                 new_ground.update()
                 scb.update(player_dino.score)
                 highsc.update(high_score)
@@ -1264,6 +1264,7 @@ def gameplay_hard():
 
                 if pygame.display.get_surface() != None:
                     screen.fill(background_col)
+                    new_background.draw()
                     new_ground.draw()
                     clouds.draw(screen)
                     scb.draw()
