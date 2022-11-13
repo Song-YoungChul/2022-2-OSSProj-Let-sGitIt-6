@@ -91,12 +91,13 @@ def intro_screen():
         if pygame.display.get_surface() is not None:
             r_btn_gamestart_rect.centerx = resized_screen.get_width() * 0.8
             r_btn_board_rect.centerx = resized_screen.get_width() * 0.8
+            r_btn_store_rect.centerx = resized_screen.get_width() * 0.8 # 11.13 수정
             r_btn_option_rect.centerx = resized_screen.get_width() * 0.8
 
-            r_btn_gamestart_rect.centery = resized_screen.get_height() * (0.25)
-            r_btn_board_rect.centery = resized_screen.get_height() * (0.25 + 0.75 * button_offset)
-            r_btn_store_rect.centery = resized_screen.get_height() * (0.25 + 1.5 * button_offset)
-            r_btn_option_rect.centery = resized_screen.get_height() * (0.25 + 2.25 * button_offset)
+            r_btn_gamestart_rect.centery = resized_screen.get_height() * (0.35)
+            r_btn_board_rect.centery = resized_screen.get_height() * (0.35 + 0.75 * button_offset)
+            r_btn_store_rect.centery = resized_screen.get_height() * (0.35 + 1.5 * button_offset)
+            r_btn_option_rect.centery = resized_screen.get_height() * (0.35 + 2.25 * button_offset)
             screen.blit(background, background_rect)
             disp_intro_buttons(btn_gamestart, btn_board, btn_store, btn_option)
 
@@ -245,10 +246,10 @@ def select_mode():
     
     
     # 배경 이미지
-    Background, Background_rect = load_image('intro_bg.png', width, height, -1)
+    Background, Background_rect = load_image('intro_background.png', width, height, -1)
 
     # 뒤로가기 버튼
-    back_btn_rect =  (width * 0.05, height * 0.1)
+    back_btn_rect =  (width * 0.025, height * 0.025)
     # 이지, 하드모드 버튼
     easymode_btn_rect.center = (width * 0.66, height * 0.5)
     btn_hardmode_rect.center = (width * 0.66, height * 0.75)
@@ -285,7 +286,7 @@ def select_mode():
 
             if event.type == pygame.VIDEORESIZE:
                 check_scr_size(event.w, event.h)
-        r_back_btn_rect.centerx, r_back_btn_rect.centery = resized_screen.get_width() * 0.075, resized_screen.get_height() * 0.1
+        r_back_btn_rect.centerx, r_back_btn_rect.centery = resized_screen.get_width() * 0.03, resized_screen.get_height() * 0.025
         r_easy_btn_rect.centerx, r_easy_btn_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * 0.5
         r_btn_hardmode_rect.centerx, r_btn_hardmode_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * (
                 0.75)
@@ -325,7 +326,7 @@ def gameplay_easy():
     un_spring_image, un_spring_rect = load_image('unselect_spring.png', 230, 210, -1)
     r_un_spring_image, r_un_spring_rect = load_image(*resize('unselect_spring.png', 230, 210, -1))
     screen.blit(spring_image, spring_rect)
-    result = db.query_db("select score from user order by score desc;", one=True)
+    result = db.query_db("select score from easy_mode order by score desc;", one=True)
     if result is not None:
         high_score = result['score']
     #    if bgm_on:
@@ -596,7 +597,7 @@ def gameplay_easy():
                     clouds.draw(screen)
                     scb.draw()
                     speed_indicator.draw()
-                    screen.blit(speed_text, (width * 0.01, height * 0.13))
+                    screen.blit(speed_text, (width * 0.01, height * INDICATOR_Y))
                     heart.draw()
                     if high_score != 0:
                         highsc.draw()
@@ -694,7 +695,7 @@ def gameplay_easy():
 def gameplay_hard():
     global resized_screen
     global high_score
-    result = db.query_db("select score from user order by score desc;", one=True)
+    result = db.query_db("select score from hard_mode order by score desc;", one=True)
     if result is not None:
         high_score = result['score']
 
@@ -718,10 +719,10 @@ def gameplay_hard():
     new_ground = Ground(-1 * game_speed)
     #배경 변경하는 코드
     new_ground = ImgBack(-1 * game_speed, "spring")
-    scb = Scoreboard()
-    highsc = Scoreboard(width * 0.78)
-    heart = HeartIndicator(life)
-    speed_indicator = Scoreboard(width * 0.12, height * 0.15)
+    scb = Scoreboard( y = height * SCB_HEIGHT)
+    highsc = Scoreboard(width * SCB_WIDTH, height * SCB_HEIGHT)
+    heart = HeartIndicator(player_dino.life)
+    speed_indicator = Scoreboard(width * INDICATOR_X, height * INDICATOR_Y)
     counter = 0
 
     speed_text = font.render("SPEED", True, black)
@@ -1267,7 +1268,7 @@ def gameplay_hard():
                     clouds.draw(screen)
                     scb.draw()
                     speed_indicator.draw()
-                    screen.blit(speed_text, (width * 0.01, height * 0.13))
+                    screen.blit(speed_text, (width * 0.01, height * INDICATOR_Y))
                     heart.draw()
                     if high_score != 0:
                         highsc.draw()
