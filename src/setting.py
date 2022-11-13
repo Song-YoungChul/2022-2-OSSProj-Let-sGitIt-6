@@ -217,10 +217,10 @@ def disp_intro_buttons(btn_gamestart, btn_board, btn_store, btn_option):
     btn_store_rect.centerx = width * 0.8
     btn_option_rect.centerx = width * 0.8
     # btn_1p_rect.centery = height * 0.25
-    btn_gamestart_rect.centery = height * 0.25
-    btn_board_rect.centery = height * (0.25 + 0.75 * button_offset)
-    btn_store_rect.centery = height * (0.25 + 1.5 * button_offset)
-    btn_option_rect.centery = height * (0.25 + 2.25 * button_offset)
+    btn_gamestart_rect.centery = height * 0.35
+    btn_board_rect.centery = height * (0.35 + 0.75 * button_offset)
+    btn_store_rect.centery = height * (0.35 + 1.5 * button_offset)
+    btn_option_rect.centery = height * (0.35 + 2.25 * button_offset)
     # screen.blit(btn_1p, btn_1p_rect)
     screen.blit(btn_gamestart, btn_gamestart_rect)
     screen.blit(btn_board, btn_board_rect)
