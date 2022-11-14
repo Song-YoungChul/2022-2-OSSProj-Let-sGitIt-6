@@ -14,7 +14,7 @@ def store():
     game_start = False
 
     # 배경 이미지
-    back_store, back_store_rect = load_image('coin_t_rex3.png', width, height)
+    back_store, back_store_rect = load_image('intro_background.png', width, height)
     alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + ALPHA_MOVE, height)
     alpha_back_rect.left = -ALPHA_MOVE
     # 버튼 이미지
@@ -24,8 +24,8 @@ def store():
     r_skin_btn_image, r_skin_btn_rect = load_image(*resize('skin.png', 150, 80, -1))
     item_btn_image, item_btn_rect = load_image('item_btn.png', 150, 80, -1)
     r_item_btn_image, r_item_btn_rect = load_image(*resize('item_btn.png', 150, 80, -1))
-    back_btn_image, back_btn_rect = load_image('btn_back.png', 100, 50, -1)
-    r_back_btn_image, r_back_btn_rect = load_image(*resize('btn_back.png', 100, 50, -1))
+    back_btn_image, back_btn_rect = load_image('back.png', 75, 30, -1)
+    r_back_btn_image, r_back_btn_rect = load_image(*resize('back.png', 75, 30, -1))
 
     while not game_start:
         for event in pygame.event.get():
@@ -56,8 +56,8 @@ def store():
         r_skin_btn_rect.centery = resized_screen.get_height() * 0.5
         r_item_btn_rect.centerx = resized_screen.get_width() * (0.2 + 2 * width_offset)
         r_item_btn_rect.centery = resized_screen.get_height() * 0.5
-        r_back_btn_rect.centerx = resized_screen.get_width() * 0.1
-        r_back_btn_rect.centery = resized_screen.get_height() * 0.1
+        r_back_btn_rect.centerx = resized_screen.get_width() * 0.055
+        r_back_btn_rect.centery = resized_screen.get_height() * 0.055
         screen.blit(back_store, back_store_rect)
         screen.blit(alpha_back, alpha_back_rect)
         disp_store_buttons(char_btn_image, skin_btn_image, item_btn_image, back_btn_image)
@@ -118,8 +118,8 @@ def item_store():
     no_money2_image, no_money2_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
     no_money3_image, no_money3_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
     # 뒤로 가기 버튼 이미지
-    back_btn_image, back_btn_rect = load_image('btn_back.png', STORE_BTN_X, STORE_BTN_Y, -1)
-    r_back_btn_image, r_back_btn_rect = load_image(*resize('btn_back.png', STORE_BTN_X, STORE_BTN_Y, -1))
+    back_btn_image, back_btn_rect = load_image('back.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    r_back_btn_image, r_back_btn_rect = load_image(*resize('back.png', STORE_BTN_X, STORE_BTN_Y, -1))
     # 아이템
     shield_item_count = db.query_db("select count from item where name='shield';", one=True)['count']
     life_item_count = db.query_db("select count from item where name='life';", one=True)['count']
@@ -333,8 +333,8 @@ def char_store():
     sold_out3_image, sold_out3_rect = load_image('sold_out.png', STORE_BTN_X, STORE_BTN_Y, -1)
     sold_out4_image, sold_out4_rect = load_image('sold_out.png', STORE_BTN_X, STORE_BTN_Y, -1)
     # 뒤로 가기 버튼 이미지
-    back_btn_image, back_btn_rect = load_image('btn_back.png', STORE_BTN_X, STORE_BTN_Y, -1)
-    r_back_btn_image, r_back_btn_rect = load_image(*resize('btn_back.png', STORE_BTN_X, STORE_BTN_Y, -1))
+    back_btn_image, back_btn_rect = load_image('back.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    r_back_btn_image, r_back_btn_rect = load_image(*resize('back.png', STORE_BTN_X, STORE_BTN_Y, -1))
     # 가격
     p_price = db.query_db("SELECT price FROM character WHERE name = 'Purple'", one=True)['price']
     r_price = db.query_db("SELECT price FROM character WHERE name = 'Red'", one=True)['price']
@@ -563,8 +563,8 @@ def skin_store():
     sold_out2_image, sold_out2_rect = load_image('sold_out.png', STORE_BTN_X, STORE_BTN_Y, -1)
     sold_out3_image, sold_out3_rect = load_image('sold_out.png', STORE_BTN_X, STORE_BTN_Y, -1)
     # 뒤로 가기 버튼 이미지
-    back_btn_image, back_btn_rect = load_image('btn_back.png', STORE_BTN_X, STORE_BTN_Y, -1)
-    r_back_btn_image, r_back_btn_rect = load_image(*resize('btn_back.png', STORE_BTN_X, STORE_BTN_Y, -1))
+    back_btn_image, back_btn_rect = load_image('back.png', STORE_BTN_X, STORE_BTN_Y, -1)
+    r_back_btn_image, r_back_btn_rect = load_image(*resize('back.png', STORE_BTN_X, STORE_BTN_Y, -1))
     # 가격
     s_price = db.query_db("SELECT price FROM skin WHERE name = 'Spring'", one=True)['price']
     f_price = db.query_db("SELECT price FROM skin WHERE name = 'Fall'", one=True)['price']
