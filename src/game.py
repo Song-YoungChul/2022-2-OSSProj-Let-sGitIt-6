@@ -346,9 +346,8 @@ def gameplay_easy():
     scb = Scoreboard( y = height * SCB_HEIGHT)
     highsc = Scoreboard(width * SCB_WIDTH, height * SCB_HEIGHT)
     heart = HeartIndicator(life)
-    speed_indicator = Scoreboard(width * INDICATOR_X, height * INDICATOR_Y)
+
     counter = 0
-    speed_text = font.render("SPEED", True, black)
 
     cacti = pygame.sprite.Group()
     fire_cacti = pygame.sprite.Group()
@@ -585,7 +584,6 @@ def gameplay_easy():
                 new_ground.update()
                 scb.update(player_dino.score)
                 highsc.update(high_score)
-                speed_indicator.update(game_speed - 3)
                 heart.update(life)
                 slow_items.update()
                 mask_items.update()
@@ -596,8 +594,7 @@ def gameplay_easy():
                     new_ground.draw()
                     clouds.draw(screen)
                     scb.draw()
-                    speed_indicator.draw()
-                    screen.blit(speed_text, (width * 0.01, height * INDICATOR_Y))
+
                     heart.draw()
                     if high_score != 0:
                         highsc.draw()
@@ -1355,7 +1352,7 @@ def gameplay_hard():
                             type_score(player_dino.score)
                             if not db.is_limit_data(player_dino.score,mode = "hard"):
                                 db.query_db(
-                                    f"insert into hard_mode(username, score) values ('{gamername}', '{player_dino.score}');")
+                                    f"insert into hard_mode(username, score) values ('{gamer_name}', '{player_dino.score}');")
                                 db.commit()
                                 board()
                             else:
@@ -1367,7 +1364,7 @@ def gameplay_hard():
                         type_score(player_dino.score)
                         if not db.is_limit_data(player_dino.score, mode = "hard"):
                             db.query_db(
-                                f"insert into hard_mode(username, score) values ('{gamername}', '{player_dino.score}');")
+                                f"insert into hard_mode(username, score) values ('{gamer_name}', '{player_dino.score}');")
                             db.commit()
                             board("hard")
                         else:
@@ -1390,7 +1387,6 @@ def gameplay_hard():
 
     pygame.quit()
     quit()
-
 
 def board(mode=""):
     global resized_screen
@@ -1511,7 +1507,6 @@ def board(mode=""):
 
     pygame.quit()
     quit()
-
 
 def gamerule():
     global resized_screen
@@ -1721,7 +1716,7 @@ def pausing():
 
 def type_score(score):
     global resized_screen
-    global gamername
+    global gamer_name
     global width, height
     done = False
     active = True
@@ -1746,7 +1741,7 @@ def type_score(score):
             if event.type == pygame.KEYDOWN:
                 # if active:
                 if event.key == pygame.K_RETURN:
-                    gamername = text.upper()
+                    gamer_name = text.upper()
                     done = True
                 elif event.key == pygame.K_BACKSPACE:
                     text = text[:-1]
@@ -1801,5 +1796,19 @@ def credit():
 
     pygame.quit()
     quit()
+
+def pking_appear():
+        global game_over
+        global paused
+        if game_over:
+            return
+        if paused:
+            return
+        threading.Timer(ONE_SECOND,pking_appear).start()
+        global rest_time
+        rest_time -= 1
+        if rest_time <= 0:
+            rest_time = 0
+
 
 # =====================================================================================================

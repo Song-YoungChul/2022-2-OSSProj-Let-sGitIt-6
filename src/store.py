@@ -75,7 +75,7 @@ def item_store():
     image_space = 0.3
     game_start = False
     # 배경 이미지
-    back_store, back_store_rect = load_image('coin_t_rex3.png', width, height)
+    back_store, back_store_rect = load_image('no_name_background.png', width, height)
     alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + ALPHA_MOVE, height)
     alpha_back_rect.left = -ALPHA_MOVE
     # 코인 이미지
@@ -279,7 +279,7 @@ def char_store():
     image_space = 0.3
     game_start = False
     # 배경 이미지
-    back_store, back_store_rect = load_image('coin_t_rex3.png', width, height)
+    back_store, back_store_rect = load_image('no_name_background.png', width, height)
     alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + ALPHA_MOVE, height)
     alpha_back_rect.left = -ALPHA_MOVE
     # 코인 이미지
@@ -525,7 +525,7 @@ def skin_store():
     image_space = 0.3
     game_start = False
     # 배경 이미지
-    back_store, back_store_rect = load_image('coin_t_rex3.png', width, height)
+    back_store, back_store_rect = load_image('no_name_background.png', width, height)
     alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + 20, height)
     alpha_back_rect.left = -20
     # 코인 이미지
