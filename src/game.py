@@ -1535,7 +1535,7 @@ def gamerule():
     
     
     # 배경 이미지, 일단 인트로 사진으로 대체
-    Background, Background_rect = load_image('winter.png', width, height, -1)
+    Background, Background_rect = load_image('no_name_background.png', width, height)
 
     # 이지, 하드모드 버튼
     easymoderule_btn_rect.center = (width * 0.66, height * 0.5)
