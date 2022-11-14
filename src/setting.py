@@ -154,11 +154,11 @@ def disp_store_buttons(btn_restart, btn_save, btn_exit, btn_back):
     btn_restart_rect.centerx = width * 0.2
     btn_save_rect.centerx = width * (0.2 + width_offset)
     btn_exit_rect.centerx = width * (0.2 + 2 * width_offset)
-    btn_back_rect.centerx = width * 0.1
+    btn_back_rect.centerx = width * 0.055
     btn_restart_rect.centery = height * 0.5
     btn_save_rect.centery = height * 0.5
     btn_exit_rect.centery = height * 0.5
-    btn_back_rect.centery = height * 0.1
+    btn_back_rect.centery = height * 0.055
     screen.blit(btn_restart, btn_restart_rect)
     screen.blit(btn_save, btn_save_rect)
     screen.blit(btn_exit, btn_exit_rect)

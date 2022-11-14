@@ -35,22 +35,23 @@ create table if not exists character (
     price integer default 0
 );
 
+
 INSERT OR IGNORE INTO item (id, name, count, price) VALUES (1, 'shield', 0, 30);
 INSERT OR IGNORE INTO item (id, name, count, price) VALUES (2, 'life', 0, 30);
 INSERT OR IGNORE INTO item (id, name, count, price) VALUES (3, 'slow', 0, 30);
 INSERT OR IGNORE INTO item (id, name, count, price) VALUES (4, 'coin', 0, 30);
 INSERT OR IGNORE INTO skin (id, name, is_paid, is_apply, price)
-                VALUES(1, "Spring", 0, 0, 1000);
+                VALUES(1, "Spring", 0, 0, 100);
 INSERT OR IGNORE INTO skin (id, name, is_paid, is_apply, price)
-                VALUES(2, "Fall", 0, 0, 1000);
+                VALUES(2, "Fall", 0, 0, 100);
 INSERT OR IGNORE INTO skin (id, name, is_paid, is_apply, price)
-                VALUES(3, "Winter", 0, 0, 1000);
+                VALUES(3, "Winter", 0, 0, 100);
 
 insert or ignore into character (id, name, is_paid, is_apply, price)
-                            values(1, "Purple", 0,  0,  500);
+                            values(1, "Purple", 0,  0, 25);
 insert or ignore into character (id, name, is_paid, is_apply, price)
-                            values(2, "Red", 0, 0, 500);
+                            values(2, "Red", 0, 0, 25);
 insert or ignore into character (id, name, is_paid, is_apply, price)
-                            values(3, "Yellow", 0, 0, 500);
+                            values(3, "Yellow", 0, 0, 25);
 insert or ignore into character (id, name, is_paid, is_apply, price)
-                            values(4, "Tux", 0, 0, 3000);
+                            values(4, "Tux", 0, 0, 50);

@@ -1419,8 +1419,8 @@ def board(mode=""):
 
     # 버튼 이미지
     # back button
-    btn_back, btn_back_rect = load_image('btn_back.png', BACK_WIDTH, BACK_HEIGHT, -1)
-    r_btn_back, r_btn_back_rect = load_image(*resize('btn_back.png', BACK_WIDTH, BACK_HEIGHT, -1))
+    btn_back, btn_back_rect = load_image('back.png', 75, 30, -1)
+    r_btn_back, r_btn_back_rect = load_image(*resize('back.png', 75, 30, -1))
 
     while not game_quit:
         if pygame.display.get_surface() is None:
@@ -1498,8 +1498,8 @@ def board(mode=""):
                     # intro_screen()
                 if event.type == pygame.VIDEORESIZE:
                     check_scr_size(event.w, event.h)
-            r_btn_back_rect.centerx = resized_screen.get_width() * 0.1
-            r_btn_back_rect.centery = resized_screen.get_height() * 0.1
+            r_btn_back_rect.centerx = resized_screen.get_width() * 0.055
+            r_btn_back_rect.centery = resized_screen.get_height() * 0.055
             score_board(btn_back)
             screen.blit(btn_back, btn_back_rect)
             screen.blit(screen_board, (0, scroll_y))
