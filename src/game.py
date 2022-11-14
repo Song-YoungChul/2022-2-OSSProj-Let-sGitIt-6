@@ -1254,12 +1254,7 @@ def gameplay_hard():
                     slow_item_count_text = small_font.render(f"x{slow_item_count}", True, black)
                     soldout_slow_text = small_font.render(f"x{slow_item_count}", True, deep_red)
                     coin_count_text = small_font.render(f"x{coin_item_count}", True, black)
-                    if rest_time > 0:
-                        pking_appear_time = xsmall_font.render(f"pking 출현{rest_time}초 전",True,black)
-                        screen.blit(pking_appear_time, (width * 0.70, height * 0.03))
-                    else:
-                        pking_appear_time = xsmall_font.render(f"pking 출현",True,black)
-                        screen.blit(pking_appear_time, (width * 0.75, height * 0.03))
+                    
                     screen.blit(coin_count_text, (width * 0.33, height * 0.02))
                     if shield_item_count == 0:
                         screen.blit(soldout_shiled_text, (width * 0.44, height * HARD_ITEM_HEIGHT))
