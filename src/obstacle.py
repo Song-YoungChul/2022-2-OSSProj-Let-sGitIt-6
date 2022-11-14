@@ -59,6 +59,206 @@ class fire_Cactus(pygame.sprite.Sprite):
 
         if self.rect.right < 0:
             self.kill()
+
+
+class FireCactus(
+    pygame.sprite.Sprite):  # class fire_Cactus(pygame.sprite.Sprite) => class FireCactus(pygame.sprite.Sprite)
+    def __init__(self, speed=5, sizex=-1, sizey=-1):
+        pygame.sprite.Sprite.__init__(self, self.containers)
+        self.images, self.rect = load_sprite_sheet('fire_cacti6.png',
+                                                   3, 1, sizex, sizey, -1)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
+        self.rect.left = width + self.rect.width
+        self.image = self.images[random.randrange(0, 3)]
+        self.movement = [-1 * speed, 0]
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self):
+        self.rect = self.rect.move(self.movement)
+
+        if self.rect.right < 0:
+            self.kill()
+
+# Spring 스킨의 장애물 (3개)
+class PinkTree(pygame.sprite.Sprite):
+    def __init__(self, speed=5, sizex=-1, sizey=-1):
+        pygame.sprite.Sprite.__init__(self, self.containers)
+        self.images, self.rect = load_sprite_sheet('spring1.png',
+                                                   2, 1, 60, 60, -1)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
+        self.rect.left = width + self.rect.width
+        self.image = self.images[random.randrange(0, 2)]
+        self.movement = [-1 * speed, 0]
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self):
+        self.rect = self.rect.move(self.movement)
+
+        if self.rect.right < 0:
+            self.kill()
+
+
+class CutTree(
+    pygame.sprite.Sprite):  # class fire_Cactus(pygame.sprite.Sprite) => class FireCactus(pygame.sprite.Sprite)
+    def __init__(self, speed=5, sizex=-1, sizey=-1):
+        pygame.sprite.Sprite.__init__(self, self.containers)
+        self.images, self.rect = load_sprite_sheet('spring2.png',
+                                                   1, 1, 60, 60, -1)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
+        self.rect.left = width + self.rect.width
+        self.image = self.images[0]
+        self.movement = [-1 * speed, 0]
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self):
+        self.rect = self.rect.move(self.movement)
+        if self.rect.right < 0:
+            self.kill()
+
+
+class FruitTree(pygame.sprite.Sprite):
+    def __init__(self, speed=5, sizex=-1, sizey=-1):
+        pygame.sprite.Sprite.__init__(self, self.containers)
+        self.images, self.rect = load_sprite_sheet('spring3.png', 1, 1, 60, 60, -1)
+        self.rect.top = height * 0.9
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
+        self.rect.left = width + self.rect.width
+        self.image = self.images[0]
+        self.movement = [-1 * speed, 0]
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self):
+        self.rect = self.rect.move(self.movement)
+        if self.rect.right < 0:
+            self.kill()
+
+
+# fall 스킨의 장애물
+class Pumpkin(pygame.sprite.Sprite):
+    def __init__(self, speed=5, sizex=-1, sizey=-1):
+        pygame.sprite.Sprite.__init__(self, self.containers)
+        self.images, self.rect = load_sprite_sheet('fall1.png',
+                                                   1, 1, 40, 40, -1)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
+        self.rect.left = width + self.rect.width
+        self.image = self.images[0]
+        self.movement = [-1 * speed, 0]
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self):
+        self.rect = self.rect.move(self.movement)
+
+        if self.rect.right < 0:
+            self.kill()
+
+
+class FallTree(pygame.sprite.Sprite):
+    def __init__(self, speed=5, sizex=-1, sizey=-1):
+        pygame.sprite.Sprite.__init__(self, self.containers)
+        self.images, self.rect = load_sprite_sheet('fall2.png',
+                                                   2, 1, 60, 60, -1)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
+        self.rect.left = width + self.rect.width
+        self.image = self.images[0]
+        self.movement = [-1 * speed, 0]
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self):
+        self.rect = self.rect.move(self.movement)
+        if self.rect.right < 0:
+            self.kill()
+
+
+class FallBush(pygame.sprite.Sprite):
+    def __init__(self, speed=5, sizex=-1, sizey=-1):
+        pygame.sprite.Sprite.__init__(self, self.containers)
+        self.images, self.rect = load_sprite_sheet('fall3.png', 1, 1, 40, 40, -1)
+        self.rect.top = height * 0.9
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
+        self.rect.left = width + self.rect.width
+        self.image = self.images[0]
+        self.movement = [-1 * speed, 0]
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self):
+        self.rect = self.rect.move(self.movement)
+        if self.rect.right < 0:
+            self.kill()
+
+
+# winter 스킨의 장애물
+class Snowman(pygame.sprite.Sprite):
+    def __init__(self, speed=5, sizex=-1, sizey=-1):
+        pygame.sprite.Sprite.__init__(self, self.containers)
+        self.images, self.rect = load_sprite_sheet('winter1.png',
+                                                   1, 1, 70, 70, -1)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
+        self.rect.left = width + self.rect.width
+        self.image = self.images[0]
+        self.movement = [-1 * speed, 0]
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self):
+        self.rect = self.rect.move(self.movement)
+
+        if self.rect.right < 0:
+            self.kill()
+
+
+class WinterBush(pygame.sprite.Sprite):
+    def __init__(self, speed=5, sizex=-1, sizey=-1):
+        pygame.sprite.Sprite.__init__(self, self.containers)
+        self.images, self.rect = load_sprite_sheet('winter2.png',
+                                                   1, 1, 60, 60, -1)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
+        self.rect.left = width + self.rect.width
+        self.image = self.images[0]
+        self.movement = [-1 * speed, 0]
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self):
+        self.rect = self.rect.move(self.movement)
+        if self.rect.right < 0:
+            self.kill()
+
+
+class WinterTree(pygame.sprite.Sprite):
+    def __init__(self, speed=5, sizex=-1, sizey=-1):
+        pygame.sprite.Sprite.__init__(self, self.containers)
+        self.images, self.rect = load_sprite_sheet('winter3.png', 1, 1, 60, 60, -1)
+        self.rect.top = height * 0.9
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
+        self.rect.left = width + self.rect.width
+        self.image = self.images[0]
+        self.movement = [-1 * speed, 0]
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self):
+        self.rect = self.rect.move(self.movement)
+        if self.rect.right < 0:
+            self.kill()
+
+
 # pteraking 클래스
 class PteraKing(pygame.sprite.Sprite):
     def __init__(self, speed=0, sizex=-1, sizey=-1, life=5):
