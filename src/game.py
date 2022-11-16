@@ -710,7 +710,7 @@ def gameplay_hard():
     ###
     stage = 1
     life = LIFE
-    pking_life = PKING_LIFE
+    pking_life = PKING_LIFE # 보스 목숨
     shield_item_count = db.query_db("select count from item where name='shield';", one=True)['count']
     life_item_count = db.query_db("select count from item where name='life';", one=True)['count']
     slow_item_count = db.query_db("select count from item where name='slow';", one=True)['count']
@@ -1098,6 +1098,24 @@ def gameplay_hard():
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL) == MAGIC_NUM:
                             last_obstacle.empty()
                             last_obstacle.add(CoinItem(game_speed, object_size[0], object_size[1]))
+                
+                for c in life_items:
+                    c.movement[0] = -1 * game_speed
+                    if pygame.sprite.collide_mask(player_dino, c):
+                        # if pygame.mixer.get_init() is not None:
+                        #     check_point_sound.play()
+                        life_item_count += 1
+                        c.kill()
+                    elif l.rect.right < 0:
+                        c.kill()
+
+                if len(life_items) < 2:
+                    if len(life_items) == 0:
+                        last_obstacle.empty()
+                        last_obstacle.add(LifeItem(game_speed, object_size[0], object_size[1]))
+                
+                
+                
                 if is_pking_time:
                     if len(obst1) < 2:
                         # 하나도 안들어있으면
@@ -1144,10 +1162,6 @@ def gameplay_hard():
                             m_list.remove(m)
                             if pking.life <= 0:
                                 pking.kill()
-                                # bonus_start_time = pygame.time.get_ticks()
-                                # bonus_blit = show_bonus_score(pking, pking_bonus_score)
-                                # player_dino.add_score(pking_bonus_score)
-                                # pking_bonus_score = PKING_BONUS_SCORE + (SCORE_BY_STAGE * stage)
                                 stage += 1
                                 rest_time = 10
                                 new_ground.speed -= SPEED_RATE
