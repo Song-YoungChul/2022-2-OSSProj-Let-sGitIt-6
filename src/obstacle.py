@@ -470,7 +470,7 @@ class Cactus_pvp(PvP, pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.containers)
         super().__init__(speed, moving)
         self.images, self.rect = load_sprite_sheet('cacti-small.png', 3, 1, sizex, sizey, -1)
-        self.rect.bottom = int(0.92 * height)
+        self.rect.bottom = int(0.95 * height)
         self.rect.left = width + self.rect.width
         self.image = self.images[random.randrange(0, 3)]
         super().get_movement()
