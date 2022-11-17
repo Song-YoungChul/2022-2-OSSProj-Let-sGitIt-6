@@ -377,6 +377,8 @@ def pvprunning():
                         if pygame.sprite.collide_mask(player1_dino, p):
                             player1_dino.collision_immune = True
                             player1_dino.life -= 1
+                            background_2p.update('winter',1)
+                            background_2p.draw()
                             collision_time = pygame.time.get_ticks()
                             if player1_dino.life == 0:
                                 player1_dino.is_dead = True
