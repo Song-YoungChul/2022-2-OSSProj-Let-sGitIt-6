@@ -3,7 +3,7 @@ from pygame import mixer
 # from src.setting import check_point_sound
 from src.setting import width, height, screen, gravity
 from src.setting import load_sprite_sheet
-from src.game_value import LIFE
+from src.game_value import *
 
 class Dino:
     def __init__(self, sizex=-1, sizey=-1, type = None ,loc=-1):
@@ -44,13 +44,13 @@ class Dino:
             self.images1, self.rect1 = load_sprite_sheet('dino_ducking.png',
                                                          2, 1, 59, sizey, -1)
         if loc == -1:
-            self.rect.bottom = int(0.95 * height)
+            self.rect.bottom = int(DEFAULT_HEIGHT * height)
             self.rect.left = width / 15
         elif loc == -2:
-            self.rect.bottom = int(0.475 * height)
+            self.rect.bottom = int(DEFAULT_HEIGHT_2P * height)
             self.rect.left = width /15
         else:
-            self.rect.bottom = int(0.95 * height)
+            self.rect.bottom = int(DEFAULT_HEIGHT * height)
             self.rect.left = width * (13 / 15)
         self.image = self.images[0]
         self.type = type
@@ -100,8 +100,8 @@ class Dino:
             if self.rect.bottom > int(0.475 * height):
                 self.rect.bottom = int(0.475 * height)
                 self.is_jumping = False             
-        if self.rect.bottom > int(0.95 * height):
-            self.rect.bottom = int(0.95 * height)
+        if self.rect.bottom > int(DEFAULT_HEIGHT * height):
+            self.rect.bottom = int(DEFAULT_HEIGHT * height)
             self.is_jumping = False 
 
 

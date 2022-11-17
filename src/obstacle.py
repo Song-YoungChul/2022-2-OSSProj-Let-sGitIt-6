@@ -9,7 +9,7 @@ class Cactus(pygame.sprite.Sprite):
     def __init__(self, speed=5, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self,self.containers)
         self.images, self.rect = load_sprite_sheet('cacti-small.png', 3, 1, sizex, sizey, -1)
-        self.rect.bottom = int(0.95*height)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
         self.rect.left = width + self.rect.width
         self.image = self.images[random.randrange(0,3)]
         self.movement = [-1*speed, 0]
@@ -27,8 +27,8 @@ class Stone(pygame.sprite.Sprite):
     def __init__(self, speed=5, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self,self.containers)
         self.images, self.rect = load_sprite_sheet('stone.png', 1, 1, sizex, sizey, -1)
-        self.rect.top = height *0.87
-        self.rect.bottom = int(0.95*height)
+        self.rect.top = height * 0.87
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
         self.rect.left = width + self.rect.width
         self.image = self.images[0]
         self.movement = [-1*speed, 0]
@@ -46,7 +46,7 @@ class fire_Cactus(pygame.sprite.Sprite):
     def __init__(self, speed=5, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self,self.containers)
         self.images, self.rect = load_sprite_sheet('fire_cacti6.png', 3, 1, sizex, sizey, -1)
-        self.rect.bottom = int(0.95*height)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
         self.rect.left = width + self.rect.width
         self.image = self.images[random.randrange(0,3)]
         self.movement = [-1*speed, 0]
@@ -470,7 +470,7 @@ class Cactus_pvp(PvP, pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self, self.containers)
         super().__init__(speed, moving)
         self.images, self.rect = load_sprite_sheet('cacti-small.png', 3, 1, sizex, sizey, -1)
-        self.rect.bottom = int(0.95 * height)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
         self.rect.left = width + self.rect.width
         self.image = self.images[random.randrange(0, 3)]
         super().get_movement()
@@ -514,10 +514,10 @@ class Cactus_pvp_running(pygame.sprite.Sprite):
     def __init__(self, speed=5, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self,self.containers)
         self.images, self.rect = load_sprite_sheet('cacti-small.png', 3, 1, sizex, sizey, -1)
-        self.rect.bottom = int(0.475*height)
+        self.rect.bottom = int(DEFAULT_HEIGHT_2P * height)
         self.rect.left = width + self.rect.width
         self.image = self.images[random.randrange(0,3)]
-        self.movement = [-1*speed, 0]
+        self.movement = [-1 * speed, 0]
 
     def draw(self):
         screen.blit(self.image, self.rect)
@@ -596,7 +596,7 @@ class Hole(pygame.sprite.Sprite):
         rand_width = random.randrange(80, 150)
         self.images, self.rect = load_sprite_sheet('holes3.png', 1, 1, rand_width, 47, -1)
         self.rect.top = height *0.87
-        self.rect.bottom = int(0.95*height)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
         self.rect.left = width + self.rect.width + left
         self.image = self.images[0]
         self.movement = [-1*speed, 0]
