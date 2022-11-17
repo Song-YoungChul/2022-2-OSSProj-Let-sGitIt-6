@@ -61,7 +61,8 @@ def pvprunning():
     # 플레이어1과 플레이어 2의 목숨 수
     heart_1p = HeartIndicator(player1_dino)
     heart_2p = HeartIndicator(player2_dino, loc=1)
-    background = ImgBack(RUN_GAME_SPEED, "pvprunning_back")
+    background = ImgBack(RUN_GAME_SPEED, "fall", type=1)
+    background_2p = ImgBack(RUN_GAME_SPEED, "spring",type=2)
     new_ground = Ground(-1 * RUN_GAME_SPEED)
     new_ground_2p = Ground(-1 * RUN_GAME_SPEED, DEFAULT_HEIGHT_2P)
     # alpha_back, alpha_back_rect = alpha_image('alpha_back2.png', width + 20, height)
@@ -376,6 +377,8 @@ def pvprunning():
                         if pygame.sprite.collide_mask(player1_dino, p):
                             player1_dino.collision_immune = True
                             player1_dino.life -= 1
+                            background_2p.update('winter',1)
+                            background_2p.draw()
                             collision_time = pygame.time.get_ticks()
                             if player1_dino.life == 0:
                                 player1_dino.is_dead = True
@@ -512,6 +515,7 @@ def pvprunning():
                 if pygame.display.get_surface() is not None:
                     screen.fill(background_col)
                     background.draw()
+                    background_2p.draw()
                     new_ground.draw()
                     new_ground_2p.draw()
                     # screen.blit(alpha_back, alpha_back_rect)
