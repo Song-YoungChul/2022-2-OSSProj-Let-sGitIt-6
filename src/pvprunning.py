@@ -56,13 +56,15 @@ def pvprunning():
     #
 
     player1_dino = Dino(dino_size[0], dino_size[1], type='original' )
-    player2_dino = Dino(dino_size[0], dino_size[1], type='PURPLE', loc=-2) 
+    player2_dino = Dino(dino_size[0], dino_size[1], type='PURPLE', loc=-2)
 
     # 플레이어1과 플레이어 2의 목숨 수
     heart_1p = HeartIndicator(player1_dino)
     heart_2p = HeartIndicator(player2_dino, loc=1)
-    new_ground = Ground(RUN_GAME_SPEED)
-    new_ground = ImgBack(RUN_GAME_SPEED, "pvprunning_back")
+    background = ImgBack(RUN_GAME_SPEED, "fall", type=1)
+    background_2p = ImgBack(RUN_GAME_SPEED, "spring",type=2)
+    new_ground = Ground(-1 * RUN_GAME_SPEED)
+    new_ground_2p = Ground(-1 * RUN_GAME_SPEED, DEFAULT_HEIGHT_2P)
     # alpha_back, alpha_back_rect = alpha_image('alpha_back2.png', width + 20, height)
     # alpha_back_rect.left = -20
     speed_indicator = Scoreboard(width * 0.12, height * 0.15)
@@ -123,7 +125,7 @@ def pvprunning():
                         # 1p dino
                         if event.key == pygame.K_w:
                             # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
-                            if player1_dino.rect.bottom == int(0.95 * height):
+                            if player1_dino.rect.bottom == int(DEFAULT_HEIGHT * height):
                                 player1_dino.is_jumping = True
                                 if pygame.mixer.get_init() is not None:
                                     jump_sound.play()
@@ -146,7 +148,7 @@ def pvprunning():
                         # 2p dino        
                         if event.key == pygame.K_UP:
                             # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
-                            if player2_dino.rect.bottom == int(0.475 * height):
+                            if player2_dino.rect.bottom == int(DEFAULT_HEIGHT_2P * height):
                                 player2_dino.is_jumping = True
                                 if pygame.mixer.get_init() is not None:
                                     jump_sound.play()
@@ -256,7 +258,7 @@ def pvprunning():
                 for d in d_list_1p:
                     del m_list_1p[d]
                 if jumpingx2_1p:
-                    if player1_dino.rect.bottom == int(height * 0.95):
+                    if player1_dino.rect.bottom == int(height * DEFAULT_HEIGHT):
                         player1_dino.is_jumping = True
                         player1_dino.movement[1] = -1 * player1_dino.super_jump_speed_running
                 if go_left_2p:
@@ -375,6 +377,8 @@ def pvprunning():
                         if pygame.sprite.collide_mask(player1_dino, p):
                             player1_dino.collision_immune = True
                             player1_dino.life -= 1
+                            background_2p.update('winter',1)
+                            background_2p.draw()
                             collision_time = pygame.time.get_ticks()
                             if player1_dino.life == 0:
                                 player1_dino.is_dead = True
@@ -486,7 +490,7 @@ def pvprunning():
                 for d in d_list_2p:
                     del m_list_2p[d]
                 if jumpingx2_2p:
-                    if player2_dino.rect.bottom == int(height * 0.475):
+                    if player2_dino.rect.bottom == int(height * DEFAULT_HEIGHT_2P):
                         player2_dino.is_jumping = True
                         player2_dino.movement[1] = -1 * player2_dino.super_jump_speed_running
                 # display_obstacle(player1_dino, counter, "left")
@@ -502,14 +506,18 @@ def pvprunning():
                 fire_cacti2.update()
                 pteras2.update()
                 stones2.update()                
-                # new_ground.update()
+                new_ground.update()
+                new_ground_2p.update()
                 speed_indicator.update(RUN_GAME_SPEED)
                 heart_1p.update(player1_dino.life)
                 heart_2p.update(player2_dino.life)
 
                 if pygame.display.get_surface() is not None:
                     screen.fill(background_col)
+                    background.draw()
+                    background_2p.draw()
                     new_ground.draw()
+                    new_ground_2p.draw()
                     # screen.blit(alpha_back, alpha_back_rect)
                     # pygame.draw.line(screen, black, [width/2,0],[width/2,height],3)
                     heart_1p.draw()
@@ -574,7 +582,7 @@ def pvprunning():
                         for l in last_obstacle:
                             if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL) == MAGIC_NUM:
                                 last_obstacle.empty()
-                                last_obstacle.add(Cactus(RUN_GAME_SPEED, object_size[0], object_size[1]))
+                                last_obstacle.add(Cactus_pvp_running(RUN_GAME_SPEED, object_size[0], object_size[1]))
 
                 if len(fire_cacti2) < 2:
                     for l in last_obstacle:
