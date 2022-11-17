@@ -104,7 +104,7 @@ def pvp():
                         # 1p dino
                         if event.key == pygame.K_w:
                             # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
-                            if player1_dino.rect.bottom == int(0.95 * height):
+                            if player1_dino.rect.bottom == int(DEFAULT_HEIGHT * height):
                                 player1_dino.is_jumping = True
                                 if pygame.mixer.get_init() is not None:
                                     jump_sound.play()
@@ -127,7 +127,7 @@ def pvp():
                         # 2p dino        
                         if event.key == pygame.K_UP:
                             # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
-                            if player2_dino.rect.bottom == int(0.95 * height):
+                            if player2_dino.rect.bottom == int(DEFAULT_HEIGHT * height):
                                 player2_dino.is_jumping = True
                                 if pygame.mixer.get_init() is not None:
                                     jump_sound.play()
@@ -240,7 +240,7 @@ def pvp():
                 for d in d_list_1p:
                     del m_list_1p[d]
                 if jumpingx2_1p:
-                    if player1_dino.rect.bottom == int(height * 0.95):
+                    if player1_dino.rect.bottom == int(height * DEFAULT_HEIGHT_2P):
                         player1_dino.is_jumping = True
                         player1_dino.movement[1] = -1 * player1_dino.super_jump_speed
                 if go_left_2p:
@@ -306,7 +306,7 @@ def pvp():
                 for d in d_list_2p:
                     del m_list_2p[d]
                 if jumpingx2_2p:
-                    if player2_dino.rect.bottom == int(height * 0.95):
+                    if player2_dino.rect.bottom == int(height * DEFAULT_HEIGHT_2P):
                         player2_dino.is_jumping = True
                         player2_dino.movement[1] = -1 * player2_dino.super_jump_speed
 

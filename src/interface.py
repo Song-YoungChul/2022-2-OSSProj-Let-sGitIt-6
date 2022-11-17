@@ -1,12 +1,13 @@
 from src.setting import *
+from src.game_value import *
 
 
 class Ground:
-    def __init__(self, speed=-5):
+    def __init__(self, speed=-5, loc = DEFAULT_HEIGHT):
         self.image, self.rect = load_image('ground1.png', -1, -1, -1)
         self.image1, self.rect1 = load_image('ground1.png', -1, -1, -1)
-        self.rect.top = int(0.95*height)
-        self.rect1.top = int(0.95*height)
+        self.rect.top = int(loc*height)
+        self.rect1.top = int(loc*height)
         self.rect1.left = self.rect.right
         self.speed = speed
 
