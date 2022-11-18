@@ -22,18 +22,21 @@ def pvp():
     global clouds
     global stones
     global last_obstacle
+    global life_item
     cacti = pygame.sprite.Group()
     fire_cacti = pygame.sprite.Group()
     pteras = pygame.sprite.Group()
     clouds = pygame.sprite.Group()
     stones = pygame.sprite.Group()
     last_obstacle = pygame.sprite.Group()
+    life_item = pygame.sprite.Group()
 
     # Stone_pvp.containers = stones
     Cactus_pvp.containers = cacti
     fire_Cactus.containers = fire_cacti
     Ptera_pvp.containers = pteras
     Cloud.containers = clouds
+    Life_pvp.containers = life_item
 
     start_menu = False
     game_over = False
@@ -337,6 +340,7 @@ def pvp():
                         m.show()
                 cacti.draw(screen)
                 pteras.draw(screen)
+                life_item.draw(screen)
                 player1_dino.draw()
                 player2_dino.draw()
                 resized_screen.blit(
@@ -422,6 +426,7 @@ def display_obstacle(dino, counter, moving):
     global stones
     global last_obstacle
     global collision_time
+    global life_item
 
     for c in cacti:
         if not dino.collision_immune:
@@ -455,6 +460,22 @@ def display_obstacle(dino, counter, moving):
             if immune_time - collision_time > collision_immune_time:
                 dino.collision_immune = False
 
+    for c in life_item:
+        if not dino.collision_immune:
+            if pygame.sprite.collide_mask(dino, c):
+                dino.collision_immune = True
+                dino.increase_life()
+                collision_time = pygame.time.get_ticks()
+                if dino.is_life_zero():
+                    dino.is_dead = True
+                if pygame.mixer.get_init() is not None:
+                    die_sound.play()
+
+        elif not dino.is_super:
+            immune_time = pygame.time.get_ticks()
+            if immune_time - collision_time > collision_immune_time:
+                dino.collision_immune = False
+    
     if len(cacti) < 1:
         if len(cacti) == 0:
             last_obstacle.empty()
@@ -464,6 +485,10 @@ def display_obstacle(dino, counter, moving):
                 if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL) == MAGIC_NUM:
                     last_obstacle.empty()
                     last_obstacle.add(Cactus_pvp(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
+
+    if len(life_item) == 0 and random.randrange(LIFEITEM_INTERVAL) == MAGIC_NUM and counter > LIFEITEM_INTERVAL:
+        last_obstacle.empty()
+        last_obstacle.add(Life_pvp(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
 
     # if len(fire_cacti) < 2:
     #     for l in last_obstacle:
@@ -485,4 +510,5 @@ def display_obstacle(dino, counter, moving):
         last_obstacle.add(Ptera_pvp(PVP_GAME_SPEED, ptera_size[0], ptera_size[1], moving=moving))
     cacti.update()
     pteras.update()
+    life_item.update()
 
