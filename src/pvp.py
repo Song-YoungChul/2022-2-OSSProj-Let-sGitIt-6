@@ -465,6 +465,7 @@ def display_obstacle(dino, counter, moving):
             if pygame.sprite.collide_mask(dino, c):
                 dino.collision_immune = True
                 dino.increase_life()
+                c.kill()
                 collision_time = pygame.time.get_ticks()
                 if dino.is_life_zero():
                     dino.is_dead = True
