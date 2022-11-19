@@ -70,6 +70,12 @@ class HeartIndicator:
             self.position_x2 = 0.065
             self.position_y2 = 0.02
             self.heart_color = 0
+        elif loc == 2:
+            self.position_x = 0.85
+            self.position_y = 0.02
+            self.position_x2 = 0.90
+            self.position_y2 = 0.02
+            self.heart_color = 1
         else:
             self.position_x = 0.01
             self.position_y = 0.54

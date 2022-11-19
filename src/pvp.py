@@ -52,7 +52,7 @@ def pvp():
 
     # 플레이어1과 플레이어 2의 목숨 수
     heart_1p = HeartIndicator(player1_dino)
-    heart_2p = HeartIndicator(player2_dino, loc=1)
+    heart_2p = HeartIndicator(player2_dino, loc=2)
     PVP_GAME_SPEED = 4
     new_background = Ground(-1 * PVP_GAME_SPEED)
     new_ground = ImgBack(-1 * PVP_GAME_SPEED, "pvp_back")
