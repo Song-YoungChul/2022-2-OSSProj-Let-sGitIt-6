@@ -65,9 +65,9 @@ class Dino:
         self.is_blinking = False
         self.movement = [0, 0]
         self.jump_speed = 11.5
-        self.jump_speed_runnung = 10.5
+        self.jump_speed_running = 10.3
         self.super_jump_speed = self.jump_speed * 1.3
-        self.super_jump_speed_running = self.jump_speed_runnung * 1.3
+        self.super_jump_speed_running = self.jump_speed_running * 1.3
         self.collision_immune = False
         self.is_super = False
         self.stand_width = self.rect.width
@@ -97,8 +97,8 @@ class Dino:
     # 충돌판단
     def check_bounds(self):
         if self.is_battle == True and self.player1 == False :
-            if self.rect.bottom > int(0.475 * height):
-                self.rect.bottom = int(0.475 * height)
+            if self.rect.bottom > int(DEFAULT_HEIGHT_2P * height):
+                self.rect.bottom = int(DEFAULT_HEIGHT_2P * height)
                 self.is_jumping = False             
         if self.rect.bottom > int(DEFAULT_HEIGHT * height):
             self.rect.bottom = int(DEFAULT_HEIGHT * height)

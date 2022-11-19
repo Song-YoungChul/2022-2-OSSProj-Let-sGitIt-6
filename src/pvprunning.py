@@ -69,7 +69,7 @@ def pvprunning():
     new_ground = Ground(-1 * RUN_GAME_SPEED)
     new_ground_2p = Ground(-1 * RUN_GAME_SPEED, DEFAULT_HEIGHT_2P)
     # alpha_back, alpha_back_rect = alpha_image('alpha_back2.png', width + 20, height)
-    # alpha_back_rect.left = -20
+    # alpha_back_rect.left = -20    
     speed_indicator = Scoreboard(width * 0.12, height * 0.15)
     counter = 0
     
@@ -132,7 +132,7 @@ def pvprunning():
                                 player1_dino.is_jumping = True
                                 if pygame.mixer.get_init() is not None:
                                     jump_sound.play()
-                                player1_dino.movement[1] = -1 * player1_dino.jump_speed_runnung
+                                player1_dino.movement[1] = -1 * player1_dino.jump_speed_running
 
                         if event.key == pygame.K_s:
                             # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
@@ -155,7 +155,7 @@ def pvprunning():
                                 player2_dino.is_jumping = True
                                 if pygame.mixer.get_init() is not None:
                                     jump_sound.play()
-                                player2_dino.movement[1] = -1 * player2_dino.jump_speed_runnung
+                                player2_dino.movement[1] = -1 * player2_dino.jump_speed_running
                         if event.key == pygame.K_DOWN:
                             # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
                             if not (player2_dino.is_jumping and player2_dino.is_dead):

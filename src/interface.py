@@ -4,8 +4,8 @@ from src.game_value import *
 
 class Ground:
     def __init__(self, speed=-5, loc = DEFAULT_HEIGHT):
-        self.image, self.rect = load_image('ground1.png', -1, -1, -1)
-        self.image1, self.rect1 = load_image('ground1.png', -1, -1, -1)
+        self.image, self.rect = load_image('ground2.png', -1, -1, -1)
+        self.image1, self.rect1 = load_image('ground2.png', -1, -1, -1)
         self.rect.top = int(loc*height)
         self.rect1.top = int(loc*height)
         self.rect1.left = self.rect.right
