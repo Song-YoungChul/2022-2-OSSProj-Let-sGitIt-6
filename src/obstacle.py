@@ -514,10 +514,10 @@ class Life_pvp(PvP, pygame.sprite.Sprite):
     def __init__(self, speed=5, sizex=-1, sizey=-1, moving=''):
         pygame.sprite.Sprite.__init__(self, self.containers)
         super().__init__(speed, moving)
-        self.images, self.rect = load_sprite_sheet('love-shield.png', 1, 1, sizex, sizey, -1)
+        self.images, self.rect = load_sprite_sheet('heart.png', 2, 1, sizex, sizey, -1)
         self.rect.bottom = int(DEFAULT_HEIGHT * height)
         self.rect.left = width + self.rect.width
-        self.image = self.images[random.randrange(0, 1)]
+        self.image = self.images[random.randrange(0, 2)]
 
         super().get_movement()
 
