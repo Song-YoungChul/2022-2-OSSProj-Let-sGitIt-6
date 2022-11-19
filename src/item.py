@@ -58,7 +58,7 @@ class ShieldItem(pygame.sprite.Sprite):
 class LifeItem(pygame.sprite.Sprite):
     def __init__(self, speed=5, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self, self.containers)
-        self.images, self.rect = load_sprite_sheet("heart.png", 2, 1, sizex, sizey, -1)
+        self.images, self.rect = load_sprite_sheet("heart_bullet.png", 1, 1, sizex, sizey, -1)
         self.heart_height = [height*0.82, height*0.75, height*0.60]
         self.rect.centery = self.heart_height[random.randrange(3)]
         self.rect.left = width + self.rect.width
@@ -73,7 +73,7 @@ class LifeItem(pygame.sprite.Sprite):
     def update(self):
         if self.counter % 10 == 0:
             self.index = (self.index + 1) % 2
-        self.image = self.images[self.index]
+        self.image = self.images[0]
         self.rect = self.rect.move(self.movement)
         self.counter = (self.counter + 1)
 
