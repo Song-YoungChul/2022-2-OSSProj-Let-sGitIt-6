@@ -622,6 +622,7 @@ def gameplay_easy():
                     pygame.mixer.music.stop()  # 죽으면 배경음악 멈춤
                     if player_dino.score > high_score:
                         high_score = player_dino.score
+                        
 
                 if counter % speed_up_limit == speed_up_limit - 1:
                     new_ground.speed -= 1
@@ -733,7 +734,7 @@ def gameplay_hard():
     #배경 변경하는 코드
     
     if type_idx2 ==0:
-        new_background = ImgBack(-1 * game_speed, "spring")
+        new_background = ImgBack(-1 * game_speed, "winter")
     else:
         new_background = ImgBack(-1 * game_speed, f"{skin_type[type_idx2]}")
     new_ground = Ground(-1 * game_speed)
