@@ -630,10 +630,15 @@ class Hole(pygame.sprite.Sprite):
             self.kill()
 
 class Mask_item(pygame.sprite.Sprite):
-    def __init__(self, speed=5, sizex=-1, sizey=-1):
+    def __init__(self, speed=5, sizex=-1, sizey=-1, type = -1):
         pygame.sprite.Sprite.__init__(self,self.containers)
         self.images, self.rect = load_sprite_sheet('mask_bubble.png', 1, 1, sizex, sizey, -1)
-        self.rect.bottom = random.randrange(int(0.45*height), int(height*0.87))
+        if type == 1:
+            self.rect.bottom = random.randrange(int(0.05*height), int(height*0.37))
+        elif type == 2:
+            self.rect.bottom = random.randrange(int(0.45*height), int(height*0.87))
+        else:
+            self.rect.bottom = random.randrange(int(0.45*height), int(height*0.87))
 
         
         self.rect.left = width + self.rect.width

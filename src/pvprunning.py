@@ -29,17 +29,20 @@ def pvprunning():
     pteras = pygame.sprite.Group()
     stones = pygame.sprite.Group()
     last_obstacle = pygame.sprite.Group()
+    # 아이템 추가 11/08
+    mask_items = pygame.sprite.Group()
 
     cacti2 = pygame.sprite.Group()
     fire_cacti2 = pygame.sprite.Group()
     pteras2 = pygame.sprite.Group()
     stones2 = pygame.sprite.Group()
     last_obstacle2 = pygame.sprite.Group()
-
+    # 아이템 추가 11/08
     Cactus.containers = cacti
     fire_Cactus.containers = fire_cacti
     Ptera.containers = pteras
     Stone.containers = stones # add stone containers
+    Mask_item.containers = mask_items
 
     Cactus_pvp_running.containers = cacti2
     fire_Cactus_pvp_running.containers = fire_cacti2
@@ -59,9 +62,9 @@ def pvprunning():
     player2_dino = Dino(dino_size[0], dino_size[1], type='PURPLE', loc=-2)
 
     # 플레이어1과 플레이어 2의 목숨 수
-    heart_1p = HeartIndicator(player1_dino)
-    heart_2p = HeartIndicator(player2_dino, loc=1)
-    background = ImgBack(RUN_GAME_SPEED, "fall", type=1)
+    heart_1p = HeartIndicator(player1_dino, loc=1)
+    heart_2p = HeartIndicator(player2_dino)
+    background = ImgBack(RUN_GAME_SPEED, "spring", type=1)
     background_2p = ImgBack(RUN_GAME_SPEED, "spring",type=2)
     new_ground = Ground(-1 * RUN_GAME_SPEED)
     new_ground_2p = Ground(-1 * RUN_GAME_SPEED, DEFAULT_HEIGHT_2P)
@@ -377,8 +380,6 @@ def pvprunning():
                         if pygame.sprite.collide_mask(player1_dino, p):
                             player1_dino.collision_immune = True
                             player1_dino.life -= 1
-                            background_2p.update('winter',1)
-                            background_2p.draw()
                             collision_time = pygame.time.get_ticks()
                             if player1_dino.life == 0:
                                 player1_dino.is_dead = True
@@ -486,6 +487,26 @@ def pvprunning():
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
 
+                for m in mask_items:
+                    m.movement[0] = -1 * RUN_GAME_SPEED
+                    if not player2_dino.collision_immune:
+                        if pygame.sprite.collide_mask(player2_dino, m):
+                            player2_dino.collision_immune = True
+                            background.update(background.name,1)
+                            background_2p.update('winter',2)
+                            collision_time = pygame.time.get_ticks()
+                            player2_dino.score2 = 0
+                            m.image.set_alpha(0)
+                    if not player1_dino.collision_immune:
+                        if pygame.sprite.collide_mask(player1_dino, m):
+                            player1_dino.collision_immune = True
+                            background.update('winter',1)
+                            background_2p.update(background_2p.name,2)                         
+                            collision_time = pygame.time.get_ticks()
+                            player2_dino.score2 = 0
+                            m.image.set_alpha(0)
+
+                            
                 d_list_2p.reverse()
                 for d in d_list_2p:
                     del m_list_2p[d]
@@ -511,6 +532,7 @@ def pvprunning():
                 speed_indicator.update(RUN_GAME_SPEED)
                 heart_1p.update(player1_dino.life)
                 heart_2p.update(player2_dino.life)
+                mask_items.update()
 
                 if pygame.display.get_surface() is not None:
                     screen.fill(background_col)
@@ -540,6 +562,8 @@ def pvprunning():
                 
                 player1_dino.draw()
                 player2_dino.draw()
+
+                mask_items.draw(screen)
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
                     resized_screen_center)
@@ -606,6 +630,13 @@ def pvprunning():
                         pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
                         resized_screen_center)
                     pygame.display.update()
+                if len(mask_items) < 2:
+                    for l in last_obstacle:
+                        if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(MASK_INTERVAL) == MAGIC_NUM:
+                            last_obstacle.empty()
+                            last_obstacle.add(Mask_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
+                            last_obstacle.add(Mask_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
+
 
                 if player1_dino.is_dead:
                     game_over = True
@@ -615,6 +646,7 @@ def pvprunning():
                     pygame.mixer.music.stop()
                 heart_1p.update(player1_dino.life)
                 heart_2p.update(player2_dino.life)
+                
             counter += 1
 
         if game_quit:

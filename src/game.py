@@ -622,6 +622,7 @@ def gameplay_easy():
                     pygame.mixer.music.stop()  # 죽으면 배경음악 멈춤
                     if player_dino.score > high_score:
                         high_score = player_dino.score
+                        
 
                 if counter % speed_up_limit == speed_up_limit - 1:
                     new_ground.speed -= 1

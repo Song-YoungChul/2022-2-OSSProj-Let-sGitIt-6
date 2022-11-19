@@ -65,12 +65,16 @@ class HeartIndicator:
     def __init__(self, life, loc=-1):
         self.life = life
         if loc == -1:
-            self.position_1 = 0.01
-            self.position_2 = 0.065
+            self.position_x = 0.01
+            self.position_y = 0.02
+            self.position_x2 = 0.065
+            self.position_y2 = 0.02
             self.heart_color = 0
         else:
-            self.position_1 = 0.85
-            self.position_2 = 0.90
+            self.position_x = 0.01
+            self.position_y = 0.54
+            self.position_x2 = 0.065
+            self.position_y2 = 0.54
             self.heart_color = 1
 
     def draw(self):
@@ -79,7 +83,7 @@ class HeartIndicator:
 
     def update(self, life):
         self.life = life
-        self.life_set = Heart(object_size[0], object_size[1], width * self.position_1, heart_color=self.heart_color)
+        self.life_set = Heart(object_size[0], object_size[1], x = width * self.position_x, y = height * self.position_y, heart_color=self.heart_color)
         self.draw_heart_count()
 
     def draw_heart_count(self):
@@ -88,13 +92,13 @@ class HeartIndicator:
         one_left_life_text = font.render(f"x {self.life}", True, black)
         no_left_life_text = font.render(f"x {self.life}", True, black)
         if self.life == 2:
-            screen.blit(two_left_life_text, (width * self.position_2, height * 0.02))
+            screen.blit(two_left_life_text, (width * self.position_x2, height * self.position_y))
         elif self.life == 1:
-            screen.blit(one_left_life_text, (width * self.position_2, height * 0.02))
+            screen.blit(one_left_life_text, (width * self.position_x2, height * self.position_y))
         elif self.life == 0 :
-            screen.blit(no_left_life_text, (width * self.position_2, height * 0.02))
+            screen.blit(no_left_life_text, (width * self.position_x2, height * self.position_y))
         else:
-            screen.blit(life_count_text, (width * self.position_2, height * 0.02))
+            screen.blit(life_count_text, (width * self.position_x2, height * self.position_y))
 
 
 class Scoreboard:
@@ -130,10 +134,11 @@ class Scoreboard:
 
 # 이미지 배경 11/1추가
 class ImgBack:
-    def __init__(self, speed=-5, name='ground',type = -1):
+    def __init__(self, speed=-5, name='spring',type = -1):
+        self.name = name
         if type == 1: #1p -> 아래
-            self.image, self.rect = load_image(f'{name}.png', width, height/2)
-            self.image1, self.rect1 = load_image(f'{name}.png', width, height/2)
+            self.image, self.rect = load_image(f'{self.name}.png', width, height/2)
+            self.image1, self.rect1 = load_image(f'{self.name}.png', width, height/2)
             self.rect.bottom = height
             self.rect1.bottom = height
             self.rect1.left = self.rect.right
@@ -148,8 +153,8 @@ class ImgBack:
             self.speed = speed
         
         elif type == 2:
-            self.image, self.rect = load_image(f'{name}.png', width, height/2)
-            self.image1, self.rect1 = load_image(f'{name}.png', width, height/2)
+            self.image, self.rect = load_image(f'{self.name}.png', width, height/2)
+            self.image1, self.rect1 = load_image(f'{self.name}.png', width, height/2)
             self.rect.bottom = height/2
             self.rect1.bottom = height/2
             self.rect1.left = self.rect.right
@@ -164,8 +169,8 @@ class ImgBack:
             self.speed = speed
 
         else:
-            self.image, self.rect = load_image(f'{name}.png', width, height)
-            self.image1, self.rect1 = load_image(f'{name}.png', width, height)
+            self.image, self.rect = load_image(f'{self.name}.png', width, height)
+            self.image1, self.rect1 = load_image(f'{self.name}.png', width, height)
             self.rect.bottom = height
             self.rect1.bottom = height
             self.rect1.left = self.rect.right
@@ -183,10 +188,11 @@ class ImgBack:
         screen.blit(self.image, self.rect)
         screen.blit(self.image1, self.rect1)
 
-    def update(self,name='ground',type = -1):
+    def update(self,name='spring',type = -1):
+        self.name = name
         if type == 1:
-            self.image, self.rect = load_image(f'{name}.png', width, height/2)
-            self.image1, self.rect1 = load_image(f'{name}.png', width, height/2)
+            self.image, self.rect = load_image(f'{self.name}.png', width, height/2)
+            self.image1, self.rect1 = load_image(f'{self.name}.png', width, height/2)
             self.rect.bottom = height/2
             self.rect1.bottom = height/2
             self.rect1.left = self.rect.right
@@ -199,34 +205,21 @@ class ImgBack:
             self.rect.left = 0
             self.rect1.left = self.rect.right
         elif type == 2:
-            self.image, self.rect = load_image(f'{name}.png', width, height/2)
-            self.image1, self.rect1 = load_image(f'{name}.png', width, height/2)
-            self.rect.bottom = height/2
-            self.rect1.bottom = height/2
+            self.image, self.rect = load_image(f'{self.name}.png', width, height/2)
+            self.image1, self.rect1 = load_image(f'{self.name}.png', width, height/2)
+            self.rect.bottom = height
+            self.rect1.bottom = height
             self.rect1.left = self.rect.right
             # 화면 맞추기
-            self.rect.bottom = height/2
-            self.rect1.bottom = height/2
-            self.rect.top = 0
-            self.rect1.top = 0
+            self.rect.bottom = height
+            self.rect1.bottom = height
+            self.rect.top = height/2
+            self.rect1.top = height/2
             # image1 우측에 붙이기
             self.rect.left = 0
             self.rect1.left = self.rect.right
 
-        else:
-            self.image, self.rect = load_image(f'{name}.png', width, height)
-            self.image1, self.rect1 = load_image(f'{name}.png', width, height)
-            self.rect.bottom = height
-            self.rect1.bottom = height
-            self.rect1.left = self.rect.right
-            # 화면 맞추기
-            self.rect.bottom = height
-            self.rect1.bottom = height
-            self.rect.top = 0
-            self.rect1.top = 0
-            # image1 우측에 붙이기
-            self.rect.left = 0
-            self.rect1.left = self.rect.right
+
 
         self.rect.left += self.speed
         self.rect1.left += self.speed
