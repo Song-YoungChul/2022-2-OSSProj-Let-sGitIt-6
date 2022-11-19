@@ -647,30 +647,35 @@ def gameplay_easy():
                         if event.key == pygame.K_ESCAPE:
                             game_quit = True
                             game_over = False
-
                         if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                             game_over = False
                             game_quit = True
+                            if high_score > player_dino.score:
+                                type_score(player_dino.score)
+                                if not db.is_limit_data(player_dino.score, mode = "easy"):
+                                    db.query_db(
+                                        f"insert into easy_mode (username, score) values ('{gamer_name}', '{player_dino.score}');")
+                                    db.commit()
+                                    board("easy")
+                                else:
+                                    board("easy")
+                            else:
+                                highscore_page(player_dino, "easy")
+
+                    if event.type == pygame.MOUSEBUTTONDOWN:
+                        game_over = False
+                        game_quit = True
+                        if high_score > player_dino.score:
                             type_score(player_dino.score)
-                            if not db.is_limit_data(player_dino.score, mode="easy"):
+                            if not db.is_limit_data(player_dino.score, mode = "easy"):
                                 db.query_db(
                                     f"insert into easy_mode (username, score) values ('{gamer_name}', '{player_dino.score}');")
                                 db.commit()
                                 board("easy")
                             else:
                                 board("easy")
-
-                    if event.type == pygame.MOUSEBUTTONDOWN:
-                        game_over = False
-                        game_quit = True
-                        type_score(player_dino.score)
-                        if not db.is_limit_data(player_dino.score, mode = "easy"):
-                            db.query_db(
-                                f"insert into easy_mode (username, score) values ('{gamer_name}', '{player_dino.score}');")
-                            db.commit()
-                            board("easy")
                         else:
-                            board("easy")
+                            highscore_page(player_dino, "easy")
 
                     if event.type == pygame.VIDEORESIZE:
                         check_scr_size(event.w, event.h)
@@ -1356,7 +1361,6 @@ def gameplay_hard():
                             game_over = False
                             game_quit = True
                             rest_time = 10
-                            type_score(player_dino.score)
                             if not db.is_limit_data(player_dino.score, mode="hard"):
                                 db.query_db(
                                     f"insert into hard_mode(username, score) values ('{gamer_name}', '{player_dino.score}');")
@@ -1372,7 +1376,17 @@ def gameplay_hard():
                                     f"UPDATE item SET count = {coin_item_count} where name= 'coin';"
                                 )
                                 db.commit()
-                                board("hard")
+                                if high_score > player_dino.score:
+                                    type_score(player_dino.score)
+                                    if not db.is_limit_data(player_dino.score, mode = "hard"):
+                                        db.query_db(
+                                            f"insert into hard_mode (username, score) values ('{gamer_name}', '{player_dino.score}');")
+                                        db.commit()
+                                        board("hard")
+                                    else:
+                                        board("hard")
+                                else:
+                                    highscore_page(player_dino, "hard")
                             else:
                                 board("hard")
 
@@ -1383,7 +1397,6 @@ def gameplay_hard():
                             rest_time = 1
                             x, y = event.pos
                             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
-                                type_score(player_dino.score)
                                 if not db.is_limit_data(player_dino.score, mode="hard"):
                                     db.query_db(
                                         f"insert into hard_mode (username, score) values ('{gamer_name}', '{player_dino.score}');")
@@ -1399,7 +1412,17 @@ def gameplay_hard():
                                         f"UPDATE item SET count = {coin_item_count} where name= 'coin';"
                                     )
                                     db.commit()
-                                    board("hard")
+                                    if high_score > player_dino.score:
+                                        type_score(player_dino.score)
+                                        if not db.is_limit_data(player_dino.score, mode = "hard"):
+                                            db.query_db(
+                                                f"insert into hard_mode (username, score) values ('{gamer_name}', '{player_dino.score}');")
+                                            db.commit()
+                                            board("hard")
+                                        else:
+                                            board("hard")
+                                    else:
+                                        highscore_page(player_dino, "hard")
                                 else:
                                     board("hard")
         
@@ -1937,4 +1960,76 @@ def obst(type_idx, obst_num, game_speed):
             return FireCactus(game_speed, object_size[0], object_size[1])
         else:
             return Stone(game_speed, object_size[0], object_size[1])
+
+def highscore_page(player_dino, mode):
+    global resized_screen
+    game_quit = False
+    max_per_screen = 10
+    score_pos = (width * 0.3, height * 0.6)
+    screen_board_height = resized_screen.get_height()
+    screen_board = pygame.surface.Surface((
+        resized_screen.get_width(),
+        screen_board_height
+        ))
+
+    text = font.render(f"NEW HIGH SCORE : {player_dino.score}", True, black)
+
+    gamerule_image, gamerule_rect = load_image("new-score.png",450,100,-1)
+    gamerule_rect.centerx=width*0.5
+    gamerule_rect.centery=height*0.25
+
+    while not game_quit:
+        if pygame.display.get_surface() is None:
+            game_quit = True
+        else:
+            screen_board.fill(background_col)
+            screen_board.blit(gamerule_image,gamerule_rect)
+            screen_board.blit(text, score_pos)
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    game_quit = True
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                        game_quit = True
+                        # intro_screen()
+                        if mode == "easy":
+                            type_score(player_dino.score)
+                            db.query_db(
+                                    f"insert into easy_mode (username, score) values ('{gamer_name}', '{player_dino.score}');")
+                            db.commit()
+                            board("easy")
+                        elif mode == "hard":
+                            type_score(player_dino.score)
+                            db.query_db(
+                                    f"insert into hard_mode (username, score) values ('{gamer_name}', '{player_dino.score}');")
+                            db.commit()
+                            board("hard")
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        game_quit = True
+                        # intro_screen()
+                        if mode == "easy":
+                            type_score(player_dino.score)
+                            db.query_db(
+                                    f"insert into easy_mode (username, score) values ('{gamer_name}', '{player_dino.score}');")
+                            db.commit()
+                            board("easy")
+                        elif mode == "hard":
+                            type_score(player_dino.score)
+                            db.query_db(
+                                    f"insert into hard_mode (username, score) values ('{gamer_name}', '{player_dino.score}');")
+                            db.commit()
+                            board("hard")
+                if event.type == pygame.VIDEORESIZE:
+                    check_scr_size(event.w, event.h)
+
+            screen.blit(screen_board, (0,0))
+            resized_screen.blit(
+                pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())), resized_screen_center)
+            pygame.display.update()
+        clock.tick(FPS)
+
+    pygame.quit()
+    quit()
 # =====================================================================================================
