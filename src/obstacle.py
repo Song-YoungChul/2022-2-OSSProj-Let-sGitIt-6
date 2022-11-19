@@ -634,9 +634,11 @@ class Mask_item(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self,self.containers)
         self.images, self.rect = load_sprite_sheet('mask_bubble.png', 1, 1, sizex, sizey, -1)
         if type == 1:
-            self.rect.bottom = random.randrange(int(0.05*height), int(height*0.47))
+            self.rect.bottom = random.randrange(int(0.05*height), int(height*0.37))
+        elif type == 2:
+            self.rect.bottom = random.randrange(int(0.45*height), int(height*0.87))
         else:
-            self.rect.bottom = random.randrange(int(0.55*height), int(height*0.87))
+            self.rect.bottom = random.randrange(int(0.45*height), int(height*0.87))
 
         
         self.rect.left = width + self.rect.width

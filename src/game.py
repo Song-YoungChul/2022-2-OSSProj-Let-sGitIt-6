@@ -734,7 +734,7 @@ def gameplay_hard():
     #배경 변경하는 코드
     
     if type_idx2 ==0:
-        new_background = ImgBack(-1 * game_speed, "winter")
+        new_background = ImgBack(-1 * game_speed, "spring")
     else:
         new_background = ImgBack(-1 * game_speed, f"{skin_type[type_idx2]}")
     new_ground = Ground(-1 * game_speed)
