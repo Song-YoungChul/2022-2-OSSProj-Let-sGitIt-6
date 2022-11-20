@@ -34,7 +34,8 @@ ONE_SECOND = 1
 rest_time = 0
 DEFAULT_HEIGHT = 0.95
 DEFAULT_HEIGHT_2P = 0.45
-
+DUST_APPEARANCE_TIME = 0
+dust_rest_time = 0
 
 #pvp모드
 MISSILE = 25
