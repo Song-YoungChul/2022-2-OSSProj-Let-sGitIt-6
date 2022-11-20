@@ -1363,8 +1363,6 @@ def gameplay_hard():
                             rest_time = 10
                             if not db.is_limit_data(player_dino.score, mode="hard"):
                                 db.query_db(
-                                    f"insert into hard_mode(username, score) values ('{gamer_name}', '{player_dino.score}');")
-                                db.query_db(
                                     f"UPDATE item set count = {shield_item_count} where name ='shield';")
                                 db.query_db(
                                     f"UPDATE item set count = {life_item_count} where name ='life';"
@@ -1398,8 +1396,6 @@ def gameplay_hard():
                             x, y = event.pos
                             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
                                 if not db.is_limit_data(player_dino.score, mode="hard"):
-                                    db.query_db(
-                                        f"insert into hard_mode (username, score) values ('{gamer_name}', '{player_dino.score}');")
                                     db.query_db(
                                         f" UPDATE item set count = {shield_item_count} where name ='shield';")
                                     db.query_db(
