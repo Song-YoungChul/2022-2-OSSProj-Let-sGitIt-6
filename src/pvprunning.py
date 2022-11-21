@@ -532,7 +532,6 @@ def pvprunning():
                             collision_time = pygame.time.get_ticks()
                             player2_dino.score2 = 0
                             m.image.set_alpha(0)
-
                     
                 for d in dust_items:
                     d.movement[0] = -1 * RUN_GAME_SPEED
@@ -558,6 +557,13 @@ def pvprunning():
                             dust_rest_time = 10
                             dust_appear()
                             
+
+                # 황사
+                # if is_dust_alive and (dust_rest_time <= DUST_APPEARANCE_TIME):
+                #     is_dust_time = True
+                # else:
+                #     is_dust_time = False
+
                 d_list_2p.reverse()
                 for d in d_list_2p:
                     del m_list_2p[d]
@@ -706,6 +712,7 @@ def pvprunning():
                             last_obstacle.add(Mask_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
                             last_obstacle.add(Mask_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
 
+
                 if len(dust_items) < 2:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(DUST_INTERVAL) == MAGIC_NUM:
@@ -713,7 +720,7 @@ def pvprunning():
                             last_obstacle.add(Dust_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
                             last_obstacle.add(Dust_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
 
-            
+
                 
 
                 if player1_dino.is_dead:
@@ -857,6 +864,7 @@ def pvprunning():
 #     pteras.update()
 
 def dust_appear():
+
         global game_over
         global paused
         global is_dust_time
@@ -874,6 +882,7 @@ def dust_appear():
             dust_rest_time = 0
 
 def dust_appear_2p():
+
         global game_over
         global paused
         global is_dust_time_2p
