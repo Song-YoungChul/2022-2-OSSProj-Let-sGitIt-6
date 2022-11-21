@@ -7,6 +7,9 @@ from db.db_interface import InterfDB
 import src.setting as setting
 import src.game
 from src.game_value import *
+from time import sleep
+import threading
+import time
 
 db = InterfDB("db/data.db")
 
@@ -105,10 +108,26 @@ def pvprunning():
     boomCount=0
     isDown2=False
     boomCount=0
-    
+
+    # 황사 변수설정
+    is_dust_time=False
+    is_dust_time_2p = False
+    dust=DustImg()
+    dust_2p = DustImg_2p()
+    global dust_rest_time
+    global dust_rest_time_2p
+    dust_rest_time = 0
+    dust_rest_time_2p = 0
+    dust_appear()
+    dust_appear_2p()
+
+
     space_go_2p = False
     m_list_2p = []
     bk_2p = 0
+
+    global mask_rest_time
+    mask_rest_time = 10
 
     while not game_quit:
         while start_menu:
@@ -497,6 +516,10 @@ def pvprunning():
                             collision_time = pygame.time.get_ticks()
                             player2_dino.score2 = 0
                             m.image.set_alpha(0)
+                            #황사
+                            is_dust_time_2p = True
+                            dust_rest_time_2p = 10
+                            
                     if not player1_dino.collision_immune:
                         if pygame.sprite.collide_mask(player1_dino, m):
                             player1_dino.collision_immune = True
@@ -505,8 +528,18 @@ def pvprunning():
                             collision_time = pygame.time.get_ticks()
                             player2_dino.score2 = 0
                             m.image.set_alpha(0)
-
+                            #황사
+                            is_dust_time = True
+                            dust_rest_time = 10
                             
+                            
+
+                # 황사
+                # if is_dust_alive and (dust_rest_time <= DUST_APPEARANCE_TIME):
+                #     is_dust_time = True
+                # else:
+                #     is_dust_time = False
+
                 d_list_2p.reverse()
                 for d in d_list_2p:
                     del m_list_2p[d]
@@ -559,7 +592,22 @@ def pvprunning():
                 pteras2.draw(screen)
                 stones2.draw(screen)
                 fire_cacti2.draw(screen)
-                
+                if is_dust_time:
+                    dust.draw()
+
+                if dust_rest_time == 0 :
+                    is_dust_time = False
+                    dust.kill()
+                    dust_rest_time = 10
+
+                if is_dust_time_2p:
+                    dust_2p.draw()
+
+                if dust_rest_time_2p == 0 :
+                    is_dust_time_2p = False
+                    dust_2p.kill()
+                    dust_rest_time_2p = 10
+
                 player1_dino.draw()
                 player2_dino.draw()
 
@@ -637,6 +685,8 @@ def pvprunning():
                             last_obstacle.add(Mask_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
                             last_obstacle.add(Mask_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
 
+            
+                
 
                 if player1_dino.is_dead:
                     game_over = True
@@ -657,6 +707,8 @@ def pvprunning():
                 print("Couldn't load display surface")
                 game_quit = True
                 game_over = False
+                dust_rest_time = 10
+                dust_rest_time_2p = 10
             else:
                 for event in pygame.event.get():
                     if event.type == pygame.QUIT:
@@ -775,3 +827,17 @@ def pvprunning():
 #         last_obstacle.add(Ptera_pvp(RUN_GAME_SPEED, ptera_size[0], ptera_size[1], moving=moving))
 #     cacti.update()
 #     pteras.update()
+
+def dust_appear():
+        threading.Timer(ONE_SECOND,dust_appear).start()
+        global dust_rest_time
+        dust_rest_time -= 1
+        if dust_rest_time <= 0:
+            dust_rest_time = 0
+
+def dust_appear_2p():
+        threading.Timer(ONE_SECOND,dust_appear_2p).start()
+        global dust_rest_time_2p
+        dust_rest_time_2p -= 1
+        if dust_rest_time_2p <= 0:
+            dust_rest_time_2p = 0
