@@ -558,13 +558,6 @@ def pvprunning():
                             dust_rest_time = 10
                             dust_appear()
                             
-
-                # 황사
-                # if is_dust_alive and (dust_rest_time <= DUST_APPEARANCE_TIME):
-                #     is_dust_time = True
-                # else:
-                #     is_dust_time = False
-
                 d_list_2p.reverse()
                 for d in d_list_2p:
                     del m_list_2p[d]
