@@ -14,6 +14,8 @@ import time
 db = InterfDB("db/data.db")
 
 def pvprunning():
+    global game_over
+    global paused
     global resized_screen
     global cacti
     global fire_cacti
@@ -26,6 +28,9 @@ def pvprunning():
     global pteras2
     global stones2
     global last_obstacle2
+    global dust_item
+    global is_dust_time
+    global is_dust_time_2p
 
     cacti = pygame.sprite.Group()
     fire_cacti = pygame.sprite.Group()
@@ -34,6 +39,7 @@ def pvprunning():
     last_obstacle = pygame.sprite.Group()
     # 아이템 추가 11/08
     mask_items = pygame.sprite.Group()
+    dust_items = pygame.sprite.Group()
 
     cacti2 = pygame.sprite.Group()
     fire_cacti2 = pygame.sprite.Group()
@@ -46,6 +52,7 @@ def pvprunning():
     Ptera.containers = pteras
     Stone.containers = stones # add stone containers
     Mask_item.containers = mask_items
+    Dust_item.containers = dust_items
 
     Cactus_pvp_running.containers = cacti2
     fire_Cactus_pvp_running.containers = fire_cacti2
@@ -110,7 +117,7 @@ def pvprunning():
     boomCount=0
 
     # 황사 변수설정
-    is_dust_time=False
+    is_dust_time= False
     is_dust_time_2p = False
     dust=DustImg()
     dust_2p = DustImg_2p()
@@ -516,9 +523,6 @@ def pvprunning():
                             collision_time = pygame.time.get_ticks()
                             player2_dino.score2 = 0
                             m.image.set_alpha(0)
-                            #황사
-                            is_dust_time_2p = True
-                            dust_rest_time_2p = 10
                             
                     if not player1_dino.collision_immune:
                         if pygame.sprite.collide_mask(player1_dino, m):
@@ -528,10 +532,30 @@ def pvprunning():
                             collision_time = pygame.time.get_ticks()
                             player2_dino.score2 = 0
                             m.image.set_alpha(0)
+                    
+                for d in dust_items:
+                    d.movement[0] = -1 * RUN_GAME_SPEED
+                    if not player2_dino.collision_immune:
+                        if pygame.sprite.collide_mask(player2_dino, d):
+                            player2_dino.collision_immune = True
+                            collision_time = pygame.time.get_ticks()
+                            player2_dino.score2 = 0
+                            d.image.set_alpha(0)
+                            #황사
+                            is_dust_time_2p = True
+                            dust_rest_time_2p = 10
+                            dust_appear_2p()
+                            
+                    if not player1_dino.collision_immune:
+                        if pygame.sprite.collide_mask(player1_dino, d):
+                            player1_dino.collision_immune = True                      
+                            collision_time = pygame.time.get_ticks()
+                            player2_dino.score2 = 0
+                            d.image.set_alpha(0)
                             #황사
                             is_dust_time = True
                             dust_rest_time = 10
-                            
+                            dust_appear()
                             
 
                 # 황사
@@ -566,6 +590,7 @@ def pvprunning():
                 heart_1p.update(player1_dino.life)
                 heart_2p.update(player2_dino.life)
                 mask_items.update()
+                dust_items.update()
 
                 if pygame.display.get_surface() is not None:
                     screen.fill(background_col)
@@ -612,6 +637,8 @@ def pvprunning():
                 player2_dino.draw()
 
                 mask_items.draw(screen)
+                dust_items.draw(screen)
+
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
                     resized_screen_center)
@@ -685,7 +712,15 @@ def pvprunning():
                             last_obstacle.add(Mask_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
                             last_obstacle.add(Mask_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
 
-            
+
+                if len(dust_items) < 2:
+                    for l in last_obstacle:
+                        if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(DUST_INTERVAL) == MAGIC_NUM:
+                            last_obstacle.empty()
+                            last_obstacle.add(Dust_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
+                            last_obstacle.add(Dust_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
+
+
                 
 
                 if player1_dino.is_dead:
@@ -829,13 +864,34 @@ def pvprunning():
 #     pteras.update()
 
 def dust_appear():
+
+        global game_over
+        global paused
+        global is_dust_time
+        if game_over:
+            return
+        if paused:
+            return
+        if is_dust_time == False:
+            return
         threading.Timer(ONE_SECOND,dust_appear).start()
         global dust_rest_time
+        
         dust_rest_time -= 1
         if dust_rest_time <= 0:
             dust_rest_time = 0
 
 def dust_appear_2p():
+
+        global game_over
+        global paused
+        global is_dust_time_2p
+        if game_over:
+            return
+        if paused:
+            return
+        if is_dust_time_2p == False:
+            return
         threading.Timer(ONE_SECOND,dust_appear_2p).start()
         global dust_rest_time_2p
         dust_rest_time_2p -= 1
