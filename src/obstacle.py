@@ -551,8 +551,8 @@ class Stone_pvp_running(pygame.sprite.Sprite):
     def __init__(self, speed=5, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self,self.containers)
         self.images, self.rect = load_sprite_sheet('stone.png', 1, 1, sizex, sizey, -1)
-        self.rect.top = (height * 0.87) / 2
-        self.rect.bottom = int(0.475*height)
+        self.rect.top = height * (DEFAULT_HEIGHT_2P - 0.08)
+        self.rect.bottom = int(DEFAULT_HEIGHT_2P * height)
         self.rect.left = width + self.rect.width
         self.image = self.images[0]
         self.movement = [-1*speed, 0]
@@ -570,7 +570,7 @@ class fire_Cactus_pvp_running(pygame.sprite.Sprite):
     def __init__(self, speed=5, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self,self.containers)
         self.images, self.rect = load_sprite_sheet('fire_cacti6.png', 3, 1, sizex, sizey, -1)
-        self.rect.bottom = int(0.475*height)
+        self.rect.bottom = int(DEFAULT_HEIGHT_2P*height)
         self.rect.left = width + self.rect.width
         self.image = self.images[random.randrange(0,3)]
         self.movement = [-1*speed, 0]
@@ -696,6 +696,7 @@ class DustImg(pygame.sprite.Sprite):
         if self.pattern_idx == 0:
             # self.pattern0_counter=0
             self.pattern0()
+
 class DustImg_2p(pygame.sprite.Sprite):
     def __init__(self, speed=0, sizex=-1, sizey=-1, life=5):
         print("Boss 등장")

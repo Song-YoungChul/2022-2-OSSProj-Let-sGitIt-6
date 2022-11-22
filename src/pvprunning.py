@@ -31,6 +31,8 @@ def pvprunning():
     global dust_item
     global is_dust_time
     global is_dust_time_2p
+    global is_water_time
+    global is_water_time_2p
 
     cacti = pygame.sprite.Group()
     fire_cacti = pygame.sprite.Group()
@@ -128,13 +130,27 @@ def pvprunning():
     dust_appear()
     dust_appear_2p()
 
+    # 산성비 변수설정
+    is_water_time = False
+    is_water_time_2p = False
+    pm_list = []
+    pm_list_2p = []
+    # water = DustImg()
+    # water_2p = DustImg_2p()
+    global water_rest_time
+    global water_rest_time_2p
+    water_rest_time = 0
+    water_rest_time_2p = 0
+    water_appear()
+    water_appear_2p()
+
 
     space_go_2p = False
     m_list_2p = []
     bk_2p = 0
 
     global mask_rest_time
-    mask_rest_time = 10
+    mask_rest_time = ITEM_TIME
 
     while not game_quit:
         while start_menu:
@@ -332,6 +348,8 @@ def pvprunning():
                     m.x += m.move
                     if m.x > width:
                         d_list_2p.append(i)
+                
+
                 # 2p의 미사일이 1p를 맞추었을 때
                 if len(m_list_2p) == 0:
                     pass
@@ -523,7 +541,11 @@ def pvprunning():
                             collision_time = pygame.time.get_ticks()
                             player2_dino.score2 = 0
                             m.image.set_alpha(0)
+                            is_water_time = True
+                            water_rest_time = ITEM_TIME
+                            water_appear()
                             
+
                     if not player1_dino.collision_immune:
                         if pygame.sprite.collide_mask(player1_dino, m):
                             player1_dino.collision_immune = True
@@ -532,6 +554,10 @@ def pvprunning():
                             collision_time = pygame.time.get_ticks()
                             player2_dino.score2 = 0
                             m.image.set_alpha(0)
+                            is_water_time_2p = True
+                            water_rest_time_2p = ITEM_TIME
+                            water_appear_2p()
+
                     
                 for d in dust_items:
                     d.movement[0] = -1 * RUN_GAME_SPEED
@@ -543,7 +569,7 @@ def pvprunning():
                             d.image.set_alpha(0)
                             #황사
                             is_dust_time_2p = True
-                            dust_rest_time_2p = 10
+                            dust_rest_time_2p = ITEM_TIME
                             dust_appear_2p()
                             
                     if not player1_dino.collision_immune:
@@ -554,7 +580,7 @@ def pvprunning():
                             d.image.set_alpha(0)
                             #황사
                             is_dust_time = True
-                            dust_rest_time = 10
+                            dust_rest_time = ITEM_TIME
                             dust_appear()
                             
 
@@ -617,13 +643,14 @@ def pvprunning():
                 pteras2.draw(screen)
                 stones2.draw(screen)
                 fire_cacti2.draw(screen)
+
                 if is_dust_time:
                     dust.draw()
 
                 if dust_rest_time == 0 :
                     is_dust_time = False
                     dust.kill()
-                    dust_rest_time = 10
+                    dust_rest_time = ITEM_TIME
 
                 if is_dust_time_2p:
                     dust_2p.draw()
@@ -631,7 +658,65 @@ def pvprunning():
                 if dust_rest_time_2p == 0 :
                     is_dust_time_2p = False
                     dust_2p.kill()
-                    dust_rest_time_2p = 10
+                    dust_rest_time_2p = ITEM_TIME
+
+                for pm in pm_list:
+                    pm.show()
+                
+                if is_water_time:
+                    pm = Obj()
+                    pm.put_img("./sprites/water_drop.png")
+                    pm.change_size(40,40)
+                    pm.x = random.randrange(40, 800-40)
+                    pm.y = 210
+                    pm.move = 3
+                    if len(pm_list) <= 5:
+                        pm_list.append(pm) 
+                    pd_list = []
+                    for i in range(len(pm_list)):
+                        pm = pm_list[i]
+                        pm.y += pm.move
+                        if pm.y > height or pm.x < 0:
+                            pd_list.append(i)
+                    pd_list.reverse()
+                    for d in pd_list:
+                        del pm_list[d]
+
+                if is_water_time_2p:
+                    pm_2p = Obj()
+                    pm_2p.put_img("./sprites/water_drop.png")
+                    pm_2p.change_size(40,40)
+                    pm_2p.x = random.randrange(40, 800-40)
+                    pm_2p.y = 10
+                    pm_2p.move = 3
+                    if len(pm_list_2p) <= 5:
+                        pm_list_2p.append(pm_2p)
+                    pd_list_2p = []
+
+                    for i in range(len(pm_list_2p)):
+                        pm_2p = pm_list_2p[i]
+                        pm_2p.y += pm_2p.move
+                        if pm_2p.y > (height * DEFAULT_HEIGHT_2P) or pm_2p.x < 0:
+                            pd_list_2p.append(i)
+
+                    pd_list_2p.reverse()
+                    for d in pd_list_2p:
+                        del pm_list_2p[d]
+                    
+
+                if water_rest_time == 0 :
+                    is_water_time = False
+                    pm_list = []
+                    water_rest_time = ITEM_TIME
+
+                for pm_2p in pm_list_2p:
+                    pm_2p.show()
+
+                if water_rest_time_2p == 0 :
+                    is_water_time_2p = False
+                    pm_list_2p = []
+                    water_rest_time_2p = ITEM_TIME
+
 
                 player1_dino.draw()
                 player2_dino.draw()
@@ -719,9 +804,34 @@ def pvprunning():
                             last_obstacle.empty()
                             last_obstacle.add(Dust_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
                             last_obstacle.add(Dust_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
-
-
                 
+                if (len(pm_list)== 0):
+                    pass
+                else:
+                    for pm in pm_list:
+                        if (pm.x >= player1_dino.rect.left) and (pm.x <= player1_dino.rect.right) and (pm.y > player1_dino.rect.top) and (pm.y < player1_dino.rect.bottom):
+                            print("1p가 공격에 맞음.")
+                            # if pygame.sprite.collide_mask(player_dino, pm):
+                            player1_dino.collision_immune = True
+                            player1_dino.life -= 1
+                            collision_time = pygame.time.get_ticks()
+                            if player1_dino.life == 0:
+                                player1_dino.is_dead = True
+                            pm_list.remove(pm)
+
+                if (len(pm_list_2p)== 0):
+                    pass
+                else:
+                    for pm_2p in pm_list_2p:
+                        if (pm_2p.x >= player2_dino.rect.left) and (pm_2p.x <= player2_dino.rect.right) and (pm_2p.y > player2_dino.rect.top) and (pm_2p.y < player2_dino.rect.bottom):
+                            print("2p가 공격에 맞음.")
+                            # if pygame.sprite.collide_mask(player_dino, pm):
+                            player2_dino.collision_immune = True
+                            player2_dino.life -= 1
+                            collision_time = pygame.time.get_ticks()
+                            if player2_dino.life == 0:
+                                player1_dino.is_dead = True
+                            pm_list_2p.remove(pm_2p)
 
                 if player1_dino.is_dead:
                     game_over = True
@@ -897,3 +1007,37 @@ def dust_appear_2p():
         dust_rest_time_2p -= 1
         if dust_rest_time_2p <= 0:
             dust_rest_time_2p = 0
+
+def water_appear():
+        global game_over
+        global paused
+        global is_dust_time
+        if game_over:
+            return
+        if paused:
+            return
+        if is_water_time == False:
+            return
+
+        threading.Timer(ONE_SECOND,water_appear).start()
+        global water_rest_time
+        water_rest_time -= 1
+        if water_rest_time <= 0:
+            water_rest_time = 0
+
+def water_appear_2p():
+        global game_over
+        global paused
+        global is_water_time_2p
+        if game_over:
+            return
+        if paused:
+            return
+        if is_water_time_2p == False:
+            return
+        
+        threading.Timer(ONE_SECOND,water_appear_2p).start()
+        global water_rest_time_2p
+        water_rest_time_2p -= 1
+        if water_rest_time_2p <= 0:
+            water_rest_time_2p = 0
