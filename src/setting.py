@@ -16,6 +16,7 @@ pygame.init()
 display.set_caption("RunningPVP-T-rex by_Let`sGitIt")
 gamer_name = ''
 scr_size = (width, height) = (800, 400)
+
 FPS = 60
 gravity = 0.65
 
@@ -43,8 +44,16 @@ full_screen = False
 monitor_size = (monitor_width, monitor_height) = (display.Info().current_w,
                                                   display.Info().current_h)
 high_score = 0
+
+
+# scr_size_pvp = (width, height) = (1200, 400)
+# resized_screen_pvp = display.set_mode((scr_size_pvp), RESIZABLE)
+# screen_pvp = resized_screen.copy()
+# resized_screen_pvp_center = (0, 0)
+
 resized_screen = display.set_mode((scr_size), RESIZABLE)
 screen = resized_screen.copy()
+
 resized_screen_center = (0, 0)
 r_width = resized_screen.get_width()
 r_height = resized_screen.get_height()
@@ -263,6 +272,8 @@ def check_scr_size(eventw, eventh):
             adjusted_height = int(eventw / (width / height))
             resized_screen = display.set_mode((eventw, adjusted_height), RESIZABLE)
 
+def pvp_scr_size(eventw, eventh):
+    resized_screen = display.set_mode((1200, 400), RESIZABLE)
 
 def full_screen_issue():
     global scr_size

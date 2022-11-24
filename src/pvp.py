@@ -178,7 +178,8 @@ def pvp():
                         if event.key == pygame.K_o:
                             jumpingx2_2p = False
                     if event.type == pygame.VIDEORESIZE:
-                        check_scr_size(event.w, event.h)
+                        # check_scr_size(event.w, event.h)
+                        pvp_scr_size(event.w,event.h)
 
             if not paused:
                 if go_left_1p:
@@ -344,7 +345,7 @@ def pvp():
                 player1_dino.draw()
                 player2_dino.draw()
                 resized_screen.blit(
-                    pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
+                    pygame.transform.scale(screen, (1200,400)),
                     resized_screen_center)
                 pygame.display.update()
                 clock.tick(FPS)
@@ -364,9 +365,11 @@ def pvp():
             counter += 1
 
         if game_quit:
+            check_scr_size(event.w,event.h)
             break
 
         while game_over:
+            check_scr_size(event.w,event.h)
             if pygame.display.get_surface() is None:
                 print("Couldn't load display surface")
                 game_quit = True
@@ -397,7 +400,8 @@ def pvp():
                                 src.game.intro_screen()
 
                     if event.type == pygame.VIDEORESIZE:
-                        check_scr_size(event.w, event.h)
+                        # check_scr_size(event.w, event.h)
+                        pvp_scr_size(event.w,event.h)
                 r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.35, resized_screen.get_height() * 0.55
                 r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.65, resized_screen.get_height() * 0.55
                 disp_pvp_gameover_buttons(btn_restart, btn_exit)
