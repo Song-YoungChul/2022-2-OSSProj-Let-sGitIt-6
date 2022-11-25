@@ -327,10 +327,10 @@ def select_mode():
 def gameplay_easy():
     global resized_screen
     global high_score
-    spring_image, spring_rect = load_image('ex_spring.png', 230, 210, -1)
-    r_spring_image, r_spring_rect = load_image(*resize('ex_spring.png', 230, 210, -1))
-    un_spring_image, un_spring_rect = load_image('unselect_spring.png', 230, 210, -1)
-    r_un_spring_image, r_un_spring_rect = load_image(*resize('unselect_spring.png', 230, 210, -1))
+    spring_image, spring_rect = load_image('ex_spring.png', EASY_BACK_W, EASY_BACK_H, -1)
+    r_spring_image, r_spring_rect = load_image(*resize('ex_spring.png', EASY_BACK_W, EASY_BACK_H, -1))
+    un_spring_image, un_spring_rect = load_image('unselect_spring.png', EASY_BACK_W, EASY_BACK_H, -1)
+    r_un_spring_image, r_un_spring_rect = load_image(*resize('unselect_spring.png', EASY_BACK_W, EASY_BACK_H, -1))
     screen.blit(spring_image, spring_rect)
     result = db.query_db("select score from easy_mode order by score desc;", one=True)
     if result is not None:
@@ -367,7 +367,7 @@ def gameplay_easy():
     slow_items = pygame.sprite.Group()
     # highjump_items = pygame.sprite.Group()
     # 아이템 추가 11/08
-    mask_items = pygame.sprite.Group()
+    # mask_items = pygame.sprite.Group()
 
     Stone.containers = stones
     Cactus.containers = cacti
@@ -378,7 +378,7 @@ def gameplay_easy():
     LifeItem.containers = life_items
     SlowItem.containers = slow_items
 # 아이템 추가 11/08
-    Mask_item.containers = mask_items
+    # Mask_item.containers = mask_items
 
     # HighJumpItem.containers = highjump_items
     # BUTTON IMG LOAD
@@ -493,15 +493,15 @@ def gameplay_easy():
                         if immune_time - collision_time > collision_immune_time:
                             player_dino.collision_immune = False
                 
-                for m in mask_items:
-                    m.movement[0] = -1 * game_speed
-                    if not player_dino.collision_immune:
-                        if pygame.sprite.collide_mask(player_dino, m):
-                            player_dino.collision_immune = True
-                            gameplay_story3()
-                            collision_time = pygame.time.get_ticks()
-                            player_dino.score2 = 0
-                            m.image.set_alpha(0)
+                # for m in mask_items:
+                #     m.movement[0] = -1 * game_speed
+                #     if not player_dino.collision_immune:
+                #         if pygame.sprite.collide_mask(player_dino, m):
+                #             player_dino.collision_immune = True
+                #             gameplay_story3()
+                #             collision_time = pygame.time.get_ticks()
+                #             player_dino.score2 = 0
+                #             m.image.set_alpha(0)
                             
                             # if pygame.mixer.get_init() is not None:
                             #     checkPoint_sound.play()
@@ -573,11 +573,11 @@ def gameplay_easy():
                 if len(clouds) < 5 and random.randrange(CLOUD_INTERVAL) == MAGIC_NUM:
                     Cloud(width, random.randrange(height / 5, height / 2))
                 
-                if len(mask_items) < 2:
-                    for l in last_obstacle:
-                        if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(MASK_INTERVAL) == MAGIC_NUM:
-                            last_obstacle.empty()
-                            last_obstacle.add(Mask_item(game_speed, object_size[0], object_size[1]))
+                # if len(mask_items) < 2:
+                #     for l in last_obstacle:
+                #         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(MASK_INTERVAL) == MAGIC_NUM:
+                #             last_obstacle.empty()
+                #             last_obstacle.add(Mask_item(game_speed, object_size[0], object_size[1]))
 
                 player_dino.update()
                 cacti.update()
@@ -592,7 +592,7 @@ def gameplay_easy():
                 highsc.update(high_score)
                 heart.update(life)
                 slow_items.update()
-                mask_items.update()
+                # mask_items.update()
                 stones.update()
 
                 if pygame.display.get_surface() != None:
@@ -613,7 +613,7 @@ def gameplay_easy():
                     life_items.draw(screen)
                     slow_items.draw(screen)
 
-                    mask_items.draw(screen)
+                    # mask_items.draw(screen)
 
                     # highjump_items.draw(screen)
                     player_dino.draw()
