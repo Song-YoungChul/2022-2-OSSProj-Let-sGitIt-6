@@ -345,7 +345,7 @@ def pvp():
                 player1_dino.draw()
                 player2_dino.draw()
                 resized_screen.blit(
-                    pygame.transform.scale(screen, (1200,400)),
+                    pygame.transform.scale(screen, (resized_screen.get_width(),resized_screen.get_height())),
                     resized_screen_center)
                 pygame.display.update()
                 clock.tick(FPS)
