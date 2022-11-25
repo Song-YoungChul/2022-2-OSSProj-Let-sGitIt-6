@@ -446,7 +446,7 @@ class Ptera(pygame.sprite.Sprite):
             self.kill()
 
 class PvP:
-    def __init__(self, speed=4, moving=''):
+    def __init__(self, speed=3, moving=''):
         self.moving = moving
         self.speed = speed
 
@@ -466,7 +466,7 @@ class PvP:
             self.kill()
 
 class Cactus_pvp(PvP, pygame.sprite.Sprite):
-    def __init__(self, speed=5, sizex=-1, sizey=-1, moving=''):
+    def __init__(self, speed=3, sizex=-1, sizey=-1, moving=''):
         pygame.sprite.Sprite.__init__(self, self.containers)
         super().__init__(speed, moving)
         self.images, self.rect = load_sprite_sheet('cacti-small.png', 3, 1, sizex, sizey, -1)
@@ -482,9 +482,27 @@ class Cactus_pvp(PvP, pygame.sprite.Sprite):
         self.rect = self.rect.move(self.movement)
 
         super().update()
+
+class Stone_pvp(PvP, pygame.sprite.Sprite):
+    def __init__(self, speed=3, sizex=-1, sizey=-1, moving=''):
+        pygame.sprite.Sprite.__init__(self,self.containers)
+        super().__init__(speed, moving)
+        self.images, self.rect = load_sprite_sheet('stone.png', 1, 1, sizex, sizey, -1)
+        self.rect.bottom = int(DEFAULT_HEIGHT * height)
+        self.rect.left = width + self.rect.width
+        self.image = self.images
+        super().get_movement()
+
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self):
+        self.rect = self.rect.move(self.movement)
+
+        super().update()
         
 class Ptera_pvp(PvP, pygame.sprite.Sprite):
-    def __init__(self, speed=5, sizex=-1, sizey=-1, moving=''):
+    def __init__(self, speed=4, sizex=-1, sizey=-1, moving=''):
         pygame.sprite.Sprite.__init__(self, self.containers)
         super().__init__(speed, moving)
         self.images, self.rect = load_sprite_sheet('ptera.png', 2, 1, sizex, sizey, -1)
@@ -511,7 +529,7 @@ class Ptera_pvp(PvP, pygame.sprite.Sprite):
         super().update()
 
 class Life_pvp(PvP, pygame.sprite.Sprite):
-    def __init__(self, speed=5, sizex=-1, sizey=-1, moving=''):
+    def __init__(self, speed=4, sizex=-1, sizey=-1, moving=''):
         pygame.sprite.Sprite.__init__(self, self.containers)
         super().__init__(speed, moving)
         self.images, self.rect = load_sprite_sheet('heart.png', 2, 1, sizex, sizey, -1)
@@ -530,7 +548,7 @@ class Life_pvp(PvP, pygame.sprite.Sprite):
         super().update()
 
 class Cactus_pvp_running(pygame.sprite.Sprite):
-    def __init__(self, speed=5, sizex=-1, sizey=-1):
+    def __init__(self, speed=4, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self,self.containers)
         self.images, self.rect = load_sprite_sheet('cacti-small.png', 3, 1, sizex, sizey, -1)
         self.rect.bottom = int(DEFAULT_HEIGHT_2P * height)
@@ -548,7 +566,7 @@ class Cactus_pvp_running(pygame.sprite.Sprite):
             self.kill()
 
 class Stone_pvp_running(pygame.sprite.Sprite):
-    def __init__(self, speed=5, sizex=-1, sizey=-1):
+    def __init__(self, speed=4, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self,self.containers)
         self.images, self.rect = load_sprite_sheet('stone.png', 1, 1, sizex, sizey, -1)
         self.rect.top = height * (DEFAULT_HEIGHT_2P - 0.08)
@@ -567,7 +585,7 @@ class Stone_pvp_running(pygame.sprite.Sprite):
             self.kill()
 
 class fire_Cactus_pvp_running(pygame.sprite.Sprite):
-    def __init__(self, speed=5, sizex=-1, sizey=-1):
+    def __init__(self, speed=4, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self,self.containers)
         self.images, self.rect = load_sprite_sheet('fire_cacti6.png', 3, 1, sizex, sizey, -1)
         self.rect.bottom = int(DEFAULT_HEIGHT_2P*height)
@@ -586,7 +604,7 @@ class fire_Cactus_pvp_running(pygame.sprite.Sprite):
 
 class Ptera_pvp_running(pygame.sprite.Sprite):
 
-    def __init__(self, speed=5, sizex=-1, sizey=-1):
+    def __init__(self, speed=4, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.images, self.rect = load_sprite_sheet('ptera.png', 2, 1, sizex, sizey, -1)
         self.ptera_height = [height*0.315, height*(0.245), height*0.095]
@@ -610,7 +628,7 @@ class Ptera_pvp_running(pygame.sprite.Sprite):
             self.kill()
 
 class Hole(pygame.sprite.Sprite):
-    def __init__(self, speed=5, sizex=-1, sizey=-1, left=0):
+    def __init__(self, speed=4, sizex=-1, sizey=-1, left=0):
         pygame.sprite.Sprite.__init__(self,self.containers)
         rand_width = random.randrange(80, 150)
         self.images, self.rect = load_sprite_sheet('holes3.png', 1, 1, rand_width, 47, -1)
@@ -630,7 +648,7 @@ class Hole(pygame.sprite.Sprite):
             self.kill()
 
 class Mask_item(pygame.sprite.Sprite):
-    def __init__(self, speed=5, sizex=-1, sizey=-1, type = -1):
+    def __init__(self, speed=4, sizex=-1, sizey=-1, type = -1):
         pygame.sprite.Sprite.__init__(self,self.containers)
         self.images, self.rect = load_sprite_sheet('mask_bubble.png', 1, 1, sizex, sizey, -1)
         if type == 1:
