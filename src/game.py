@@ -144,6 +144,7 @@ def option():
     btn_credit_rect.center = (width * 0.9, height * 0.85)
 
     while not done:
+        check_scr_size(event.w, event.h)
         for event in pygame.event.get():
 
             # CHANGE SIZE START
@@ -184,8 +185,8 @@ def option():
                     if r_btn_credit_rect.collidepoint(x, y):
                         credit()
 
-            # if event.type == pygame.VIDEORESIZE:
-            #     check_scr_size(event.w, event.h)
+            if event.type == pygame.VIDEORESIZE:
+                check_scr_size(event.w, event.h)
 
         r_init_btn_rect.centerx = resized_screen.get_width() * 0.5
         r_init_btn_rect.centery = resized_screen.get_height() * 0.5
@@ -282,7 +283,12 @@ def select_mode():
                         pvprunning()
                     
                     if r_btn_battlemode_rect.collidepoint(x, y):
+                        resized_screen.blit(
+                            pygame.transform.scale(screen, (1200,400)),
+                            resized_screen_center)
+                        pygame.display.update()
                         pvp()
+                        
 
             if event.type == pygame.VIDEORESIZE:
                 check_scr_size(event.w, event.h)
@@ -792,6 +798,7 @@ def gameplay_hard():
     # 방향키 구현
     go_left=False
     go_right=False
+    
     # 보스몬스터 변수설정
     is_pking_time=False
     is_pking_alive=True
