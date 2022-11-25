@@ -327,10 +327,10 @@ def select_mode():
 def gameplay_easy():
     global resized_screen
     global high_score
-    spring_image, spring_rect = load_image('ex_spring.png', 230, 210, -1)
-    r_spring_image, r_spring_rect = load_image(*resize('ex_spring.png', 230, 210, -1))
-    un_spring_image, un_spring_rect = load_image('unselect_spring.png', 230, 210, -1)
-    r_un_spring_image, r_un_spring_rect = load_image(*resize('unselect_spring.png', 230, 210, -1))
+    spring_image, spring_rect = load_image('ex_spring.png', EASY_BACK_W, EASY_BACK_H, -1)
+    r_spring_image, r_spring_rect = load_image(*resize('ex_spring.png', EASY_BACK_W, EASY_BACK_H, -1))
+    un_spring_image, un_spring_rect = load_image('unselect_spring.png', EASY_BACK_W, EASY_BACK_H, -1)
+    r_un_spring_image, r_un_spring_rect = load_image(*resize('unselect_spring.png', EASY_BACK_W, EASY_BACK_H, -1))
     screen.blit(spring_image, spring_rect)
     result = db.query_db("select score from easy_mode order by score desc;", one=True)
     if result is not None:
