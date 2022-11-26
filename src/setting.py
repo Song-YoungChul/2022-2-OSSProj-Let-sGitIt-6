@@ -64,6 +64,10 @@ clock = time.Clock()
 on_pushtime = 0
 off_pushtime = 0
 dino_size = [44, 47]
+pvp_dino_size = [35,47]
+pvp_object_size = [30,40]
+pvp_ptera_size = [40, 40]
+
 object_size = [40, 40]
 ptera_size = [46, 40]
 collision_immune_time = 500

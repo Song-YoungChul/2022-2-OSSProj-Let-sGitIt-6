@@ -35,6 +35,7 @@ def pvp():
     Cactus_pvp.containers = cacti
     fire_Cactus.containers = fire_cacti
     Ptera_pvp.containers = pteras
+    Stone_pvp.containers = stones
     Cloud.containers = clouds
     Life_pvp.containers = life_item
 
@@ -47,13 +48,13 @@ def pvp():
 
     #
 
-    player1_dino = Dino(dino_size[0], dino_size[1], type='original' )
-    player2_dino = Dino(dino_size[0], dino_size[1], type='2p_original', loc=1) 
+    player1_dino = Dino(pvp_dino_size[0], dino_size[1], type='original' )
+    player2_dino = Dino(pvp_dino_size[0], dino_size[1], type='2p_original', loc=1) 
 
     # 플레이어1과 플레이어 2의 목숨 수
     heart_1p = HeartIndicator(player1_dino)
     heart_2p = HeartIndicator(player2_dino, loc=2)
-    PVP_GAME_SPEED = 4
+    
     new_background = Ground(-1 * PVP_GAME_SPEED)
     new_ground = ImgBack(-1 * PVP_GAME_SPEED, "pvp_back")
     alpha_back, alpha_back_rect = alpha_image('alpha_back2.png', width + 20, height)
@@ -186,12 +187,12 @@ def pvp():
                     if player1_dino.rect.left < 0:
                         player1_dino.rect.left = 0
                     else:
-                        player1_dino.rect.left = player1_dino.rect.left - PVP_GAME_SPEED
+                        player1_dino.rect.left = player1_dino.rect.left - GAME_SPEED
                 if go_right_1p:
                     if player1_dino.rect.right > width * 0.5:
                         player1_dino.rect.right = width * 0.5
                     else:
-                        player1_dino.rect.left = player1_dino.rect.left + PVP_GAME_SPEED
+                        player1_dino.rect.left = player1_dino.rect.left + GAME_SPEED
                 if space_go_1p and (int(bk_1p % MISSILE) == 0):
                     # print(bk)
                     missile_1p = Obj()
@@ -251,12 +252,12 @@ def pvp():
                     if player2_dino.rect.left < width * 0.5:
                         player2_dino.rect.left = width * 0.5
                     else:
-                        player2_dino.rect.left = player2_dino.rect.left - PVP_GAME_SPEED
+                        player2_dino.rect.left = player2_dino.rect.left - GAME_SPEED
                 if go_right_2p:
                     if player2_dino.rect.right > width:
                         player2_dino.rect.right = width
                     else:
-                        player2_dino.rect.left = player2_dino.rect.left + PVP_GAME_SPEED
+                        player2_dino.rect.left = player2_dino.rect.left + GAME_SPEED
                 if space_go_2p and (int(bk_2p % MISSILE) == 0):
                     # print(bk)
                     missile_2p = Obj()
@@ -345,7 +346,7 @@ def pvp():
                 player1_dino.draw()
                 player2_dino.draw()
                 resized_screen.blit(
-                    pygame.transform.scale(screen, (1200,400)),
+                    pygame.transform.scale(screen, (resized_screen.get_width(),resized_screen.get_height())),
                     resized_screen_center)
                 pygame.display.update()
                 clock.tick(FPS)
@@ -360,8 +361,7 @@ def pvp():
                 if player2_dino.is_dead:
                     game_over = True
                     pygame.mixer.music.stop()
-                heart_1p.update(player1_dino.life)
-                heart_2p.update(player2_dino.life)
+
             counter += 1
 
         if game_quit:
@@ -481,31 +481,30 @@ def display_obstacle(dino, counter, moving):
             if immune_time - collision_time > collision_immune_time:
                 dino.collision_immune = False
     
-    if len(cacti) < 1:
-        if len(cacti) == 0:
-            last_obstacle.empty()
-            last_obstacle.add(Cactus_pvp(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
-        else:
-            for l in last_obstacle:
-                if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL) == MAGIC_NUM:
-                    last_obstacle.empty()
-                    last_obstacle.add(Cactus_pvp(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
+    
+    if len(cacti) == 0 and random.randrange(CACTUS_INTERVAL) == MAGIC_NUM:
+        last_obstacle.empty()
+        last_obstacle.add(Cactus_pvp(PVP_GAME_SPEED, pvp_object_size[0], pvp_object_size[1], moving=moving))
+    
+    if len(stones) ==0 and random.randrange(STONE_INTERVAL * 5) == MAGIC_NUM:
+        last_obstacle.empty()
+        last_obstacle.add(Stone_pvp(PVP_GAME_SPEED, pvp_object_size[0], pvp_object_size[1]))
 
     if len(life_item) == 0 and random.randrange(LIFEITEM_INTERVAL) == MAGIC_NUM and counter > LIFEITEM_INTERVAL:
         last_obstacle.empty()
-        last_obstacle.add(Life_pvp(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
+        last_obstacle.add(Life_pvp(PVP_GAME_SPEED, pvp_object_size[0], pvp_object_size[1], moving=moving))
 
     # if len(fire_cacti) < 2:
     #     for l in last_obstacle:
     #         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL * 5) == MAGIC_NUM:
     #             last_obstacle.empty()
-    #             last_obstacle.add(fire_cacti(PVP_GAME_SPEED, object_size[0], object_size[1]))
+    #             last_obstacle.add(fire_cacti(PVP_GAME_SPEED, pvp_object_size[0], pvp_object_size[1]))
 
     # if len(stones) < 1:
     #     for l in last_obstacle:
     #         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(STONE_INTERVAL * 3) == MAGIC_NUM:
     #             last_obstacle.empty()
-    #             last_obstacle.add(Stone_pvp(PVP_GAME_SPEED, object_size[0], object_size[1], moving=moving))
+    #             last_obstacle.add(Stone_pvp(PVP_GAME_SPEED, pvp_object_size[0], pvp_object_size[1], moving=moving))
 
     if len(pteras) == 0 and random.randrange(PTERA_INTERVAL) == MAGIC_NUM and counter > PTERA_INTERVAL:
         # for l in last_obstacle:

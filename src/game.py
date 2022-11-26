@@ -144,7 +144,6 @@ def option():
     btn_credit_rect.center = (width * 0.9, height * 0.85)
 
     while not done:
-        check_scr_size(event.w, event.h)
         for event in pygame.event.get():
 
             # CHANGE SIZE START
