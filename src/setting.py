@@ -16,7 +16,6 @@ pygame.init()
 display.set_caption("RunningPVP-T-rex by_Let`sGitIt")
 gamer_name = ''
 scr_size = (width, height) = (800, 400)
-
 FPS = 60
 gravity = 0.65
 

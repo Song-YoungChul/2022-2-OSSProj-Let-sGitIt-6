@@ -501,8 +501,6 @@ def pvprunning():
                             p.kill()
                             # 여기만 바꿈
                             m_list_2p.remove(m_2p)
-                            #
-                    #
 
                     if not player2_dino.collision_immune:
                         if pygame.sprite.collide_mask(player2_dino, p):
@@ -583,13 +581,6 @@ def pvprunning():
                             dust_rest_time = ITEM_TIME
                             dust_appear()
                             
-
-                # 황사
-                # if is_dust_alive and (dust_rest_time <= DUST_APPEARANCE_TIME):
-                #     is_dust_time = True
-                # else:
-                #     is_dust_time = False
-
                 d_list_2p.reverse()
                 for d in d_list_2p:
                     del m_list_2p[d]
@@ -597,8 +588,7 @@ def pvprunning():
                     if player2_dino.rect.bottom == int(height * DEFAULT_HEIGHT_2P):
                         player2_dino.is_jumping = True
                         player2_dino.movement[1] = -1 * player2_dino.super_jump_speed_running
-                # display_obstacle(player1_dino, counter, "left")
-                # display_obstacle(player2_dino, counter, "right")
+
                 player1_dino.update('pvp')
                 player2_dino.update('pvp')
                 cacti.update()
@@ -900,113 +890,38 @@ def pvprunning():
     pygame.quit()
     quit()
 
-
-# def display_obstacle(dino, counter, moving):
-#     global cacti
-#     global fire_cacti
-#     global pteras
-#     global clouds
-#     global stones
-#     global last_obstacle
-#     global collision_time
-
-#     for c in cacti:
-#         if not dino.collision_immune:
-#             if pygame.sprite.collide_mask(dino, c):
-#                 dino.collision_immune = True
-#                 dino.decrease_life()
-#                 collision_time = pygame.time.get_ticks()
-#                 if dino.is_life_zero():
-#                     dino.is_dead = True
-#                 if pygame.mixer.get_init() is not None:
-#                     die_sound.play()
-
-#         elif not dino.is_super:
-#             immune_time = pygame.time.get_ticks()
-#             if immune_time - collision_time > collision_immune_time:
-#                 dino.collision_immune = False
-
-#     for p in pteras:
-#         if not dino.collision_immune:
-#             if pygame.sprite.collide_mask(dino, p):
-#                 dino.collision_immune = True
-#                 dino.decrease_life()
-#                 collision_time = pygame.time.get_ticks()
-#                 if dino.is_life_zero():
-#                     dino.is_dead = True
-#                 if pygame.mixer.get_init() is not None:
-#                     die_sound.play()
-
-#         elif not dino.is_super:
-#             immune_time = pygame.time.get_ticks()
-#             if immune_time - collision_time > collision_immune_time:
-#                 dino.collision_immune = False
-
-#     if len(cacti) < 1:
-#         if len(cacti) == 0:
-#             last_obstacle.empty()
-#             last_obstacle.add(Cactus_pvp(RUN_GAME_SPEED, object_size[0], object_size[1], moving=moving))
-#         else:
-#             for l in last_obstacle:
-#                 if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL) == MAGIC_NUM:
-#                     last_obstacle.empty()
-#                     last_obstacle.add(Cactus_pvp(RUN_GAME_SPEED, object_size[0], object_size[1], moving=moving))
-
-#     # if len(fire_cacti) < 2:
-#     #     for l in last_obstacle:
-#     #         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL * 5) == MAGIC_NUM:
-#     #             last_obstacle.empty()
-#     #             last_obstacle.add(fire_cacti(RUN_GAME_SPEED, object_size[0], object_size[1]))
-
-#     # if len(stones) < 1:
-#     #     for l in last_obstacle:
-#     #         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(STONE_INTERVAL * 3) == MAGIC_NUM:
-#     #             last_obstacle.empty()
-#     #             last_obstacle.add(Stone_pvp(RUN_GAME_SPEED, object_size[0], object_size[1], moving=moving))
-
-#     if len(pteras) == 0 and random.randrange(PTERA_INTERVAL) == MAGIC_NUM and counter > PTERA_INTERVAL:
-#         # for l in last_obstacle:
-#         #     print("!!!")
-#         #     if l.rect.right < OBJECT_REFRESH_LINE:
-#         last_obstacle.empty()
-#         last_obstacle.add(Ptera_pvp(RUN_GAME_SPEED, ptera_size[0], ptera_size[1], moving=moving))
-#     cacti.update()
-#     pteras.update()
-
 def dust_appear():
-
-        global game_over
-        global paused
-        global is_dust_time
-        if game_over:
-            return
-        if paused:
-            return
-        if is_dust_time == False:
-            return
-        threading.Timer(ONE_SECOND,dust_appear).start()
-        global dust_rest_time
-        
-        dust_rest_time -= 1
-        if dust_rest_time <= 0:
-            dust_rest_time = 0
+    global game_over
+    global paused
+    global is_dust_time
+    if game_over:
+        return
+    if paused:
+        return
+    if is_dust_time == False:
+        return
+    threading.Timer(ONE_SECOND,dust_appear).start()
+    global dust_rest_time
+    
+    dust_rest_time -= 1
+    if dust_rest_time <= 0:
+        dust_rest_time = 0
 
 def dust_appear_2p():
-
-        global game_over
-        global paused
-        global is_dust_time_2p
-        if game_over:
-            return
-        if paused:
-            return
-        if is_dust_time_2p == False:
-            return
-        threading.Timer(ONE_SECOND,dust_appear_2p).start()
-        global dust_rest_time_2p
-        dust_rest_time_2p -= 1
-        if dust_rest_time_2p <= 0:
-            dust_rest_time_2p = 0
+    global game_over
+    global paused
+    global is_dust_time_2p
+    if game_over:
+        return
+    if paused:
+        return
+    if is_dust_time_2p == False:
+        return
+    threading.Timer(ONE_SECOND,dust_appear_2p).start()
+    global dust_rest_time_2p
+    dust_rest_time_2p -= 1
+    if dust_rest_time_2p <= 0:
+        dust_rest_time_2p = 0
 
 def water_appear():
         global game_over

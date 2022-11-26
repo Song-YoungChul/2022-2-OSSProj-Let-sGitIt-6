@@ -376,12 +376,7 @@ def gameplay_easy():
     ShieldItem.containers = shield_items
     LifeItem.containers = life_items
     SlowItem.containers = slow_items
-# 아이템 추가 11/08
-    # Mask_item.containers = mask_items
 
-    # HighJumpItem.containers = highjump_items
-    # BUTTON IMG LOAD
-    # retbutton_image, retbutton_rect = load_image('replay_button.png', 70, 62, -1)
     game_over_image, game_over_rect = load_image('game_over.png', OVER_X, OVER_Y, -1)
     my_font = pygame.font.Font('DungGeunMo.ttf', 30)
     high_image = my_font.render('HI', True, black)
@@ -492,18 +487,6 @@ def gameplay_easy():
                         if immune_time - collision_time > collision_immune_time:
                             player_dino.collision_immune = False
                 
-                # for m in mask_items:
-                #     m.movement[0] = -1 * game_speed
-                #     if not player_dino.collision_immune:
-                #         if pygame.sprite.collide_mask(player_dino, m):
-                #             player_dino.collision_immune = True
-                #             gameplay_story3()
-                #             collision_time = pygame.time.get_ticks()
-                #             player_dino.score2 = 0
-                #             m.image.set_alpha(0)
-                            
-                            # if pygame.mixer.get_init() is not None:
-                            #     checkPoint_sound.play()
 
                 for p in pteras:
                     p.movement[0] = -1 * game_speed
@@ -532,10 +515,6 @@ def gameplay_easy():
                     for s in shield_items:
                         s.movement[0] = -1 * game_speed
                         if pygame.sprite.collide_mask(player_dino, s):
-                            # if pygame.mixer.get_init() is not None:
-                            #     # check_point_sound.play()
-                            # player_dino.collision_immune = True
-                            # player_dino.is_super = True
                             s.kill()
                             item_time = pygame.time.get_ticks()
                         elif s.rect.right < 0:
@@ -572,12 +551,6 @@ def gameplay_easy():
                 if len(clouds) < 5 and random.randrange(CLOUD_INTERVAL) == MAGIC_NUM:
                     Cloud(width, random.randrange(height / 5, height / 2))
                 
-                # if len(mask_items) < 2:
-                #     for l in last_obstacle:
-                #         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(MASK_INTERVAL) == MAGIC_NUM:
-                #             last_obstacle.empty()
-                #             last_obstacle.add(Mask_item(game_speed, object_size[0], object_size[1]))
-
                 player_dino.update()
                 cacti.update()
                 fire_cacti.update()
@@ -585,13 +558,11 @@ def gameplay_easy():
                 clouds.update()
                 shield_items.update()
                 life_items.update()
-                # highjump_items.update()
                 new_ground.update()
                 scb.update(player_dino.score)
                 highsc.update(high_score)
                 heart.update(life)
                 slow_items.update()
-                # mask_items.update()
                 stones.update()
 
                 if pygame.display.get_surface() != None:
@@ -611,10 +582,6 @@ def gameplay_easy():
                     shield_items.draw(screen)
                     life_items.draw(screen)
                     slow_items.draw(screen)
-
-                    # mask_items.draw(screen)
-
-                    # highjump_items.draw(screen)
                     player_dino.draw()
                     resized_screen.blit(
                         pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),

@@ -690,8 +690,6 @@ class DustImg(pygame.sprite.Sprite):
     def update(self):
         self.counter = self.counter + 1
 
-
-
 class DustImg_2p(pygame.sprite.Sprite):
     def __init__(self, speed=0, sizex=-1, sizey=-1, life=5):
         print("Boss 등장")
@@ -706,7 +704,6 @@ class DustImg_2p(pygame.sprite.Sprite):
 
     def draw(self):
         screen.blit(self.image, self.rect)
-
 
     def update(self):
         self.counter = self.counter + 1
