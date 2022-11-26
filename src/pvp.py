@@ -180,7 +180,7 @@ def pvp():
                             jumpingx2_2p = False
                     if event.type == pygame.VIDEORESIZE:
                         # check_scr_size(event.w, event.h)
-                        pvp_scr_size(event.w,event.h)
+                        pvp_check_scr_size(event.w,event.h)
 
             if not paused:
                 if go_left_1p:
