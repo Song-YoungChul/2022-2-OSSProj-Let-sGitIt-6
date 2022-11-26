@@ -1617,16 +1617,16 @@ def gamerule():
                 if pygame.mouse.get_pressed() == (1, 0, 0):
                     x, y = event.pos
                     if r_easyrule_btn_rect.collidepoint(x, y):
-                        gamerule_image()
+                        gamerule_image("easy")
 
                     if r_btn_hardmoderule_rect.collidepoint(x, y):
-                        gamerule_image()
+                        gamerule_image("hard")
 
                     if r_btn_runningmoderule_rect.collidepoint(x, y):
-                        gamerule_image()
+                        gamerule_image("running")
                     
                     if r_btn_battlemoderule_rect.collidepoint(x, y):
-                        gamerule_image()
+                        gamerule_image("battle")
 
             if event.type == pygame.VIDEORESIZE:
                 check_scr_size(event.w, event.h)
@@ -1658,7 +1658,7 @@ def gamerule():
     quit()
 
 
-def gamerule_image():
+def gamerule_image(mode = ""):
     global resized_screen
     game_quit = False
     max_per_screen = 10
@@ -1667,8 +1667,14 @@ def gamerule_image():
         resized_screen.get_width(),
         screen_board_height
         ))
-
-    gamerule_image, gamerule_rect= load_image("gamerule.png",800,300,-1)
+    if mode == "easy":
+        gamerule_image, gamerule_rect= load_image("easy_mode_rule.png",800,400,-1)
+    elif mode == "hard":
+        gamerule_image, gamerule_rect= load_image("hard_mode_rule.png",800,400,-1)
+    elif mode == "battle":
+        gamerule_image, gamerule_rect= load_image("pvp_battle_rule.png",800,400,-1)
+    elif mode == "running":
+        gamerule_image, gamerule_rect= load_image("pvp_running_rule.png",800,400,-1)
     gamerule_rect.centerx=width*0.5
     gamerule_rect.centery=height*0.5
 
@@ -1703,6 +1709,9 @@ def gamerule_image():
 
     pygame.quit()
     quit()
+
+
+
 
 def pausing():
     global resized_screen
