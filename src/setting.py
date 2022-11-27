@@ -278,7 +278,8 @@ def check_scr_size(eventw, eventh):
             resized_screen = display.set_mode((eventw, adjusted_height), RESIZABLE)
 
 def pvp_scr_size(eventw, eventh):
-    resized_screen = display.set_mode((1200, 400), RESIZABLE)
+    adjusted_height = int(eventw / 3)
+    resized_screen = display.set_mode((eventw, adjusted_height), RESIZABLE)
 
 def full_screen_issue():
     global scr_size
