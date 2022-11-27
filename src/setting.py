@@ -16,7 +16,6 @@ pygame.init()
 display.set_caption("RunningPVP-T-rex by_Let`sGitIt")
 gamer_name = ''
 scr_size = (width, height) = (800, 400)
-
 FPS = 60
 gravity = 0.65
 
@@ -63,13 +62,15 @@ width_offset = 0.3
 clock = time.Clock()
 on_pushtime = 0
 off_pushtime = 0
+
 dino_size = [44, 47]
+object_size = [40, 40]
+ptera_size = [46, 40]
+
 pvp_dino_size = [35,47]
 pvp_object_size = [30,40]
 pvp_ptera_size = [40, 40]
 
-object_size = [40, 40]
-ptera_size = [46, 40]
 collision_immune_time = 500
 shield_time = 2000
 speed_up_limit = 700
@@ -277,7 +278,8 @@ def check_scr_size(eventw, eventh):
             resized_screen = display.set_mode((eventw, adjusted_height), RESIZABLE)
 
 def pvp_scr_size(eventw, eventh):
-    resized_screen = display.set_mode((1200, 400), RESIZABLE)
+    adjusted_height = int(eventw / 3)
+    resized_screen = display.set_mode((eventw, adjusted_height), RESIZABLE)
 
 def full_screen_issue():
     global scr_size

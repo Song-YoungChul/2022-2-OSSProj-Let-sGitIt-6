@@ -675,33 +675,13 @@ class Mask_item(pygame.sprite.Sprite):
 
 class DustImg(pygame.sprite.Sprite):
     def __init__(self, speed=0, sizex=-1, sizey=-1, life=5):
-        print("Boss 등장")
         pygame.sprite.Sprite.__init__(self)
         self.images, self.rect = load_sprite_sheet('dust.png', 1, 1, width, height/2 - 0.05, -1)
-        # self.rect.centery = self.ptera_height[random.randrange(0, 3)]
         self.rect.centery = height * 0.25
         self.rect.left = 0
         self.image = self.images[0]
-        # 
-
         self.stop_movement = [0, 0]
-        # 
         self.index = 0
-        self.counter = 1
-        # 새로운 정의.
-        self.is_alive = True  # self.isAlive => self.is_alive
-        self.pattern_idx = 0
-        self.go_left = True  # self.goleft => self.go_left
-        self.reached_leftmost = False
-        self.reached_rightmost = False
-        self.pattern0_time = 400
-        self.pattern0_counter = 0
-        self.stop = False
-
-        self.go_up = False  # self.goup => self.go_up
-        self.topmost = height * 0.3
-        # 
-        self.life = life
 
     def draw(self):
         screen.blit(self.image, self.rect)
@@ -709,11 +689,6 @@ class DustImg(pygame.sprite.Sprite):
 
     def update(self):
         self.counter = self.counter + 1
-
-        # 패턴0
-        if self.pattern_idx == 0:
-            # self.pattern0_counter=0
-            self.pattern0()
 
 class DustImg_2p(pygame.sprite.Sprite):
     def __init__(self, speed=0, sizex=-1, sizey=-1, life=5):
@@ -724,35 +699,11 @@ class DustImg_2p(pygame.sprite.Sprite):
         self.rect.centery = height * 0.75
         self.rect.left = 0
         self.image = self.images[0]
-        # 
-
         self.stop_movement = [0, 0]
-        # 
         self.index = 0
-        self.counter = 1
-        # 새로운 정의.
-        self.is_alive = True  # self.isAlive => self.is_alive
-        self.pattern_idx = 0
-        self.go_left = True  # self.goleft => self.go_left
-        self.reached_leftmost = False
-        self.reached_rightmost = False
-        self.pattern0_time = 400
-        self.pattern0_counter = 0
-        self.stop = False
-
-        self.go_up = False  # self.goup => self.go_up
-        self.topmost = height * 0.3
-        # 
-        self.life = life
 
     def draw(self):
         screen.blit(self.image, self.rect)
 
-
     def update(self):
         self.counter = self.counter + 1
-
-        # 패턴0
-        if self.pattern_idx == 0:
-            # self.pattern0_counter=0
-            self.pattern0()
