@@ -131,8 +131,8 @@ def option():
     r_init_btn_image, r_init_btn_rect = load_image(*resize('scorereset.png', 80, 80, -1))
     btn_gamerule, btn_gamerule_rect = load_image('btn_gamerule.png', 80, 80, -1)
     r_btn_gamerule, r_btn_gamerule_rect = load_image(*resize('btn_gamerule.png', 80, 80, -1))
-    btn_home, btn_home_rect = load_image('main_button.png', 70, 62, -1)
-    r_btn_home, r_btn_home_rect = load_image(*resize('main_button.png', 70, 62, -1))
+    btn_home, btn_home_rect = load_image('back.png', 75, 30, -1)
+    r_btn_home, r_btn_home_rect = load_image(*resize('back.png', 75, 30, -1))
     btn_credit, btn_credit_rect = load_image('btn_credit.png', 150, 50, -1)
     r_btn_credit, r_btn_credit_rect = load_image(*resize('btn_credit.png', 180, 80, -1))
 
@@ -140,7 +140,7 @@ def option():
     btn_bgm_on_rect.center = (width * 0.25, height * 0.5)
     init_btn_rect.center = (width * 0.5, height * 0.5)
     btn_gamerule_rect.center = (width * 0.75, height * 0.5)
-    btn_home_rect.center = (width * 0.9, height * 0.15)
+    btn_home_rect.center = (width * 0.1, height * 0.15)
     btn_credit_rect.center = (width * 0.9, height * 0.85)
 
     while not done:
@@ -191,7 +191,7 @@ def option():
         r_init_btn_rect.centery = resized_screen.get_height() * 0.5
         r_btn_gamerule_rect.centerx = resized_screen.get_width() * 0.75
         r_btn_gamerule_rect.centery = resized_screen.get_height() * 0.5
-        r_btn_home_rect.centerx = resized_screen.get_width() * 0.9
+        r_btn_home_rect.centerx = resized_screen.get_width() * 0.1
         r_btn_home_rect.centery = resized_screen.get_height() * 0.15
         r_btn_credit_rect.centerx = resized_screen.get_width() * 0.9
         r_btn_credit_rect.centery = resized_screen.get_height() * 0.85
@@ -775,7 +775,7 @@ def gameplay_hard():
     pm_pattern0_count = 0
     pm_pattern1_count = 0
     global rest_time
-    rest_time = 10
+    rest_time = REST_TIME_10
     pking_appear()
     
     jumpingx2 = False
@@ -1142,7 +1142,7 @@ def gameplay_hard():
                             if pking.life <= 0:
                                 pking.kill()
                                 stage += 1
-                                rest_time = 10
+                                rest_time = REST_TIME_10
                                 new_ground.speed -= SPEED_RATE
                                 new_background.speed -= SPEED_RATE
                                 game_speed += SPEED_RATE
@@ -1330,10 +1330,10 @@ def gameplay_hard():
                             game_over = False
                             intro_screen()
 
-                        if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                        if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE or pygame.MOUSEBUTTONDOWN:
                             game_over = False
                             game_quit = True
-                            rest_time = 10
+                            rest_time = REST_TIME_10
                             if not db.is_limit_data(player_dino.score, mode="hard"):
                                 db.query_db(
                                     f"UPDATE item set count = {shield_item_count} where name ='shield';")
@@ -1362,12 +1362,12 @@ def gameplay_hard():
                                 board("hard")
 
                     if event.type == pygame.MOUSEBUTTONDOWN:
-                        # game_over = False
+                        # game_over = True
                         # game_quit = True
                         if pygame.mouse.get_pressed() == (1, 0, 0):
                             rest_time = 1
                             x, y = event.pos
-                            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE or pygame.MOUSEBUTTONDOWN:
                                 if not db.is_limit_data(player_dino.score, mode="hard"):
                                     db.query_db(
                                         f" UPDATE item set count = {shield_item_count} where name ='shield';")
@@ -1558,7 +1558,9 @@ def gamerule():
     # battlemode button, 임시로 hardmode 이미지로 진행
     btn_battlemoderule, btn_battlemoderule_rect = load_image('pvp_battle.png', 150, 50, -1)
     r_btn_battlemoderule, r_btn_battlemoderule_rect = load_image(*resize('pvp_battle.png', 150, 50, -1))
-    
+    #back 버튼
+    btn_home, btn_home_rect = load_image('back.png', 75, 30, -1)
+    r_btn_home, r_btn_home_rect = load_image(*resize('back.png', 75, 30, -1))
     
     # 배경 이미지, 일단 인트로 사진으로 대체
     Background, Background_rect = load_image('no_name_background.png', width, height)
@@ -1569,7 +1571,7 @@ def gamerule():
     # 러닝, 배틀모드 버튼
     btn_runningmoderule_rect.center = (width * 0.33, height * 0.5)
     btn_battlemoderule_rect.center = (width * 0.33, height * 0.75)
-
+    btn_home_rect.center = (width * 0.1, height * 0.15)
 
     while not done:
         for event in pygame.event.get():
@@ -1583,6 +1585,9 @@ def gamerule():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed() == (1, 0, 0):
                     x, y = event.pos
+                    if r_btn_home_rect.collidepoint(x, y):
+                        option()
+
                     if r_easyrule_btn_rect.collidepoint(x, y):
                         gamerule_image("easy")
 
@@ -1605,7 +1610,8 @@ def gamerule():
                 0.5)
         r_btn_battlemoderule_rect.centerx, r_btn_battlemoderule_rect.centery = resized_screen.get_width() * 0.33, resized_screen.get_height() * (
                 0.75)
-
+        r_btn_home_rect.centerx = resized_screen.get_width() * 0.1
+        r_btn_home_rect.centery = resized_screen.get_height() * 0.15
         
         screen.blit(Background, Background_rect)
         screen.blit(TextSurf, TextRect)
@@ -1613,7 +1619,7 @@ def gamerule():
         screen.blit(btn_hardmoderule, btn_hardmoderule_rect)
         screen.blit(btn_runningmoderule, btn_runningmoderule_rect)
         screen.blit(btn_battlemoderule, btn_battlemoderule_rect)
-
+        screen.blit(btn_home, btn_home_rect)
 
         resized_screen.blit(
             pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),

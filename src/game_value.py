@@ -40,7 +40,7 @@ WATER_APPEARANCE_TIME = 0
 ITEM_TIME = 10
 dust_rest_time = 0
 water_rest_time = 0
-
+REST_TIME_10 = 10
 
 #pvp모드
 MISSILE = 25
