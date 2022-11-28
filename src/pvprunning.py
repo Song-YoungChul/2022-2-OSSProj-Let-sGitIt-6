@@ -40,7 +40,7 @@ def pvprunning():
     stones = pygame.sprite.Group()
     last_obstacle = pygame.sprite.Group()
     # 아이템 추가 11/08
-    mask_items = pygame.sprite.Group()
+    water_item = pygame.sprite.Group()
     dust_items = pygame.sprite.Group()
 
     cacti2 = pygame.sprite.Group()
@@ -53,7 +53,7 @@ def pvprunning():
     fire_Cactus.containers = fire_cacti
     Ptera.containers = pteras
     Stone.containers = stones # add stone containers
-    Mask_item.containers = mask_items
+    Water_item.containers = water_item
     Dust_item.containers = dust_items
 
     Cactus_pvp_running.containers = cacti2
@@ -135,8 +135,6 @@ def pvprunning():
     is_water_time_2p = False
     pm_list = []
     pm_list_2p = []
-    # water = DustImg()
-    # water_2p = DustImg_2p()
     global water_rest_time
     global water_rest_time_2p
     water_rest_time = 0
@@ -149,8 +147,7 @@ def pvprunning():
     m_list_2p = []
     bk_2p = 0
 
-    global mask_rest_time
-    mask_rest_time = ITEM_TIME
+    water_rest_time = ITEM_TIME
 
     while not game_quit:
         while start_menu:
@@ -529,13 +526,13 @@ def pvprunning():
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
 
-                for m in mask_items:
+                for m in water_item:
                     m.movement[0] = -1 * RUN_GAME_SPEED
                     if not player2_dino.collision_immune:
                         if pygame.sprite.collide_mask(player2_dino, m):
                             player2_dino.collision_immune = True
                             background.update(background.name,1)
-                            background_2p.update('winter',2)
+                            background_2p.update('factory',2)
                             collision_time = pygame.time.get_ticks()
                             player2_dino.score2 = 0
                             m.image.set_alpha(0)
@@ -547,7 +544,7 @@ def pvprunning():
                     if not player1_dino.collision_immune:
                         if pygame.sprite.collide_mask(player1_dino, m):
                             player1_dino.collision_immune = True
-                            background.update('winter',1)
+                            background.update('factory',1)
                             background_2p.update(background_2p.name,2)                         
                             collision_time = pygame.time.get_ticks()
                             player2_dino.score2 = 0
@@ -605,7 +602,7 @@ def pvprunning():
                 speed_indicator.update(RUN_GAME_SPEED)
                 heart_1p.update(player1_dino.life)
                 heart_2p.update(player2_dino.life)
-                mask_items.update()
+                water_item.update()
                 dust_items.update()
 
                 if pygame.display.get_surface() is not None:
@@ -711,7 +708,7 @@ def pvprunning():
                 player1_dino.draw()
                 player2_dino.draw()
 
-                mask_items.draw(screen)
+                water_item.draw(screen)
                 dust_items.draw(screen)
 
                 resized_screen.blit(
@@ -780,12 +777,13 @@ def pvprunning():
                         pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
                         resized_screen_center)
                     pygame.display.update()
-                if len(mask_items) < 2:
+
+                if len(water_item) < 2:
                     for l in last_obstacle:
-                        if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(MASK_INTERVAL) == MAGIC_NUM:
+                        if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(WATER_INTERVAL) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(Mask_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
-                            last_obstacle.add(Mask_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
+                            last_obstacle.add(Water_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
+                            last_obstacle.add(Water_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
 
 
                 if len(dust_items) < 2:
@@ -801,7 +799,6 @@ def pvprunning():
                     for pm in pm_list:
                         if (pm.x >= player1_dino.rect.left) and (pm.x <= player1_dino.rect.right) and (pm.y > player1_dino.rect.top) and (pm.y < player1_dino.rect.bottom):
                             print("1p가 공격에 맞음.")
-                            # if pygame.sprite.collide_mask(player_dino, pm):
                             player1_dino.collision_immune = True
                             player1_dino.life -= 1
                             collision_time = pygame.time.get_ticks()
@@ -815,7 +812,6 @@ def pvprunning():
                     for pm_2p in pm_list_2p:
                         if (pm_2p.x >= player2_dino.rect.left) and (pm_2p.x <= player2_dino.rect.right) and (pm_2p.y > player2_dino.rect.top) and (pm_2p.y < player2_dino.rect.bottom):
                             print("2p가 공격에 맞음.")
-                            # if pygame.sprite.collide_mask(player_dino, pm):
                             player2_dino.collision_immune = True
                             player2_dino.life -= 1
                             collision_time = pygame.time.get_ticks()
