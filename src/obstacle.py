@@ -666,10 +666,8 @@ class DustImg(pygame.sprite.Sprite):
 
 class DustImg_2p(pygame.sprite.Sprite):
     def __init__(self, speed=0, sizex=-1, sizey=-1, life=5):
-        print("Boss 등장")
         pygame.sprite.Sprite.__init__(self)
         self.images, self.rect = load_sprite_sheet('dust.png', 1, 1, width, height/2 - 0.05, -1)
-        # self.rect.centery = self.ptera_height[random.randrange(0, 3)]
         self.rect.centery = height * 0.75
         self.rect.left = 0
         self.image = self.images[0]
