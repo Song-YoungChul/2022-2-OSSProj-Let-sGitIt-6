@@ -647,32 +647,6 @@ class Hole(pygame.sprite.Sprite):
         if self.rect.right < 0:
             self.kill()
 
-class Mask_item(pygame.sprite.Sprite):
-    def __init__(self, speed=4, sizex=-1, sizey=-1, type = -1):
-        pygame.sprite.Sprite.__init__(self,self.containers)
-        self.images, self.rect = load_sprite_sheet('mask_bubble.png', 1, 1, sizex, sizey, -1)
-        if type == 1:
-            self.rect.bottom = random.randrange(int(0.05*height), int(height*0.37))
-        elif type == 2:
-            self.rect.bottom = random.randrange(int(0.45*height), int(height*0.87))
-        else:
-            self.rect.bottom = random.randrange(int(0.45*height), int(height*0.87))
-
-        
-        self.rect.left = width + self.rect.width
-        self.image = self.images[0] #0과 3 사이의 난수를 반환
-        self.movement = [-1*speed, 0] #캐릭터에게 speed의 속도로 다가옴
-        
-    def draw(self):
-        screen.blit(self.image, self.rect)
-
-    def update(self):
-        self.rect = self.rect.move(self.movement)
-
-        if self.rect.right < 0:
-            self.kill()
-
-
 class DustImg(pygame.sprite.Sprite):
     def __init__(self, speed=0, sizex=-1, sizey=-1, life=5):
         pygame.sprite.Sprite.__init__(self)
