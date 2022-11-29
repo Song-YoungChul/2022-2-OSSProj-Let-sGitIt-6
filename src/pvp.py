@@ -180,7 +180,7 @@ def pvp():
                             jumpingx2_2p = False
                     if event.type == pygame.VIDEORESIZE:
                         # check_scr_size(event.w, event.h)
-                        pvp_scr_size(event.w,event.h)
+                        pvp_check_scr_size(event.w,event.h)
 
             if not paused:
                 if go_left_1p:
@@ -401,7 +401,7 @@ def pvp():
 
                     if event.type == pygame.VIDEORESIZE:
                         # check_scr_size(event.w, event.h)
-                        pvp_scr_size(event.w,event.h)
+                        check_(event.w,event.h)
                 r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.35, resized_screen.get_height() * 0.55
                 r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.65, resized_screen.get_height() * 0.55
                 disp_pvp_gameover_buttons(btn_restart, btn_exit)

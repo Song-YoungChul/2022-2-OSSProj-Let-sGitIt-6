@@ -16,6 +16,8 @@ pygame.init()
 display.set_caption("RunningPVP-T-rex by_Let`sGitIt")
 gamer_name = ''
 scr_size = (width, height) = (800, 400)
+# 최소 화면 설정
+pvp_scr_size = (pvp_width, pvp_height) = (1200, 400)
 FPS = 60
 gravity = 0.65
 
@@ -277,9 +279,14 @@ def check_scr_size(eventw, eventh):
             adjusted_height = int(eventw / (width / height))
             resized_screen = display.set_mode((eventw, adjusted_height), RESIZABLE)
 
-def pvp_scr_size(eventw, eventh):
-    adjusted_height = int(eventw / 3)
-    resized_screen = display.set_mode((eventw, adjusted_height), RESIZABLE)
+def pvp_check_scr_size(eventw, eventh):
+    if (eventw < pvp_width and eventh < pvp_height) or (eventw < pvp_width) or (eventh < pvp_height):
+        # 최소해상도
+        resized_screen = display.set_mode((pvp_scr_size), RESIZABLE)
+    else:
+        if (eventw / eventh) != (width / height):
+            adjusted_height = int(eventw / (pvp_width/pvp_height))
+            resized_screen = display.set_mode((eventw, adjusted_height), RESIZABLE)
 
 def full_screen_issue():
     global scr_size
