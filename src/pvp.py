@@ -105,6 +105,9 @@ def pvp():
                         game_over = True
 
                     if event.type == pygame.KEYDOWN:
+                        if event.key == pygame.K_r:
+                            # check_scr_size(event.w, event.h)
+                            pvp_check_scr_size(1200,400)
                         # 1p dino
                         if event.key == pygame.K_w:
                             # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
