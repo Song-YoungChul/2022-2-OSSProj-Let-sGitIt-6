@@ -58,6 +58,10 @@ def intro_screen():
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
                         return False
+                    if event.key == pygame.K_r:
+                        check_scr_size(799,399)
+                        
+
                 # 버튼 클릭했을 때 event
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if pygame.mouse.get_pressed() == (1, 0, 0):
@@ -270,6 +274,8 @@ def select_mode():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     return False
+                if event.key == pygame.K_r:
+                    pvp_check_scr_size(1200,400)
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed() == (1, 0, 0):
                     x, y = event.pos
