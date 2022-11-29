@@ -86,6 +86,9 @@ def intro_screen():
                         # option button
                         if r_btn_option_rect.collidepoint(x, y):
                             option()
+                # intro 화면 resize관련 부분 추가
+                if event.type == pygame.VIDEORESIZE:
+                    check_scr_size(event.w, event.h)
 
         # interface draw
         if pygame.display.get_surface() is not None:
