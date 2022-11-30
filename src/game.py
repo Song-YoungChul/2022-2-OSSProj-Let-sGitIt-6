@@ -1674,12 +1674,12 @@ def gamerule_image(mode = ""):
                     if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                         game_quit = True
                         # intro_screen()
-                        option()
+                        gamerule()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
                         game_quit = True
                         # intro_screen()
-                        option()
+                        gamerule()
                 if event.type == pygame.VIDEORESIZE:
                     check_scr_size(event.w, event.h)
 
