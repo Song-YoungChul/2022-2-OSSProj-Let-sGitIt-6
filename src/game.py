@@ -694,6 +694,12 @@ def gameplay_hard():
     game_over = False
     game_quit = False
     paused = False
+    global is_super_time
+    global super_rest_time
+    is_super_time = False
+    super_rest_time = ITEM_TIME
+
+
     ###
     stage = 1
     life = LIFE
@@ -836,9 +842,11 @@ def gameplay_hard():
                                 # if pygame.mixer.get_init() is not None:
                                     # check_point_sound.play()
                                 player_dino.collision_immune = True
-                                player_dino.is_super = True
                                 item_time = pygame.time.get_ticks()
                                 shield_item_count -= 1
+                                is_super_time = True
+                                super_rest_time = ITEM_TIME
+                                super_appear()
                         # life item
                         if event.key == pygame.K_w:
                             if life_item_count > 0 and player_dino.life < 5:
@@ -1234,6 +1242,12 @@ def gameplay_hard():
                 slow_items.update()
                 coin_items.update()
 
+                if is_super_time:
+                    player_dino.is_super = True
+                if super_rest_time ==0:
+                    is_super_time = False
+                    player_dino.add_score = False
+
                 # 보스몬스터 타임이면,
                 if is_pking_time:
                     pking.update()
@@ -1250,7 +1264,7 @@ def gameplay_hard():
                     screen.blit(slow_item_image[0], (width * (0.4 + 2 * HARD_ITEM_OFF), height * HARD_ITEM_HEIGHT))
 
                     shield_item_count_text = small_font.render(f"x{shield_item_count}", True, black)
-                    soldout_shiled_text = small_font.render(f"x{shield_item_count}", True, deep_red)
+                    soldout_sheild_text = small_font.render(f"x{shield_item_count}", True, deep_red)
                     life_item_count_text = small_font.render(f"x{life_item_count}", True, black)
                     soldout_life_text = small_font.render(f"x{life_item_count}", True, deep_red)
                     slow_item_count_text = small_font.render(f"x{slow_item_count}", True, black)
@@ -1259,7 +1273,7 @@ def gameplay_hard():
                     
                     screen.blit(coin_count_text, (width * 0.33, height * 0.02))
                     if shield_item_count == 0:
-                        screen.blit(soldout_shiled_text, (width * 0.44, height * HARD_ITEM_HEIGHT))
+                        screen.blit(soldout_sheild_text, (width * 0.44, height * HARD_ITEM_HEIGHT))
                     else:
                         screen.blit(shield_item_count_text, (width * 0.44, height * HARD_ITEM_HEIGHT))
                     if life_item_count == 0:
@@ -2026,3 +2040,19 @@ def highscore_page(player_dino, mode):
     pygame.quit()
     quit()
 # =====================================================================================================
+def super_appear():
+        global game_over
+        global paused
+        global is_super_time
+        if game_over:
+            return
+        if paused:
+            return
+        if  is_super_time == False:
+            return
+        
+        threading.Timer(ONE_SECOND,super_appear).start()
+        global super_rest_time
+        super_rest_time -= 1
+        if super_rest_time <= 0:
+            super_rest_time = 0
