@@ -1688,6 +1688,68 @@ def gamerule_image(mode = ""):
                     if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                         game_quit = True
                         # intro_screen()
+                        if mode == "easy":
+                            gamerule()
+                        elif mode == "hard":
+                            gamerule_image2("hard")
+                        elif mode == "battle":
+                            gamerule_image2("battle")
+                        elif mode == "running":
+                            gamerule_image2("running")
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        game_quit = True
+                        # intro_screen()
+                        if mode == "easy":
+                            print(mode)
+                            gamerule()
+                        else:
+                            gamerule_image2(mode)
+                if event.type == pygame.VIDEORESIZE:
+                    check_scr_size(event.w, event.h)
+
+            screen.blit(screen_board, (0,0))
+            resized_screen.blit(
+                pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())), resized_screen_center)
+            pygame.display.update()
+        clock.tick(FPS)
+
+    pygame.quit()
+    quit()
+
+def gamerule_image2(mode = ""):
+    global resized_screen
+    game_quit = False
+    max_per_screen = 10
+    screen_board_height = resized_screen.get_height()
+    screen_board = pygame.surface.Surface((
+        resized_screen.get_width(),
+        screen_board_height
+        ))
+
+    if mode == "battle":
+        gamerule_image, gamerule_rect= load_image("easy_mode_rule.png",800,400,-1)
+    elif mode == "running":
+        gamerule_image, gamerule_rect= load_image("easy_mode_rule.png",800,400,-1)
+    elif mode == "hard":
+        gamerule_image, gamerule_rect= load_image("easy_mode_rule.png",800,400,-1)
+    gamerule_rect.centerx=width*0.5
+    gamerule_rect.centery=height*0.5
+
+    while not game_quit:
+        if pygame.display.get_surface() is None:
+            game_quit = True
+        else:
+            screen_board.fill(background_col)
+            screen_board.blit(gamerule_image,gamerule_rect)
+
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    game_quit = True
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
+                        game_quit = True
+                        # intro_screen()
                         gamerule()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
@@ -1705,8 +1767,6 @@ def gamerule_image(mode = ""):
 
     pygame.quit()
     quit()
-
-
 
 
 def pausing():
