@@ -370,7 +370,7 @@ def gameplay_easy():
     stones = pygame.sprite.Group()
 
     last_obstacle = pygame.sprite.Group()
-    shield_items = pygame.sprite.Group()
+    # shield_items = pygame.sprite.Group()
     life_items = pygame.sprite.Group()
     slow_items = pygame.sprite.Group()
     # highjump_items = pygame.sprite.Group()
@@ -382,7 +382,7 @@ def gameplay_easy():
     fire_Cactus.containers = fire_cacti
     Ptera.containers = pteras
     Cloud.containers = clouds
-    ShieldItem.containers = shield_items
+    # ShieldItem.containers = shield_items
     LifeItem.containers = life_items
     SlowItem.containers = slow_items
 
@@ -476,7 +476,7 @@ def gameplay_easy():
 
                     elif not player_dino.is_super:
                         immune_time = pygame.time.get_ticks()
-                        if immune_time - collision_time > collision_immune_time:
+                        if immune_time > collision_immune_time:
                             player_dino.collision_immune = False
 
                 for f in fire_cacti:
@@ -493,7 +493,7 @@ def gameplay_easy():
 
                     elif not player_dino.is_super:
                         immune_time = pygame.time.get_ticks()
-                        if immune_time - collision_time > collision_immune_time:
+                        if immune_time > collision_immune_time:
                             player_dino.collision_immune = False
                 
 
@@ -511,23 +511,23 @@ def gameplay_easy():
 
                     elif not player_dino.is_super:
                         immune_time = pygame.time.get_ticks()
-                        if immune_time - collision_time > collision_immune_time:
+                        if immune_time > collision_immune_time:
                             player_dino.collision_immune = False
 
 
                     elif not player_dino.is_super:
                         immune_time = pygame.time.get_ticks()
-                        if immune_time - collision_time > collision_immune_time:
+                        if immune_time > collision_immune_time:
                             player_dino.collision_immune = False
 
-                if not player_dino.is_super:
-                    for s in shield_items:
-                        s.movement[0] = -1 * game_speed
-                        if pygame.sprite.collide_mask(player_dino, s):
-                            s.kill()
-                            item_time = pygame.time.get_ticks()
-                        elif s.rect.right < 0:
-                            s.kill()
+                # if not player_dino.is_super:
+                #     for s in shield_items:
+                #         s.movement[0] = -1 * game_speed
+                #         if pygame.sprite.collide_mask(player_dino, s):
+                #             s.kill()
+                #             item_time = pygame.time.get_ticks()
+                #         elif s.rect.right < 0:
+                #             s.kill()
 
                 if len(cacti) < 2:
                     if len(cacti) == 0:
@@ -565,7 +565,7 @@ def gameplay_easy():
                 fire_cacti.update()
                 pteras.update()
                 clouds.update()
-                shield_items.update()
+                # shield_items.update()
                 life_items.update()
                 new_ground.update()
                 scb.update(player_dino.score)
@@ -588,7 +588,7 @@ def gameplay_easy():
                     stones.draw(screen)
                     fire_cacti.draw(screen)
                     pteras.draw(screen)
-                    shield_items.draw(screen)
+                    # shield_items.draw(screen)
                     life_items.draw(screen)
                     slow_items.draw(screen)
                     player_dino.draw()
@@ -704,7 +704,7 @@ def gameplay_hard():
     stage = 1
     life = LIFE
     pking_life = PKING_LIFE # 보스 목숨
-    shield_item_count = db.query_db("select count from item where name='shield';", one=True)['count']
+    # shield_item_count = db.query_db("select count from item where name='shield';", one=True)['count']
     life_item_count = db.query_db("select count from item where name='life';", one=True)['count']
     slow_item_count = db.query_db("select count from item where name='slow';", one=True)['count']
     coin_item_count = db.query_db("select count from item where name='coin';", one=True)['count']
@@ -737,12 +737,12 @@ def gameplay_hard():
     counter = 0
 
 
-    item_back, item_back_rect = alpha_image('item_back.png', ITEM_BACK_WIDTH, ITEM_BACK_HEIGHT, -1)
+    item_back, item_back_rect = alpha_image('item_back.png', ITEM_BACK_WIDTH *0.75, ITEM_BACK_HEIGHT, -1)
     (item_back_rect.centerx, item_back_rect.top) = (width * ITEM_BACK_X, ITEM_BACK_Y)
     pteras = pygame.sprite.Group()
     clouds = pygame.sprite.Group()
     last_obstacle = pygame.sprite.Group()
-    shield_items = pygame.sprite.Group()
+    # shield_items = pygame.sprite.Group()
     life_items = pygame.sprite.Group()
     slow_items = pygame.sprite.Group()
     coin_items = pygame.sprite.Group()
@@ -750,7 +750,7 @@ def gameplay_hard():
     obst_container(type_idx2)
     Ptera.containers = pteras
     Cloud.containers = clouds
-    ShieldItem.containers = shield_items
+    # ShieldItem.containers = shield_items
     LifeItem.containers = life_items
     SlowItem.containers = slow_items
     CoinItem.containers = coin_items
@@ -758,7 +758,7 @@ def gameplay_hard():
     # BUTTON IMG LOAD
     # retbutton_image, retbutton_rect = load_image('replay_button.png', 70, 62, -1)
     game_over_image, game_over_rect = load_image('game_over.png', OVER_X, OVER_Y, -1)
-    shield_item_image, shield_time_rect = load_sprite_sheet('item.png', 2, 1, GAME_ITEM_DISP, GAME_ITEM_DISP, -1)
+    # shield_item_image, shield_time_rect = load_sprite_sheet('item.png', 2, 1, GAME_ITEM_DISP, GAME_ITEM_DISP, -1)
     heart_item_image, heart_item_rect = load_image('love-shield.png', GAME_ITEM_DISP, GAME_ITEM_DISP, -1)
     slow_item_image, slow_item_rect = load_sprite_sheet('slow_pic.png', 2, 1, GAME_ITEM_DISP, GAME_ITEM_DISP, -1)
     coin_image, coin_rect = load_sprite_sheet('coin.png', 1, 7, GAME_ITEM_DISP, GAME_ITEM_DISP, -1)
@@ -837,16 +837,16 @@ def gameplay_hard():
                             space_go=True
                             bk=0
                         # shield item
-                        if event.key == pygame.K_q:
-                            if shield_item_count > 0:
-                                # if pygame.mixer.get_init() is not None:
-                                    # check_point_sound.play()
-                                player_dino.collision_immune = True
-                                item_time = pygame.time.get_ticks()
-                                shield_item_count -= 1
-                                is_super_time = True
-                                super_rest_time = ITEM_TIME
-                                super_appear()
+                        # if event.key == pygame.K_q:
+                        #     if shield_item_count > 0:
+                        #         # if pygame.mixer.get_init() is not None:
+                        #             # check_point_sound.play()
+                        #         player_dino.collision_immune = True
+                        #         item_time = pygame.time.get_ticks()
+                        #         shield_item_count -= 1
+                        #         is_super_time = True
+                        #         super_rest_time = ITEM_TIME
+                        #         super_appear()
                         # life item
                         if event.key == pygame.K_w:
                             if life_item_count > 0 and player_dino.life < 5:
@@ -1232,7 +1232,7 @@ def gameplay_hard():
                 pteras.update()
                 if type_idx2 == 0:
                     clouds.update()
-                shield_items.update()
+                # shield_items.update()
                 life_items.update()
                 new_background.update()
                 new_ground.update()
@@ -1258,35 +1258,35 @@ def gameplay_hard():
                     clouds.draw(screen)
                     scb.draw()
                     screen.blit(item_back, item_back_rect)
-                    screen.blit(coin_image[0], (width * 0.29, height * HARD_ITEM_HEIGHT))
-                    screen.blit(shield_item_image[0], (width * 0.4, height * HARD_ITEM_HEIGHT))
-                    screen.blit(heart_item_image, (width * (0.4 + HARD_ITEM_OFF), height * HARD_ITEM_HEIGHT))
-                    screen.blit(slow_item_image[0], (width * (0.4 + 2 * HARD_ITEM_OFF), height * HARD_ITEM_HEIGHT))
+                    screen.blit(coin_image[0], (width * 0.35, height * HARD_ITEM_HEIGHT))
+                    # screen.blit(shield_item_image[0], (width * 0.4, height * HARD_ITEM_HEIGHT))
+                    screen.blit(heart_item_image, (width * (0.35 + HARD_ITEM_OFF), height * HARD_ITEM_HEIGHT))
+                    screen.blit(slow_item_image[0], (width * (0.35 + 2 * HARD_ITEM_OFF), height * HARD_ITEM_HEIGHT))
 
-                    shield_item_count_text = small_font.render(f"x{shield_item_count}", True, black)
-                    soldout_sheild_text = small_font.render(f"x{shield_item_count}", True, deep_red)
+                    # shield_item_count_text = small_font.render(f"x{shield_item_count}", True, black)
+                    # soldout_sheild_text = small_font.render(f"x{shield_item_count}", True, deep_red)
                     life_item_count_text = small_font.render(f"x{life_item_count}", True, black)
                     soldout_life_text = small_font.render(f"x{life_item_count}", True, deep_red)
                     slow_item_count_text = small_font.render(f"x{slow_item_count}", True, black)
                     soldout_slow_text = small_font.render(f"x{slow_item_count}", True, deep_red)
                     coin_count_text = small_font.render(f"x{coin_item_count}", True, black)
                     
-                    screen.blit(coin_count_text, (width * 0.33, height * 0.02))
-                    if shield_item_count == 0:
-                        screen.blit(soldout_sheild_text, (width * 0.44, height * HARD_ITEM_HEIGHT))
-                    else:
-                        screen.blit(shield_item_count_text, (width * 0.44, height * HARD_ITEM_HEIGHT))
+                    screen.blit(coin_count_text, (width * 0.39, height * 0.02))
+                    # if shield_item_count == 0:
+                    #     screen.blit(soldout_sheild_text, (width * 0.44, height * HARD_ITEM_HEIGHT))
+                    # else:
+                    #     screen.blit(shield_item_count_text, (width * 0.44, height * HARD_ITEM_HEIGHT))
                     if life_item_count == 0:
-                        screen.blit(soldout_life_text, (width * (0.44 + HARD_ITEM_OFF),
+                        screen.blit(soldout_life_text, (width * (0.39 + HARD_ITEM_OFF ),
                                                         height * HARD_ITEM_HEIGHT))
                     else:
-                        screen.blit(life_item_count_text, (width * (0.44 + HARD_ITEM_OFF),
+                        screen.blit(life_item_count_text, (width * (0.39 + HARD_ITEM_OFF),
                                                            height * HARD_ITEM_HEIGHT))
                     if slow_item_count == 0:
-                        screen.blit(soldout_slow_text, (width * (0.44 + 2 * HARD_ITEM_OFF),
+                        screen.blit(soldout_slow_text, (width * (0.39 + 2 * HARD_ITEM_OFF ),
                                                         height * HARD_ITEM_HEIGHT))
                     else:
-                        screen.blit(slow_item_count_text, (width * (0.44 + 2 * HARD_ITEM_OFF),
+                        screen.blit(slow_item_count_text, (width * (0.39 +2* HARD_ITEM_OFF ),
                                                            height * HARD_ITEM_HEIGHT))
                     heart.draw()
   
@@ -1297,7 +1297,7 @@ def gameplay_hard():
                     obst2.draw(screen)
                     obst3.draw(screen)
                     pteras.draw(screen)
-                    shield_items.draw(screen)
+                    # shield_items.draw(screen)
                     life_items.draw(screen)
                     slow_items.draw(screen)
                     coin_items.draw(screen)
@@ -1358,8 +1358,8 @@ def gameplay_hard():
                             game_quit = True
                             rest_time = REST_TIME_10
                             if not db.is_limit_data(player_dino.score, mode="hard"):
-                                db.query_db(
-                                    f"UPDATE item set count = {shield_item_count} where name ='shield';")
+                                # db.query_db(
+                                #     f"UPDATE item set count = {shield_item_count} where name ='shield';")
                                 db.query_db(
                                     f"UPDATE item set count = {life_item_count} where name ='life';"
                                 )
@@ -1392,8 +1392,8 @@ def gameplay_hard():
                             x, y = event.pos
                             if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE or pygame.MOUSEBUTTONDOWN:
                                 if not db.is_limit_data(player_dino.score, mode="hard"):
-                                    db.query_db(
-                                        f" UPDATE item set count = {shield_item_count} where name ='shield';")
+                                    # db.query_db(
+                                    #     f" UPDATE item set count = {shield_item_count} where name ='shield';")
                                     db.query_db(
                                         f"UPDATE item set count = {life_item_count} where name ='life';"
                                     )
@@ -1436,7 +1436,6 @@ def gameplay_hard():
 
     pygame.quit()
     quit()
-
 def board(mode=""):
     global resized_screen
     game_quit = False
@@ -1688,68 +1687,6 @@ def gamerule_image(mode = ""):
                     if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                         game_quit = True
                         # intro_screen()
-                        if mode == "easy":
-                            gamerule()
-                        elif mode == "hard":
-                            gamerule_image2("hard")
-                        elif mode == "battle":
-                            gamerule_image2("battle")
-                        elif mode == "running":
-                            gamerule_image2("running")
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if event.button == 1:
-                        game_quit = True
-                        # intro_screen()
-                        if mode == "easy":
-                            print(mode)
-                            gamerule()
-                        else:
-                            gamerule_image2(mode)
-                if event.type == pygame.VIDEORESIZE:
-                    check_scr_size(event.w, event.h)
-
-            screen.blit(screen_board, (0,0))
-            resized_screen.blit(
-                pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())), resized_screen_center)
-            pygame.display.update()
-        clock.tick(FPS)
-
-    pygame.quit()
-    quit()
-
-def gamerule_image2(mode = ""):
-    global resized_screen
-    game_quit = False
-    max_per_screen = 10
-    screen_board_height = resized_screen.get_height()
-    screen_board = pygame.surface.Surface((
-        resized_screen.get_width(),
-        screen_board_height
-        ))
-
-    if mode == "battle":
-        gamerule_image, gamerule_rect= load_image("easy_mode_rule.png",800,400,-1)
-    elif mode == "running":
-        gamerule_image, gamerule_rect= load_image("easy_mode_rule.png",800,400,-1)
-    elif mode == "hard":
-        gamerule_image, gamerule_rect= load_image("easy_mode_rule.png",800,400,-1)
-    gamerule_rect.centerx=width*0.5
-    gamerule_rect.centery=height*0.5
-
-    while not game_quit:
-        if pygame.display.get_surface() is None:
-            game_quit = True
-        else:
-            screen_board.fill(background_col)
-            screen_board.blit(gamerule_image,gamerule_rect)
-
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    game_quit = True
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
-                        game_quit = True
-                        # intro_screen()
                         gamerule()
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if event.button == 1:
@@ -1767,6 +1704,8 @@ def gamerule_image2(mode = ""):
 
     pygame.quit()
     quit()
+
+
 
 
 def pausing():
