@@ -32,8 +32,13 @@ def pvprunning():
     global dust_item
     global is_dust_time
     global is_dust_time_2p
+    global water_item
     global is_water_time
     global is_water_time_2p
+    global ice_item
+    global is_ice_time
+    global is_ice_time_2p
+
 
     # 1p 장애물
     cacti = pygame.sprite.Group()
@@ -50,8 +55,9 @@ def pvprunning():
     last_obstacle2 = pygame.sprite.Group()
 
     # 아이템
-    dust_items = pygame.sprite.Group()
+    dust_item = pygame.sprite.Group()
     water_item = pygame.sprite.Group()
+    ice_item = pygame.sprite.Group()
 
 
     Cactus.containers = cacti
@@ -64,8 +70,10 @@ def pvprunning():
     Ptera_pvp_running.containers = pteras2
     Stone_pvp_running.containers = stones2 # add stone containers
 
+    Dust_item.containers = dust_item
     Water_item.containers = water_item
-    Dust_item.containers = dust_items
+    Ice_item.containers = ice_item
+
 
     start_menu = False
     game_over = False
@@ -85,8 +93,6 @@ def pvprunning():
     background_2p = ImgBack(RUN_GAME_SPEED, "spring",type=2)
     new_ground = Ground(-1 * RUN_GAME_SPEED)
     new_ground_2p = Ground(-1 * RUN_GAME_SPEED, DEFAULT_HEIGHT_2P)
-    # alpha_back, alpha_back_rect = alpha_image('alpha_back2.png', width + 20, height)
-    # alpha_back_rect.left = -20    
     counter = 0
     
     # 게임 중  pause 상태
@@ -145,12 +151,22 @@ def pvprunning():
     pm_list_2p = []
     global water_rest_time
     global water_rest_time_2p
-    water_rest_time = 0
-    water_rest_time_2p = 0
+    water_rest_time = ITEM_TIME
+    water_rest_time_2p = ITEM_TIME
     water_appear()
     water_appear_2p()
 
-    water_rest_time = ITEM_TIME
+    # 아이스 변수설정
+    is_ice_time = False
+    is_ice_time_2p = False
+    global ice_rest_time
+    global ice_rest_time_2p
+    ice_rest_time = ICE_TIME
+    ice_rest_time_2p = ICE_TIME
+    ice_appear()
+    ice_appear_2p()
+
+
 
     while not game_quit:
         while start_menu:
@@ -168,58 +184,60 @@ def pvprunning():
 
                     if event.type == pygame.KEYDOWN:
                         # 1p dino
-                        if event.key == pygame.K_w:
-                            # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
-                            if player1_dino.rect.bottom == int(DEFAULT_HEIGHT * height):
-                                player1_dino.is_jumping = True
-                                if pygame.mixer.get_init() is not None:
-                                    jump_sound.play()
-                                player1_dino.movement[1] = -1 * player1_dino.jump_speed_running
+                        if not is_ice_time: # 아이스 아이템 먹으면 키 못움직임
+                            if event.key == pygame.K_w:
+                                # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
+                                if player1_dino.rect.bottom == int(DEFAULT_HEIGHT * height):
+                                    player1_dino.is_jumping = True
+                                    if pygame.mixer.get_init() is not None:
+                                        jump_sound.play()
+                                    player1_dino.movement[1] = -1 * player1_dino.jump_speed_running
 
-                        if event.key == pygame.K_s:
-                            # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
-                            if not (player1_dino.is_jumping and player1_dino.is_dead):
-                                player1_dino.is_ducking = True
+                            if event.key == pygame.K_s:
+                                # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
+                                if not (player1_dino.is_jumping and player1_dino.is_dead):
+                                    player1_dino.is_ducking = True
 
-                        if event.key == pygame.K_a:
-                            go_left_1p = True
+                            if event.key == pygame.K_a:
+                                go_left_1p = True
 
-                        if event.key == pygame.K_d:
-                            go_right_1p = True
+                            if event.key == pygame.K_d:
+                                go_right_1p = True
 
-                        if event.key == pygame.K_LCTRL:
-                            space_go_1p = True
-                            bk_1p = 0
+                            if event.key == pygame.K_LCTRL:
+                                space_go_1p = True
+                                bk_1p = 0
 
-                        if event.key == pygame.K_TAB:
-                            jumpingx2_1p = True
+                            if event.key == pygame.K_TAB:
+                                jumpingx2_1p = True
 
-                        # 2p dino        
-                        if event.key == pygame.K_UP:
-                            # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
-                            if player2_dino.rect.bottom == int(DEFAULT_HEIGHT_2P * height):
-                                player2_dino.is_jumping = True
-                                if pygame.mixer.get_init() is not None:
-                                    jump_sound.play()
-                                player2_dino.movement[1] = -1 * player2_dino.jump_speed_running
-                        if event.key == pygame.K_DOWN:
-                            # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
-                            if not (player2_dino.is_jumping and player2_dino.is_dead):
-                                player2_dino.is_ducking = True
-                        if event.key == pygame.K_LEFT:
-                            # print("left")
-                            go_left_2p = True
-                        if event.key == pygame.K_RIGHT:
-                            # print("right")
-                            go_right_2p = True
-                        if event.key == pygame.K_p:
-                            space_go_2p = True
-                            bk_2p = 0
-                        if event.key == pygame.K_o:
-                            jumpingx2_2p = True
-                        if event.key == pygame.K_ESCAPE:
-                            paused = not paused
-                            paused = src.game.pausing()
+                        # 2p dino
+                        if not is_ice_time_2p: # 아이스 아이템 먹으면 키 못움직임
+                            if event.key == pygame.K_UP:
+                                # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
+                                if player2_dino.rect.bottom == int(DEFAULT_HEIGHT_2P * height):
+                                    player2_dino.is_jumping = True
+                                    if pygame.mixer.get_init() is not None:
+                                        jump_sound.play()
+                                    player2_dino.movement[1] = -1 * player2_dino.jump_speed_running
+                            if event.key == pygame.K_DOWN:
+                                # 아래방향키를 누르는 시점에 공룡이 점프중이지 않으면 숙인다.
+                                if not (player2_dino.is_jumping and player2_dino.is_dead):
+                                    player2_dino.is_ducking = True
+                            if event.key == pygame.K_LEFT:
+                                # print("left")
+                                go_left_2p = True
+                            if event.key == pygame.K_RIGHT:
+                                # print("right")
+                                go_right_2p = True
+                            if event.key == pygame.K_p:
+                                space_go_2p = True
+                                bk_2p = 0
+                            if event.key == pygame.K_o:
+                                jumpingx2_2p = True
+                            if event.key == pygame.K_ESCAPE:
+                                paused = not paused
+                                paused = src.game.pausing()
 
                     if event.type == pygame.KEYUP:
                         # 1p dino
@@ -277,6 +295,8 @@ def pvprunning():
 
                 if space_go_1p and (int(bk_1p % MISSILE) == 0):
                     missile_1p = Obj()
+                    missile_1p.put_img("./sprites/orange_bullet.png")
+                    missile_1p.change_size(10, 10)
 
                     if not player1_dino.is_ducking:
                         missile_1p.x = round(player1_dino.rect.centerx)
@@ -311,13 +331,17 @@ def pvprunning():
                         player2_dino.rect.left = 0.5
                     else:
                         player2_dino.rect.left = player2_dino.rect.left - RUN_GAME_SPEED
+
                 if go_right_2p:
                     if player2_dino.rect.right > width:
                         player2_dino.rect.right = width
                     else:
                         player2_dino.rect.left = player2_dino.rect.left + RUN_GAME_SPEED
+
                 if space_go_2p and (int(bk_2p % MISSILE) == 0):
                     missile_2p = Obj()
+                    missile_2p.put_img("./sprites/orange_bullet.png")
+                    missile_2p.change_size(10, 10)
 
                     if not player2_dino.is_ducking:
                         missile_2p.x = round(player2_dino.rect.centerx)
@@ -339,19 +363,6 @@ def pvprunning():
                 d_list_2p.reverse()
                 for d in d_list_2p:
                     del m_list_2p[d]
-
-                # 2p의 미사일이 1p를 맞추었을 때
-                if len(m_list_2p) == 0:
-                    pass
-                else:
-                        if (m_2p.x >= player1_dino.rect.left) and (m_2p.x <= player1_dino.rect.right) and (
-                                m_2p.y > player1_dino.rect.top) and (m_2p.y < player1_dino.rect.bottom):
-                            player1_dino.decrease_life()
-                            if player1_dino.is_life_zero():
-                                player1_dino.is_dead = True
-                            m_list_2p.remove(m_2p)
-                        if m.x < 0:
-                            m_list_2p.remove(m_2p)
 
                 for c in cacti:
                     c.movement[0] = -1 * RUN_GAME_SPEED
@@ -518,6 +529,29 @@ def pvprunning():
                             if pygame.mixer.get_init() is not None:
                                 die_sound.play()
 
+                # 아이템
+                for d in dust_item:
+                    d.movement[0] = -1 * RUN_GAME_SPEED
+                    if not player2_dino.collision_immune:
+                        if pygame.sprite.collide_mask(player2_dino, d):
+                            player2_dino.collision_immune = True
+                            collision_time = pygame.time.get_ticks()
+                            d.image.set_alpha(0)
+                            #황사
+                            is_dust_time_2p = True
+                            dust_rest_time_2p = ITEM_TIME
+                            dust_appear_2p()
+                            
+                    if not player1_dino.collision_immune:
+                        if pygame.sprite.collide_mask(player1_dino, d):
+                            player1_dino.collision_immune = True                      
+                            collision_time = pygame.time.get_ticks()
+                            d.image.set_alpha(0)
+                            #황사
+                            is_dust_time = True
+                            dust_rest_time = ITEM_TIME
+                            dust_appear()
+
                 for m in water_item:
                     m.movement[0] = -1 * RUN_GAME_SPEED
                     if not player2_dino.collision_immune:
@@ -526,7 +560,6 @@ def pvprunning():
                             background.update(background.name,1)
                             background_2p.update('factory',2)
                             collision_time = pygame.time.get_ticks()
-                            player2_dino.score2 = 0
                             m.image.set_alpha(0)
                             is_water_time = True
                             water_rest_time = ITEM_TIME
@@ -539,36 +572,39 @@ def pvprunning():
                             background.update('factory',1)
                             background_2p.update(background_2p.name,2)                         
                             collision_time = pygame.time.get_ticks()
-                            player2_dino.score2 = 0
                             m.image.set_alpha(0)
                             is_water_time_2p = True
                             water_rest_time_2p = ITEM_TIME
                             water_appear_2p()
 
-                    
-                for d in dust_items:
-                    d.movement[0] = -1 * RUN_GAME_SPEED
+                for i in ice_item:
+                    i.movement[0] = -1 * RUN_GAME_SPEED
                     if not player2_dino.collision_immune:
-                        if pygame.sprite.collide_mask(player2_dino, d):
+                        if pygame.sprite.collide_mask(player2_dino, i):
                             player2_dino.collision_immune = True
+                            background.update(background.name,1)
+                            background_2p.update('winter',2)
+                            # new_ground_2p.image, new_ground_2p.rect = load_image('ground_winter.png', -1, -1, -1)
+                            # new_ground_2p.rect.top = int(DEFAULT_HEIGHT * height)
                             collision_time = pygame.time.get_ticks()
-                            player2_dino.score2 = 0
-                            d.image.set_alpha(0)
-                            #황사
-                            is_dust_time_2p = True
-                            dust_rest_time_2p = ITEM_TIME
-                            dust_appear_2p()
+                            i.image.set_alpha(0)
+                            is_ice_time = True
+                            ice_rest_time = ICE_TIME
+                            ice_appear()
                             
+
                     if not player1_dino.collision_immune:
-                        if pygame.sprite.collide_mask(player1_dino, d):
-                            player1_dino.collision_immune = True                      
+                        if pygame.sprite.collide_mask(player1_dino, i):
+                            player1_dino.collision_immune = True
+                            background.update('winter',1)
+                            background_2p.update(background_2p.name,2)
+                            # new_ground.image, new_ground.rect = load_image('ground_winter.png', -1, -1, -1)
+                            # new_ground.rect.top = int(DEFAULT_HEIGHT_2P * height)
                             collision_time = pygame.time.get_ticks()
-                            player2_dino.score2 = 0
-                            d.image.set_alpha(0)
-                            #황사
-                            is_dust_time = True
-                            dust_rest_time = ITEM_TIME
-                            dust_appear()
+                            i.image.set_alpha(0)
+                            is_ice_time_2p = True
+                            ice_rest_time_2p = ICE_TIME
+                            ice_appear_2p()
 
                 player1_dino.update('pvp')
                 player2_dino.update('pvp')
@@ -585,8 +621,9 @@ def pvprunning():
                 new_ground_2p.update()
                 heart_1p.update(player1_dino.life)
                 heart_2p.update(player2_dino.life)
+                dust_item.update()
                 water_item.update()
-                dust_items.update()
+                ice_item.update()
 
                 if pygame.display.get_surface() is not None:
                     screen.fill(background_col)
@@ -594,8 +631,6 @@ def pvprunning():
                     background_2p.draw()
                     new_ground.draw()
                     new_ground_2p.draw()
-                    # screen.blit(alpha_back, alpha_back_rect)
-                    # pygame.draw.line(screen, black, [width/2,0],[width/2,height],3)
                     heart_1p.draw()
                     heart_2p.draw()
 
@@ -613,6 +648,13 @@ def pvprunning():
                 pteras2.draw(screen)
                 stones2.draw(screen)
                 fire_cacti2.draw(screen)
+
+                player1_dino.draw()
+                player2_dino.draw()
+
+                dust_item.draw(screen)
+                water_item.draw(screen)
+                ice_item.draw(screen)
 
                 if is_dust_time:
                     dust.draw()
@@ -632,12 +674,15 @@ def pvprunning():
 
                 for pm in pm_list:
                     pm.show()
-                
+                for pm_2p in pm_list_2p:
+                    pm_2p.show()
+
+                # 1p 아이템 효과 지속시간 동안
                 if is_water_time:
                     pm = Obj()
                     pm.put_img("./sprites/water_drop.png")
-                    pm.change_size(40,40)
-                    pm.x = random.randrange(40, 800-40)
+                    pm.change_size(WATER_SIZE_X,WATER_SIZE_Y)
+                    pm.x = random.randrange(40, width-40)
                     pm.y = 210
                     pm.move = 3
                     if len(pm_list) <= 5:
@@ -652,11 +697,12 @@ def pvprunning():
                     for d in pd_list:
                         del pm_list[d]
 
+                # 1p 아이템 효과 지속시간 동안
                 if is_water_time_2p:
                     pm_2p = Obj()
                     pm_2p.put_img("./sprites/water_drop.png")
-                    pm_2p.change_size(40,40)
-                    pm_2p.x = random.randrange(40, 800-40)
+                    pm_2p.change_size(WATER_SIZE_X,WATER_SIZE_Y)
+                    pm_2p.x = random.randrange(40, width-40)
                     pm_2p.y = 10
                     pm_2p.move = 3
                     if len(pm_list_2p) <= MAX_WATER:
@@ -673,26 +719,34 @@ def pvprunning():
                     for d in pd_list_2p:
                         del pm_list_2p[d]
                     
-
+                # water 아이템 효과 끝나면
                 if water_rest_time == 0 :
                     is_water_time = False
                     pm_list = []
                     water_rest_time = ITEM_TIME
-
-                for pm_2p in pm_list_2p:
-                    pm_2p.show()
+                    background_2p.update('spring',2)
 
                 if water_rest_time_2p == 0 :
                     is_water_time_2p = False
                     pm_list_2p = []
                     water_rest_time_2p = ITEM_TIME
+                    background.update('spring',1)
+
+                # ice 아이템 효과 끝나면
+                if ice_rest_time == 0 :
+                    is_ice_time = False
+                    ice_rest_time = ICE_TIME
+                    background_2p.update('spring',2)
+                    # new_ground_2p.image, new_ground_2p.rect = load_image('ground2.png', -1, -1, -1)
+                    # new_ground_2p.rect.top = int(DEFAULT_HEIGHT_2P * height)
 
 
-                player1_dino.draw()
-                player2_dino.draw()
-
-                water_item.draw(screen)
-                dust_items.draw(screen)
+                if ice_rest_time_2p == 0 :
+                    is_ice_time_2p = False
+                    ice_rest_time_2p = ICE_TIME
+                    background.update('spring',1)
+                    # new_ground.image, new_ground.rect = load_image('ground2.png', -1, -1, -1)
+                    # new_ground.rect.top = int(DEFAULT_HEIGHT * height)
 
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
@@ -761,6 +815,13 @@ def pvprunning():
                         resized_screen_center)
                     pygame.display.update()
 
+                if len(dust_item) < 2:
+                    for l in last_obstacle:
+                        if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(DUST_INTERVAL) == MAGIC_NUM:
+                            last_obstacle.empty()
+                            last_obstacle.add(Dust_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
+                            last_obstacle.add(Dust_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
+                
                 if len(water_item) < 2:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(WATER_INTERVAL) == MAGIC_NUM:
@@ -768,14 +829,13 @@ def pvprunning():
                             last_obstacle.add(Water_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
                             last_obstacle.add(Water_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
 
-
-                if len(dust_items) < 2:
+                if len(ice_item) < 2:
                     for l in last_obstacle:
-                        if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(DUST_INTERVAL) == MAGIC_NUM:
+                        if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(ICE_INTERVAL) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(Dust_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
-                            last_obstacle.add(Dust_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
-                
+                            last_obstacle.add(Ice_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
+                            last_obstacle.add(Ice_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
+
                 if (len(pm_list)== 0):
                     pass
                 else:
@@ -935,3 +995,37 @@ def water_appear_2p():
         water_rest_time_2p -= 1
         if water_rest_time_2p <= 0:
             water_rest_time_2p = 0
+
+def ice_appear():
+        global game_over
+        global paused
+        global is_dust_time
+        if game_over:
+            return
+        if paused:
+            return
+        if is_ice_time == False:
+            return
+
+        threading.Timer(ONE_SECOND,ice_appear).start()
+        global ice_rest_time
+        ice_rest_time -= 1
+        if ice_rest_time <= 0:
+            ice_rest_time = 0
+
+def ice_appear_2p():
+        global game_over
+        global paused
+        global is_ice_time_2p
+        if game_over:
+            return
+        if paused:
+            return
+        if is_ice_time_2p == False:
+            return
+        
+        threading.Timer(ONE_SECOND,ice_appear_2p).start()
+        global ice_rest_time_2p
+        ice_rest_time_2p -= 1
+        if ice_rest_time_2p <= 0:
+            ice_rest_time_2p = 0
