@@ -23,6 +23,9 @@ def pvp():
     global stones
     global last_obstacle
     global life_item
+    global bgm_on
+    btn_size_w = 150
+    btn_size_h = 80
     cacti = pygame.sprite.Group()
     fire_cacti = pygame.sprite.Group()
     pteras = pygame.sprite.Group()
@@ -66,10 +69,10 @@ def pvp():
     # 게임 종료 후 노출 문구
     game_over_image, game_over_rect = load_image('game_over.png', 380, 100, -1)
     # 게임 후 버튼
-    r_btn_restart, r_btn_restart_rect = load_image(*resize('btn_restart.png', 150, 80, -1))
-    btn_restart, btn_restart_rect = load_image('btn_restart.png', 150, 80, -1)
-    r_btn_exit, r_btn_exit_rect = load_image(*resize('btn_exit.png', 150, 80, -1))
-    btn_exit, btn_exit_rect = load_image('btn_exit.png', 150, 80, -1)
+    r_btn_restart, r_btn_restart_rect = load_image(*resize('btn_restart.png', btn_size_w, btn_size_h, -1))
+    btn_restart, btn_restart_rect = load_image('btn_restart.png', btn_size_w, btn_size_h, -1)
+    r_btn_exit, r_btn_exit_rect = load_image(*resize('btn_exit.png', btn_size_w, btn_size_h, -1))
+    btn_exit, btn_exit_rect = load_image('btn_exit.png', btn_size_w, btn_size_h, -1)
 
     # 방향키 구현
     go_left_1p = False
@@ -107,7 +110,7 @@ def pvp():
                     if event.type == pygame.KEYDOWN:
                         if event.key == pygame.K_r:
                             # check_scr_size(event.w, event.h)
-                            pvp_check_scr_size(1200,400)
+                            pvp_check_scr_size(BATTLE_SIZE_W,BATTLE_SIZE_H)
                         # 1p dino
                         if event.key == pygame.K_w:
                             # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.

@@ -23,6 +23,7 @@ def pvprunning():
     global stones
     global last_obstacle
 
+    global bgm_on
     global cacti2
     global fire_cacti2
     global pteras2
