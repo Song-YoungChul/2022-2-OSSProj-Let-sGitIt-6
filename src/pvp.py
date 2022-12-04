@@ -371,11 +371,9 @@ def pvp():
             counter += 1
 
         if game_quit:
-            check_scr_size(event.w,event.h)
             break
 
         while game_over:
-            check_scr_size(event.w,event.h)
             if pygame.display.get_surface() is None:
                 print("Couldn't load display surface")
                 game_quit = True
@@ -407,7 +405,7 @@ def pvp():
 
                     if event.type == pygame.VIDEORESIZE:
                         # check_scr_size(event.w, event.h)
-                        check_(event.w,event.h)
+                        pvp_check_scr_size(event.w, event.h)
                 r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.35, resized_screen.get_height() * 0.55
                 r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.65, resized_screen.get_height() * 0.55
                 disp_pvp_gameover_buttons(btn_restart, btn_exit)
