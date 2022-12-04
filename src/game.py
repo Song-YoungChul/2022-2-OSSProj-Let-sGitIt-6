@@ -476,7 +476,7 @@ def gameplay_easy():
 
                     elif not player_dino.is_super:
                         immune_time = pygame.time.get_ticks()
-                        if immune_time > collision_immune_time:
+                        if immune_time - collision_time > collision_immune_time:
                             player_dino.collision_immune = False
 
                 for f in fire_cacti:
@@ -493,7 +493,7 @@ def gameplay_easy():
 
                     elif not player_dino.is_super:
                         immune_time = pygame.time.get_ticks()
-                        if immune_time > collision_immune_time:
+                        if immune_time - collision_time > collision_immune_time:
                             player_dino.collision_immune = False
                 
 
@@ -511,13 +511,13 @@ def gameplay_easy():
 
                     elif not player_dino.is_super:
                         immune_time = pygame.time.get_ticks()
-                        if immune_time > collision_immune_time:
+                        if immune_time - collision_time > collision_immune_time:
                             player_dino.collision_immune = False
 
 
                     elif not player_dino.is_super:
                         immune_time = pygame.time.get_ticks()
-                        if immune_time > collision_immune_time:
+                        if immune_time - collision_time > collision_immune_time:
                             player_dino.collision_immune = False
 
                 # if not player_dino.is_super:
