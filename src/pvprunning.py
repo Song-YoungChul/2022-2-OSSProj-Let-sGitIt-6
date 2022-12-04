@@ -898,8 +898,6 @@ def pvprunning():
                             game_quit = True
 
                     if event.type == pygame.MOUSEBUTTONDOWN:
-                        # game_over = False
-                        # game_quit = True
                         if pygame.mouse.get_pressed() == (1, 0, 0):
                             x, y = event.pos
                             if r_btn_restart_rect.collidepoint(x, y):
@@ -913,7 +911,7 @@ def pvprunning():
                 r_btn_restart_rect.centerx, r_btn_restart_rect.centery = resized_screen.get_width() * 0.35, resized_screen.get_height() * 0.55
                 r_btn_exit_rect.centerx, r_btn_exit_rect.centery = resized_screen.get_width() * 0.65, resized_screen.get_height() * 0.55
                 disp_pvp_gameover_buttons(btn_restart, btn_exit)
-                disp_pvp_winner_loser(player1_dino)
+                disp_pvp_r_winner_loser(player1_dino)
 
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
