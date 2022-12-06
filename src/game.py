@@ -1512,6 +1512,8 @@ def board(mode=""):
                     # intro_screen()
                 if event.type == pygame.VIDEORESIZE:
                     check_scr_size(event.w, event.h)
+            
+            btn_back_rect =  (width * 0.025, height * 0.025)
             r_btn_back_rect.centerx = resized_screen.get_width() * 0.055
             r_btn_back_rect.centery = resized_screen.get_height() * 0.055
             score_board(btn_back)
