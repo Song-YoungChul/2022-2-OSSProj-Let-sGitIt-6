@@ -12,64 +12,8 @@
     <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
-    <connection id="63fe3980-8b47-4260-a34d-5e4513de1009">
-      <console name="Connection" type="STANDARD" schema="" session="Main"><![CDATA[-- drop table if exists user;
-
-create table if not exists easy_mode (
-    user_id integer primary key autoincrement,
-    username string not null,
-    score string not null
-);
-
-create table if not exists hard_mode (
-    user_id integer primary key autoincrement,
-    username string not null,
-    score string not null
-);
-
-CREATE TABLE if NOT EXISTS item(
-    id integer primary key autoincrement,
-    name string not null,
-    count integer not null default 0,
-    price integer not null default 0
-);
-
-create table if not exists skin (
-    id integer primary key autoincrement,
-    name string not null,
-    is_paid integer default 0,
-    is_apply integer default 0,
-    price integer default 0
-);
-
-create table if not exists character (
-    id integer primary key autoincrement,
-    name string not null,
-    is_paid integer default 0,
-    is_apply integer default 0,
-    price integer default 0
-);
-
-
-INSERT OR IGNORE INTO item (id, name, count, price) VALUES (1, 'shield', 0, 30);
-INSERT OR IGNORE INTO item (id, name, count, price) VALUES (2, 'life', 0, 30);
-INSERT OR IGNORE INTO item (id, name, count, price) VALUES (3, 'slow', 0, 30);
-INSERT OR IGNORE INTO item (id, name, count, price) VALUES (4, 'coin', 0, 30);
-INSERT OR IGNORE INTO skin (id, name, is_paid, is_apply, price)
-                VALUES(1, "Spring", 0, 0, 100);
-INSERT OR IGNORE INTO skin (id, name, is_paid, is_apply, price)
-                VALUES(2, "Fall", 0, 0, 100);
-INSERT OR IGNORE INTO skin (id, name, is_paid, is_apply, price)
-                VALUES(3, "Winter", 0, 0, 100);
-
-insert or ignore into character (id, name, is_paid, is_apply, price)
-                            values(1, "Purple", 0,  0, 25);
-insert or ignore into character (id, name, is_paid, is_apply, price)
-                            values(2, "Red", 0, 0, 25);
-insert or ignore into character (id, name, is_paid, is_apply, price)
-                            values(3, "Yellow", 0, 0, 25);
-insert or ignore into character (id, name, is_paid, is_apply, price)
-                            values(4, "Tux", 0, 0, 50);]]></console>
+    <connection id="2fc14fe3-1c54-43a0-8241-51d4014f06f3">
+      <console name="Connection 2" type="STANDARD" schema="main" session="Main" />
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
@@ -84,6 +28,14 @@ insert or ignore into character (id, name, is_paid, is_apply, price)
   <component name="DBNavigator.Project.FileConnectionMappingManager">
     <mapping file-url="file://$PROJECT_DIR$/db/data.db" connection-id="63fe3980-8b47-4260-a34d-5e4513de1009" session-id="MAIN" current-schema="" />
   </component>
+  <component name="DBNavigator.Project.MethodExecutionManager">
+    <method-browser />
+    <execution-history>
+      <group-entries value="true" />
+      <execution-inputs />
+    </execution-history>
+    <argument-values-cache />
+  </component>
   <component name="DBNavigator.Project.ObjectQuickFilterManager">
     <last-used-operator value="EQUAL" />
     <filters />
@@ -93,21 +45,24 @@ insert or ignore into character (id, name, is_paid, is_apply, price)
   </component>
   <component name="DBNavigator.Project.Settings">
     <connections>
-      <connection id="63fe3980-8b47-4260-a34d-5e4513de1009" active="true" signed="true">
+      <connection id="2fc14fe3-1c54-43a0-8241-51d4014f06f3" active="true" signed="true">
         <database>
-          <name value="Connection" />
+          <name value="Connection 2" />
           <description value="" />
-          <database-type value="MYSQL" />
+          <database-type value="SQLITE" />
           <config-type value="BASIC" />
-          <database-version value="9999.0" />
+          <database-version value="3.39" />
           <driver-source value="BUILTIN" />
           <driver-library value="" />
           <driver value="" />
-          <url-type value="DATABASE" />
-          <host value="localhost" />
-          <port value="3306" />
-          <database value="mysql" />
-          <type value="USER_PASSWORD" />
+          <url-type value="FILE" />
+          <host value="" />
+          <port value="" />
+          <database value="" />
+          <files>
+            <file path="C:\Users\정재혁\OneDrive - dgu.edu\바탕 화면\2022-2-OSSProj-Let-sGitIt-6\db\data.db" schema="main" />
+          </files>
+          <type value="NONE" />
           <user value="" />
           <deprecated-pwd value="" />
         </database>
