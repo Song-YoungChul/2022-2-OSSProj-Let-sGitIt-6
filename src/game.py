@@ -829,7 +829,7 @@ def gameplay_hard():
 
                         # life item
                         if event.key == pygame.K_w:
-                            if life_item_count > 0 and player_dino.life < 1000:
+                            if life_item_count > 0 and player_dino.life < LIFE:
                                 # if pygame.mixer.get_init() is not None:
                                     # check_point_sound.play()
                                 player_dino.increase_life()
@@ -2012,16 +2012,16 @@ def highscore_page(player_dino, mode):
 
     text = font.render(f"NEW HIGH SCORE : {player_dino.score}", True, black)
 
-    gamerule_image, gamerule_rect = load_image("new-score.png",450,100,-1)
-    gamerule_rect.centerx=width*0.5
-    gamerule_rect.centery=height*0.25
+    highsc_image, highsc_rect = load_image("new-score.png",450,100,-1)
+    highsc_rect.centerx=width*0.5
+    highsc_rect.centery=height*0.25
 
     while not game_quit:
         if pygame.display.get_surface() is None:
             game_quit = True
         else:
             screen_board.fill(background_col)
-            screen_board.blit(gamerule_image,gamerule_rect)
+            screen_board.blit(highsc_image,highsc_rect)
             screen_board.blit(text, score_pos)
 
             for event in pygame.event.get():
