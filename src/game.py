@@ -24,6 +24,7 @@ def intro_screen():
     global dino_type
     dino_type = ['ORIGINAL','RED','ORANGE','YELLOW','GREEN','PURPLE','BLACK','PINK']
     global skin_type
+    global game_quit
     # global type_idx2
     click_count = 0
     #
@@ -57,7 +58,8 @@ def intro_screen():
                     game_start = True
                 if event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_ESCAPE:
-                        return False
+                        game_quit = True
+                        intro_screen()
                     if event.key == pygame.K_r:
                         check_scr_size(799,399)
                         
@@ -273,7 +275,7 @@ def select_mode():
 
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    return False
+                    intro_screen()
                 if event.key == pygame.K_r:
                     pvp_check_scr_size(1200,400)
             if event.type == pygame.MOUSEBUTTONDOWN:
@@ -1491,6 +1493,8 @@ def board(mode=""):
                 if event.type == pygame.QUIT:
                     game_quit = True
                 if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_ESCAPE:
+                        intro_screen()
                     if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                         game_quit = True
                         intro_screen()
@@ -1744,6 +1748,7 @@ def gamerule_image2(mode = ""):
 
 def pausing():
     global resized_screen
+    global game_start
     game_quit = False
     pause_pic, pause_pic_rect = load_image('paused.png', 360, 75, -1)
     pause_pic_rect.centerx = width * 0.5
@@ -1759,9 +1764,9 @@ def pausing():
     resized_resume_image, resized_resume_rect = load_image(*resize('continue_button.png', 70, 62, -1))
 
     # BUTTONPOS
-    retbutton_rect.centerx = width * 0.4;
+    retbutton_rect.centerx = width * 0.4
     retbutton_rect.top = height * 0.52
-    resume_rect.centerx = width * 0.6;
+    resume_rect.centerx = width * 0.6
     resume_rect.top = height * 0.52
 
     resized_retbutton_rect.centerx = resized_screen.get_width() * 0.4
@@ -1787,6 +1792,7 @@ def pausing():
                     if pygame.mouse.get_pressed() == (1, 0, 0):
                         x, y = event.pos
                         if resized_retbutton_rect.collidepoint(x, y):
+                            game_start = False
                             intro_screen()
 
                         if resized_resume_rect.collidepoint(x, y):
