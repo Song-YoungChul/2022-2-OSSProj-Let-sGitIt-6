@@ -106,6 +106,48 @@ class HeartIndicator:
         else:
             screen.blit(life_count_text, (width * self.position_x2, height * self.position_y))
 
+class Potion:
+    def __init__(self, sizex=-1, sizey=-1, x=-1, y=-1):
+        self.images, self.rect = load_sprite_sheet("green_potion.png", 2, 1, sizex, sizey, -1)
+        if x == -1:
+            self.rect.left = width * 0.01
+        else:
+            self.rect.left = x
+
+        if y == -1:
+            self.rect.top = height * 0.02
+        else:
+            self.rect.top = y
+
+    def draw(self):
+        screen.blit(self.images, self.rect)
+
+class PotionIndicator:
+    def __init__(self, count, loc = 1):
+        self.count = count
+        if loc == 1:
+            self.position_x = 0.01
+            self.position_y = 0.02
+            self.position_x2 = 0.065
+            self.position_y2 = 0.02
+        else:
+            self.position_x = 0.01
+            self.position_y = 0.54
+            self.position_x2 = 0.065
+            self.position_y2 = 0.54
+
+    def draw(self):
+        self.count_set.draw()
+        self.draw_potion_count()
+
+    def update(self, count):
+        self.count = count
+        self.count_set = Potion(object_size[0], object_size[1], x = width * self.position_x, y = height * self.position_y)
+        self.draw_potion_count()
+
+    def draw_potion_count(self):
+        potion_count_text = font.render(f"x {self.count}", True, black)
+        screen.blit( potion_count_text, (width * self.position_x2, height * self.position_y))
 
 class Scoreboard:
 
@@ -138,7 +180,6 @@ class Scoreboard:
         self.sc_rect.left = self.pos_x
         self.sc_rect.top = self.pos_y
 
-# 이미지 배경 11/1추가
 class ImgBack:
     def __init__(self, speed=-5, name='spring',type = -1):
         self.name = name

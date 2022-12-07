@@ -38,6 +38,9 @@ def pvprunning():
     global ice_item
     global is_ice_time
     global is_ice_time_2p
+    global potion_item
+    global potion_item_count 
+    global potion_item_count_2p 
 
 
     # 1p 장애물
@@ -58,6 +61,7 @@ def pvprunning():
     dust_item = pygame.sprite.Group()
     water_item = pygame.sprite.Group()
     ice_item = pygame.sprite.Group()
+    potion_item = pygame.sprite.Group()
 
 
     Cactus.containers = cacti
@@ -73,6 +77,7 @@ def pvprunning():
     Dust_item.containers = dust_item
     Water_item.containers = water_item
     Ice_item.containers = ice_item
+    Potion_item.containers = potion_item
 
 
     start_menu = False
@@ -166,7 +171,8 @@ def pvprunning():
     ice_appear()
     ice_appear_2p()
 
-
+    potion_item_count = 2
+    potion_item_count_2p = 2
 
     while not game_quit:
         while start_menu:
@@ -184,6 +190,13 @@ def pvprunning():
 
                     if event.type == pygame.KEYDOWN:
                         # 1p dino
+                        if event.key == pygame.K_q: # 물약 아이템
+                            if potion_item_count > 0: # 물약 개수가 1개 이상 일 때만 작동
+                                potion_item_count -= 1
+                                is_dust_time = False
+                                is_ice_time = False
+                                is_water_time = False
+                        
                         if not is_ice_time: # 아이스 아이템 먹으면 키 못움직임
                             if event.key == pygame.K_w:
                                 # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
@@ -212,6 +225,13 @@ def pvprunning():
                                 jumpingx2_1p = True
 
                         # 2p dino
+                        if event.key == pygame.K_i: # 물약 아이템
+                            if potion_item_count_2p > 0 : # 물약 개수가 1개 이상 일 때만 작동
+                                potion_item_count_2p -= 1
+                                is_dust_time_2p = False
+                                is_ice_time_2p = False
+                                is_water_time_2p = False
+
                         if not is_ice_time_2p: # 아이스 아이템 먹으면 키 못움직임
                             if event.key == pygame.K_UP:
                                 # 스페이스 누르는 시점에 공룡이 땅에 닿아있으면 점프한다.
@@ -584,8 +604,6 @@ def pvprunning():
                             player2_dino.collision_immune = True
                             background.update(background.name,1)
                             background_2p.update('winter',2)
-                            # new_ground_2p.image, new_ground_2p.rect = load_image('ground_winter.png', -1, -1, -1)
-                            # new_ground_2p.rect.top = int(DEFAULT_HEIGHT * height)
                             collision_time = pygame.time.get_ticks()
                             i.image.set_alpha(0)
                             is_ice_time = True
@@ -598,13 +616,28 @@ def pvprunning():
                             player1_dino.collision_immune = True
                             background.update('winter',1)
                             background_2p.update(background_2p.name,2)
-                            # new_ground.image, new_ground.rect = load_image('ground_winter.png', -1, -1, -1)
-                            # new_ground.rect.top = int(DEFAULT_HEIGHT_2P * height)
                             collision_time = pygame.time.get_ticks()
                             i.image.set_alpha(0)
                             is_ice_time_2p = True
                             ice_rest_time_2p = ICE_TIME
                             ice_appear_2p()
+
+                for po in potion_item:
+                    po.movement[0] = -1 * RUN_GAME_SPEED
+                    if not player2_dino.collision_immune:
+                        if pygame.sprite.collide_mask(player2_dino, po):
+                            player2_dino.collision_immune = True
+                            collision_time = pygame.time.get_ticks()
+                            po.image.set_alpha(0)
+                            potion_item_count_2p += 1
+                            
+
+                    if not player1_dino.collision_immune:
+                        if pygame.sprite.collide_mask(player1_dino, po):
+                            player1_dino.collision_immune = True
+                            collision_time = pygame.time.get_ticks()
+                            po.image.set_alpha(0)
+                            potion_item_count += 1
 
                 player1_dino.update('pvp')
                 player2_dino.update('pvp')
@@ -624,6 +657,7 @@ def pvprunning():
                 dust_item.update()
                 water_item.update()
                 ice_item.update()
+                potion_item.update()
 
                 if pygame.display.get_surface() is not None:
                     screen.fill(background_col)
@@ -655,29 +689,32 @@ def pvprunning():
                 dust_item.draw(screen)
                 water_item.draw(screen)
                 ice_item.draw(screen)
+                potion_item.draw(screen)
 
-                if is_dust_time:
+                if is_dust_time: # 황사 아이템 발동
                     dust.draw()
 
-                if dust_rest_time == 0 :
+                if dust_rest_time == 0 : # 황사 아이템 지속시간 끝나면
                     is_dust_time = False
                     dust.kill()
                     dust_rest_time = ITEM_TIME
 
-                if is_dust_time_2p:
+                if is_dust_time_2p: # 황사 아이템 발동_2p
                     dust_2p.draw()
 
-                if dust_rest_time_2p == 0 :
+                if dust_rest_time_2p == 0 : # 황사 아이템 지속시간 끝나면_2p
                     is_dust_time_2p = False
                     dust_2p.kill()
                     dust_rest_time_2p = ITEM_TIME
 
+                # 빗방울 리스트로 표현
                 for pm in pm_list:
                     pm.show()
+
                 for pm_2p in pm_list_2p:
                     pm_2p.show()
 
-                # 1p 아이템 효과 지속시간 동안
+                # 1p 비 아이템 효과 지속시간 동안
                 if is_water_time:
                     pm = Obj()
                     pm.put_img("./sprites/water_drop.png")
@@ -737,16 +774,11 @@ def pvprunning():
                     is_ice_time = False
                     ice_rest_time = ICE_TIME
                     background_2p.update('spring',2)
-                    # new_ground_2p.image, new_ground_2p.rect = load_image('ground2.png', -1, -1, -1)
-                    # new_ground_2p.rect.top = int(DEFAULT_HEIGHT_2P * height)
-
 
                 if ice_rest_time_2p == 0 :
                     is_ice_time_2p = False
                     ice_rest_time_2p = ICE_TIME
                     background.update('spring',1)
-                    # new_ground.image, new_ground.rect = load_image('ground2.png', -1, -1, -1)
-                    # new_ground.rect.top = int(DEFAULT_HEIGHT * height)
 
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
@@ -829,13 +861,6 @@ def pvprunning():
                             last_obstacle.add(Water_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
                             last_obstacle.add(Water_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
 
-                if len(ice_item) < 2:
-                    for l in last_obstacle:
-                        if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(ICE_INTERVAL) == MAGIC_NUM:
-                            last_obstacle.empty()
-                            last_obstacle.add(Ice_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
-                            last_obstacle.add(Ice_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
-
                 if (len(pm_list)== 0):
                     pass
                 else:
@@ -861,6 +886,20 @@ def pvprunning():
                             if player2_dino.life == 0:
                                 player1_dino.is_dead = True
                             pm_list_2p.remove(pm_2p)
+
+                if len(ice_item) < 2:
+                    for l in last_obstacle:
+                        if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(ICE_INTERVAL) == MAGIC_NUM:
+                            last_obstacle.empty()
+                            last_obstacle.add(Ice_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
+                            last_obstacle.add(Ice_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
+
+                if len(potion_item) < 2:
+                    for l in last_obstacle:
+                        if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(ICE_INTERVAL) == MAGIC_NUM:
+                            last_obstacle.empty()
+                            last_obstacle.add(Potion_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
+                            last_obstacle.add(Potion_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
 
                 if player1_dino.is_dead:
                     game_over = True
