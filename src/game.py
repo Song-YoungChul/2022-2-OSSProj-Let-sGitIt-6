@@ -476,7 +476,7 @@ def gameplay_easy():
 
                     elif not player_dino.is_super:
                         immune_time = pygame.time.get_ticks()
-                        if immune_time > collision_immune_time:
+                        if immune_time - collision_time > collision_immune_time:
                             player_dino.collision_immune = False
 
                 for f in fire_cacti:
@@ -493,7 +493,7 @@ def gameplay_easy():
 
                     elif not player_dino.is_super:
                         immune_time = pygame.time.get_ticks()
-                        if immune_time > collision_immune_time:
+                        if immune_time - collision_time > collision_immune_time:
                             player_dino.collision_immune = False
                 
 
@@ -511,13 +511,13 @@ def gameplay_easy():
 
                     elif not player_dino.is_super:
                         immune_time = pygame.time.get_ticks()
-                        if immune_time > collision_immune_time:
+                        if immune_time - collision_time > collision_immune_time:
                             player_dino.collision_immune = False
 
 
                     elif not player_dino.is_super:
                         immune_time = pygame.time.get_ticks()
-                        if immune_time > collision_immune_time:
+                        if immune_time - collision_time > collision_immune_time:
                             player_dino.collision_immune = False
 
                 # if not player_dino.is_super:
@@ -709,19 +709,9 @@ def gameplay_hard():
     slow_item_count = db.query_db("select count from item where name='slow';", one=True)['count']
     coin_item_count = db.query_db("select count from item where name='coin';", one=True)['count']
 
-    # 캐릭터 적용 여부
-    is_purple = db.query_db("select is_apply from character where name = 'Purple'", one=True)['is_apply']
-    is_red = db.query_db("select is_apply from character where name = 'Red'", one=True)['is_apply']
-    is_yellow = db.query_db("select is_apply from character where name = 'Yellow'", one=True)['is_apply']
-    is_tux = db.query_db("select is_apply from character where name = 'Tux'", one=True)['is_apply']
-    # 스킨 적용 여부
-    is_spring = db.query_db("select is_apply from skin where name='Spring'", one=True)['is_apply']
-    is_fall = db.query_db("select is_apply from skin where name = 'Fall'", one=True)['is_apply']
-    is_winter = db.query_db("select is_apply from skin where name = 'Winter'", one=True)['is_apply']
 
-    type_idx = char_switch(is_purple, is_red, is_yellow, is_tux)
-    type_idx2 = skin_switch(is_spring, is_fall, is_winter)
-
+    type_idx = 0
+    type_idx2 = 0
     player_dino = Dino(dino_size[0], dino_size[1],type=dino_type[type_idx])
     #배경 변경하는 코드
     
@@ -836,20 +826,10 @@ def gameplay_hard():
                         if event.key == pygame.K_a:
                             space_go=True
                             bk=0
-                        # shield item
-                        # if event.key == pygame.K_q:
-                        #     if shield_item_count > 0:
-                        #         # if pygame.mixer.get_init() is not None:
-                        #             # check_point_sound.play()
-                        #         player_dino.collision_immune = True
-                        #         item_time = pygame.time.get_ticks()
-                        #         shield_item_count -= 1
-                        #         is_super_time = True
-                        #         super_rest_time = ITEM_TIME
-                        #         super_appear()
+
                         # life item
                         if event.key == pygame.K_w:
-                            if life_item_count > 0 and player_dino.life < 5:
+                            if life_item_count > 0 and player_dino.life < LIFE:
                                 # if pygame.mixer.get_init() is not None:
                                     # check_point_sound.play()
                                 player_dino.increase_life()
@@ -910,18 +890,8 @@ def gameplay_hard():
                     mm=Obj()
 
                     # 디노의 종류에 따라 다른 총알이 나가도록 합니다.
-                    if player_dino.type == 'RED':
-                        mm.put_img("./sprites/black_bullet.png")
-                        mm.change_size(10,10)
-                    elif player_dino.type == 'YELLOW':
-                        mm.put_img("./sprites/blue_bullet.png")
-                        mm.change_size(10,10)
-                    elif player_dino.type == 'PURPLE':
-                        mm.put_img("./sprites/pink_bullet.png")
-                        mm.change_size(15,5)
-                    else:                    
-                        mm.put_img("./sprites/red_bullet.png")
-                        mm.change_size(10,10)
+                    mm.put_img("./sprites/red_bullet.png")
+                    mm.change_size(10,10)
                     
                     
                     if player_dino.is_ducking ==False:
@@ -1542,6 +1512,8 @@ def board(mode=""):
                     # intro_screen()
                 if event.type == pygame.VIDEORESIZE:
                     check_scr_size(event.w, event.h)
+            
+            btn_back_rect =  (width * 0.025, height * 0.025)
             r_btn_back_rect.centerx = resized_screen.get_width() * 0.055
             r_btn_back_rect.centery = resized_screen.get_height() * 0.055
             score_board(btn_back)
@@ -2042,16 +2014,16 @@ def highscore_page(player_dino, mode):
 
     text = font.render(f"NEW HIGH SCORE : {player_dino.score}", True, black)
 
-    gamerule_image, gamerule_rect = load_image("new-score.png",450,100,-1)
-    gamerule_rect.centerx=width*0.5
-    gamerule_rect.centery=height*0.25
+    highsc_image, highsc_rect = load_image("new-score.png",450,100,-1)
+    highsc_rect.centerx=width*0.5
+    highsc_rect.centery=height*0.25
 
     while not game_quit:
         if pygame.display.get_surface() is None:
             game_quit = True
         else:
             screen_board.fill(background_col)
-            screen_board.blit(gamerule_image,gamerule_rect)
+            screen_board.blit(highsc_image,highsc_rect)
             screen_board.blit(text, score_pos)
 
             for event in pygame.event.get():

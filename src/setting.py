@@ -10,7 +10,6 @@ from pygame import time
 from pygame import transform
 from pygame.locals import RESIZABLE, RLEACCEL
 
-
 mixer.pre_init(44100, -16, 2, 2048)
 pygame.init()
 display.set_caption("RunningPVP-T-rex by_Let`sGitIt")
@@ -163,20 +162,11 @@ def disp_gameover_msg(gameover_img):
 
 
 def disp_store_buttons(btn_exit, btn_back):
-    # btn_restart_rect = btn_restart.get_rect()
-    # btn_save_rect = btn_save.get_rect()
     btn_exit_rect = btn_exit.get_rect()
     btn_back_rect = btn_back.get_rect()
-    # btn_restart_rect.centerx = width * 0.2
-    # btn_save_rect.centerx = width * (0.2 + width_offset)
     btn_exit_rect.centerx = width * (0.5)
-    btn_back_rect.centerx = width * 0.055
-    # btn_restart_rect.centery = height * 0.5
-    # btn_save_rect.centery = height * 0.5
+    btn_back_rect =  (width * 0.025, height * 0.025)
     btn_exit_rect.centery = height * 0.5
-    btn_back_rect.centery = height * 0.055
-    # screen.blit(btn_restart, btn_restart_rect)
-    # screen.blit(btn_save, btn_save_rect)
     screen.blit(btn_exit, btn_exit_rect)
     screen.blit(btn_back, btn_back_rect)
 
@@ -201,8 +191,8 @@ def disp_pvp_gameover_buttons(btn_restart, btn_exit):
     btn_exit_rect = btn_exit.get_rect()
     btn_restart_rect.centerx = width * 0.35
     btn_exit_rect.centerx = width * 0.65
-    btn_restart_rect.centery = height * 0.55
-    btn_exit_rect.centery = height * 0.55
+    btn_restart_rect.centery = height * 0.5
+    btn_exit_rect.centery = height * 0.5
     screen.blit(btn_restart, btn_restart_rect)
     screen.blit(btn_exit, btn_exit_rect)
 
@@ -217,8 +207,21 @@ def disp_pvp_winner_loser(player1):
         win_width = width * 0.70
         lose_width = width * 0.17
 
-    screen.blit(win, (win_width, height * 0.2))
-    screen.blit(lose, (lose_width, height * 0.2))
+    screen.blit(win, (win_width, height * 0.15))
+    screen.blit(lose, (lose_width, height * 0.15))
+
+def disp_pvp_r_winner_loser(player1):
+    win = large_font.render("WIN", True, black)
+    lose = large_font.render("LOSE", True, black)
+    if not player1.is_dead:
+        win_height = height * 0.6
+        lose_height = height * 0.1
+    else:
+        win_height = height * 0.1
+        lose_height = height * 0.6
+
+    screen.blit( win, ((width * 0.43) , win_height ))
+    screen.blit( lose, ((width * 0.415) , lose_height ))
 
 
 def disp_intro_buttons(btn_gamestart, btn_board, btn_store, btn_option):

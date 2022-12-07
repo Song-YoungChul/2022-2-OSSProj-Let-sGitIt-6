@@ -133,10 +133,11 @@ class Obj(pygame.sprite.Sprite):
     def show(self):
         screen.blit(self.img, (self.x,self.y))
 
-class Water_item(pygame.sprite.Sprite):
-    def __init__(self, speed=4, sizex=-1, sizey=-1, type = -1):
+
+class Dust_item(pygame.sprite.Sprite):
+    def __init__(self, speed=5, sizex=-1, sizey=-1, type = -1):
         pygame.sprite.Sprite.__init__(self,self.containers)
-        self.images, self.rect = load_sprite_sheet('umbrella_icon.png', 1, 1, sizex, sizey, -1)
+        self.images, self.rect = load_sprite_sheet('dust_item.png', 1, 1, sizex, sizey, -1)
         if type == 1:
             self.rect.bottom = random.randrange(int(0.05*height), int(height*0.37))
         elif type == 2:
@@ -158,10 +159,10 @@ class Water_item(pygame.sprite.Sprite):
         if self.rect.right < 0:
             self.kill()
 
-class Dust_item(pygame.sprite.Sprite):
-    def __init__(self, speed=5, sizex=-1, sizey=-1, type = -1):
+class Water_item(pygame.sprite.Sprite):
+    def __init__(self, speed=4, sizex=-1, sizey=-1, type = -1):
         pygame.sprite.Sprite.__init__(self,self.containers)
-        self.images, self.rect = load_sprite_sheet('dust_item.png', 1, 1, sizex, sizey, -1)
+        self.images, self.rect = load_sprite_sheet('umbrella_icon.png', 1, 1, sizex, sizey, -1)
         if type == 1:
             self.rect.bottom = random.randrange(int(0.05*height), int(height*0.37))
         elif type == 2:
@@ -171,7 +172,32 @@ class Dust_item(pygame.sprite.Sprite):
 
         
         self.rect.left = width + self.rect.width
-        self.image = self.images[0] #0과 3 사이의 난수를 반환
+        self.image = self.images[0]
+        self.movement = [-1*speed, 0] #캐릭터에게 speed의 속도로 다가옴
+        
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self):
+        self.rect = self.rect.move(self.movement)
+
+        if self.rect.right < 0:
+            self.kill()
+
+class Ice_item(pygame.sprite.Sprite):
+    def __init__(self, speed = 4, sizex=-1, sizey=-1, type = -1):
+        pygame.sprite.Sprite.__init__(self,self.containers)
+        self.images, self.rect = load_sprite_sheet('ice_icon.png', 1, 1, sizex, sizey, -1)
+        if type == 1:
+            self.rect.bottom = random.randrange(int(0.05*height), int(height*0.37))
+        elif type == 2:
+            self.rect.bottom = random.randrange(int(0.45*height), int(height*0.87))
+        else:
+            self.rect.bottom = random.randrange(int(0.45*height), int(height*0.87))
+
+        
+        self.rect.left = width + self.rect.width
+        self.image = self.images[0]
         self.movement = [-1*speed, 0] #캐릭터에게 speed의 속도로 다가옴
         
     def draw(self):
