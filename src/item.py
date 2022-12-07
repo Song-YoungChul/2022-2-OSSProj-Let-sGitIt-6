@@ -208,3 +208,28 @@ class Ice_item(pygame.sprite.Sprite):
 
         if self.rect.right < 0:
             self.kill()
+
+class Potion_item(pygame.sprite.Sprite):
+    def __init__(self, speed = 5, sizex = -1, sizey = -1, type = -1):
+        pygame.sprite.Sprite.__init__(self,self.containers)
+        self.images, self.rect = load_sprite_sheet('potion_item.png', 1, 1, sizex, sizey, -1)
+        if type == 1:
+            self.rect.bottom = random.randrange(int( (DEFAULT_HEIGHT_2P - 0.4) * height ), int( height * (DEFAULT_HEIGHT - 0.4) ))
+        elif type == 2:
+            self.rect.bottom = random.randrange(int( (DEFAULT_HEIGHT_2P - 0.1) * height ), int( height * (DEFAULT_HEIGHT - 0.1) ))
+        else:
+            self.rect.bottom = random.randrange(int( (DEFAULT_HEIGHT_2P - 0.25) * height ), int( height * (DEFAULT_HEIGHT - 0.25) ))
+
+        
+        self.rect.left = width + self.rect.width
+        self.image = self.images[0]
+        self.movement = [-1*speed, 0] #캐릭터에게 speed의 속도로 다가옴
+        
+    def draw(self):
+        screen.blit(self.image, self.rect)
+
+    def update(self):
+        self.rect = self.rect.move(self.movement)
+
+        if self.rect.right < 0:
+            self.kill()
