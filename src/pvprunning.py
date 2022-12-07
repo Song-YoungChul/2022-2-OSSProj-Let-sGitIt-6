@@ -203,16 +203,18 @@ def pvprunning():
 
                     if event.type == pygame.KEYDOWN:
                         # 1p dino
-                        if (is_dust_time or is_ice_time or is_water_time):
+                        if (is_dust_time_2p or is_ice_time or is_water_time):
                             if event.key == pygame.K_q: # 물약 아이템
                                 if potion_item_count > 0: # 물약 개수가 1개 이상 일 때만 작동
                                     potion_item_count -= 1
-                                    is_dust_time = False
-                                    is_ice_time = False
-                                    is_water_time = False
+                                    # is_dust_time = False
+                                    # is_ice_time = False
+                                    # is_water_time = False
                                     water_rest_time = 0
-                                    dust_rest_time = 0
+                                    dust_rest_time_2p = 0
                                     ice_rest_time = 0
+
+                                    
                                 
                         
                         if not is_ice_time: # 아이스 아이템 먹으면 키 못움직임
@@ -243,16 +245,17 @@ def pvprunning():
                                 jumpingx2_1p = True
 
                         # 2p dino
-                        if (is_dust_time_2p or is_ice_time_2p or is_water_time_2p):
+                        if (is_dust_time or is_ice_time_2p or is_water_time_2p):
                             if event.key == pygame.K_i: # 물약 아이템
                                 if potion_item_count_2p > 0 : # 물약 개수가 1개 이상 일 때만 작동
                                     potion_item_count_2p -= 1
-                                    is_dust_time_2p = False
-                                    is_ice_time_2p = False
-                                    is_water_time_2p = False
+                                    # is_dust_time_2p = False
+                                    # is_ice_time_2p = False
+                                    # is_water_time_2p = False
                                     water_rest_time_2p =0
-                                    dust_rest_time_2p = 0
+                                    dust_rest_time = 0
                                     ice_rest_time_2p = 0
+     
 
                         if not is_ice_time_2p: # 아이스 아이템 먹으면 키 못움직임
                             if event.key == pygame.K_UP:
