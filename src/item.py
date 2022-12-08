@@ -256,7 +256,7 @@ class Potion_item(pygame.sprite.Sprite):
 class Potion_item_pvp(pygame.sprite.Sprite):
     def __init__(self, speed = 5, sizex = -1, sizey = -1):
         pygame.sprite.Sprite.__init__(self,self.containers)
-        self.image, self.rect = load_sprite_sheet('potion_item.png', 1, 1, sizex, sizey, -1)
+        self.image, self.rect = load_image('potion_item.png',sizex, sizey, -1)
         self.rect.bottom = random.choice([int(DEFAULT_HEIGHT_2P * height), int(height * (DEFAULT_HEIGHT_2P - 0.15)),  int(height * (DEFAULT_HEIGHT_2P - 0.3)) ]) 
         self.rect.left = width + self.rect.width
         self.movement = [-1*speed, 0] #캐릭터에게 speed의 속도로 다가옴
