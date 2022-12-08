@@ -3,15 +3,12 @@ from src.dino import *
 from src.obstacle import *
 from src.item import *
 from src.interface import *
-from db.db_interface import InterfDB
 import src.setting as setting
 import src.game
 from src.game_value import *
 from time import sleep
 import threading
 import time
-
-db = InterfDB("db/data.db")
 
 def pvprunning():
     global game_over
@@ -43,8 +40,8 @@ def pvprunning():
     global is_ice_time_2p
     global potion_item
     global potion_item2
-    global potion_item_count 
-    global potion_item_count_2p 
+    global potion_item_count
+    global potion_item_count_2p
 
 
     # 1p 장애물
@@ -61,26 +58,27 @@ def pvprunning():
     stones2 = pygame.sprite.Group()
     last_obstacle2 = pygame.sprite.Group()
 
-    # 아이템
+    # 1p 아이템
     dust_item = pygame.sprite.Group()
     water_item = pygame.sprite.Group()
     ice_item = pygame.sprite.Group()
     potion_item = pygame.sprite.Group()
+
+    # 2p 아이템    
     dust_item2 = pygame.sprite.Group()
     water_item2 = pygame.sprite.Group()
     ice_item2 = pygame.sprite.Group()
     potion_item2 = pygame.sprite.Group()
 
-
     Cactus.containers = cacti
     fire_Cactus.containers = fire_cacti
     Ptera.containers = pteras
-    Stone.containers = stones # add stone containers
+    Stone.containers = stones
 
     Cactus_pvp_running.containers = cacti2
     fire_Cactus_pvp_running.containers = fire_cacti2
     Ptera_pvp_running.containers = pteras2
-    Stone_pvp_running.containers = stones2 # add stone containers
+    Stone_pvp_running.containers = stones2
 
     Dust_item.containers = dust_item
     Water_item.containers = water_item
@@ -102,11 +100,15 @@ def pvprunning():
         pygame.mixer.music.play(-1)  # 배경음악 실행
 
     player1_dino = Dino(dino_size[0], dino_size[1], type='original' )
-    player2_dino = Dino(dino_size[0], dino_size[1], type='original', loc=-2)
+    player2_dino = Dino(dino_size[0], dino_size[1], type='original', loc=-2  )
 
     # 플레이어1과 플레이어 2의 목숨 수 표시
     heart_1p = HeartIndicator(player1_dino, loc=1)
     heart_2p = HeartIndicator(player2_dino)
+    potion_item_count = 2
+    potion_item_count_2p = 2
+    potion_1p = PotionIndicator(potion_item_count, loc=1)
+    potion_2p = PotionIndicator(potion_item_count_2p)
     background = ImgBack(RUN_GAME_SPEED, "spring", type=1)
     background_2p = ImgBack(RUN_GAME_SPEED, "spring",type=2)
     new_ground = Ground(-1 * RUN_GAME_SPEED)
@@ -184,9 +186,6 @@ def pvprunning():
     ice_appear()
     ice_appear_2p()
 
-    potion_item_count = 2
-    potion_item_count_2p = 2
-
     while not game_quit:
         while start_menu:
             pass
@@ -207,9 +206,6 @@ def pvprunning():
                             if event.key == pygame.K_q: # 물약 아이템
                                 if potion_item_count > 0: # 물약 개수가 1개 이상 일 때만 작동
                                     potion_item_count -= 1
-                                    # is_dust_time = False
-                                    # is_ice_time = False
-                                    # is_water_time = False
                                     water_rest_time = 0
                                     dust_rest_time_2p = 0
                                     ice_rest_time = 0
@@ -577,21 +573,11 @@ def pvprunning():
                 # 아이템
                 for d in dust_item:
                     d.movement[0] = -1 * RUN_GAME_SPEED
-                    if not player2_dino.collision_immune:
-                        if pygame.sprite.collide_mask(player2_dino, d):
-                            player2_dino.collision_immune = True
-                            collision_time = pygame.time.get_ticks()
-                            d.image.set_alpha(0)
-                            #황사
-                            is_dust_time_2p = True
-                            dust_rest_time_2p = ITEM_TIME
-                            dust_appear_2p()
-                            
                     if not player1_dino.collision_immune:
                         if pygame.sprite.collide_mask(player1_dino, d):
                             player1_dino.collision_immune = True                      
                             collision_time = pygame.time.get_ticks()
-                            d.image.set_alpha(0)
+                            d.kill()
                             #황사
                             is_dust_time = True
                             dust_rest_time = ITEM_TIME
@@ -603,43 +589,21 @@ def pvprunning():
                         if pygame.sprite.collide_mask(player2_dino, d):
                             player2_dino.collision_immune = True
                             collision_time = pygame.time.get_ticks()
-                            d.image.set_alpha(0)
+                            d.kill()
                             #황사
                             is_dust_time_2p = True
                             dust_rest_time_2p = ITEM_TIME
                             dust_appear_2p()
-                            
-                    if not player1_dino.collision_immune:
-                        if pygame.sprite.collide_mask(player1_dino, d):
-                            player1_dino.collision_immune = True                      
-                            collision_time = pygame.time.get_ticks()
-                            d.image.set_alpha(0)
-                            #황사
-                            is_dust_time = True
-                            dust_rest_time = ITEM_TIME
-                            dust_appear()
 
                 for m in water_item:
                     m.movement[0] = -1 * RUN_GAME_SPEED
-                    if not player2_dino.collision_immune:
-                        if pygame.sprite.collide_mask(player2_dino, m):
-                            player2_dino.collision_immune = True
-                            background.update(background.name,1)
-                            background_2p.update('factory',2)
-                            collision_time = pygame.time.get_ticks()
-                            m.image.set_alpha(0)
-                            is_water_time = True
-                            water_rest_time = ITEM_TIME
-                            water_appear()
-                            
-
                     if not player1_dino.collision_immune:
                         if pygame.sprite.collide_mask(player1_dino, m):
                             player1_dino.collision_immune = True
                             background.update('factory',1)
                             background_2p.update(background_2p.name,2)                         
                             collision_time = pygame.time.get_ticks()
-                            m.image.set_alpha(0)
+                            m.kill()
                             is_water_time_2p = True
                             water_rest_time_2p = ITEM_TIME
                             water_appear_2p()
@@ -652,44 +616,20 @@ def pvprunning():
                             background.update(background.name,1)
                             background_2p.update('factory',2)
                             collision_time = pygame.time.get_ticks()
-                            m.image.set_alpha(0)
+                            m.kill()
                             is_water_time = True
                             water_rest_time = ITEM_TIME
                             water_appear()
-                            
-
-                    if not player1_dino.collision_immune:
-                        if pygame.sprite.collide_mask(player1_dino, m):
-                            player1_dino.collision_immune = True
-                            background.update('factory',1)
-                            background_2p.update(background_2p.name,2)                         
-                            collision_time = pygame.time.get_ticks()
-                            m.image.set_alpha(0)
-                            is_water_time_2p = True
-                            water_rest_time_2p = ITEM_TIME
-                            water_appear_2p()
 
                 for i in ice_item:
                     i.movement[0] = -1 * RUN_GAME_SPEED
-                    if not player2_dino.collision_immune:
-                        if pygame.sprite.collide_mask(player2_dino, i):
-                            player2_dino.collision_immune = True
-                            background.update(background.name,1)
-                            background_2p.update('winter',2)
-                            collision_time = pygame.time.get_ticks()
-                            i.image.set_alpha(0)
-                            is_ice_time = True
-                            ice_rest_time = ICE_TIME
-                            ice_appear()
-                            
-
                     if not player1_dino.collision_immune:
                         if pygame.sprite.collide_mask(player1_dino, i):
                             player1_dino.collision_immune = True
                             background.update('winter',1)
                             background_2p.update(background_2p.name,2)
                             collision_time = pygame.time.get_ticks()
-                            i.image.set_alpha(0)
+                            i.kill()
                             is_ice_time_2p = True
                             ice_rest_time_2p = ICE_TIME
                             ice_appear_2p()
@@ -702,38 +642,18 @@ def pvprunning():
                             background.update(background.name,1)
                             background_2p.update('winter',2)
                             collision_time = pygame.time.get_ticks()
-                            i.image.set_alpha(0)
+                            i.kill()
                             is_ice_time = True
                             ice_rest_time = ICE_TIME
                             ice_appear()
-                            
-
-                    if not player1_dino.collision_immune:
-                        if pygame.sprite.collide_mask(player1_dino, i):
-                            player1_dino.collision_immune = True
-                            background.update('winter',1)
-                            background_2p.update(background_2p.name,2)
-                            collision_time = pygame.time.get_ticks()
-                            i.image.set_alpha(0)
-                            is_ice_time_2p = True
-                            ice_rest_time_2p = ICE_TIME
-                            ice_appear_2p()
 
                 for po in potion_item:
                     po.movement[0] = -1 * RUN_GAME_SPEED
-                    if not player2_dino.collision_immune:
-                        if pygame.sprite.collide_mask(player2_dino, po):
-                            player2_dino.collision_immune = True
-                            collision_time = pygame.time.get_ticks()
-                            po.image.set_alpha(0)
-                            potion_item_count_2p += 1
-                            
-
                     if not player1_dino.collision_immune:
                         if pygame.sprite.collide_mask(player1_dino, po):
                             player1_dino.collision_immune = True
                             collision_time = pygame.time.get_ticks()
-                            po.image.set_alpha(0)
+                            po.kill()
                             potion_item_count += 1
 
                 for po in potion_item2:
@@ -742,16 +662,8 @@ def pvprunning():
                         if pygame.sprite.collide_mask(player2_dino, po):
                             player2_dino.collision_immune = True
                             collision_time = pygame.time.get_ticks()
-                            po.image.set_alpha(0)
+                            po.kill()
                             potion_item_count_2p += 1
-                            
-
-                    if not player1_dino.collision_immune:
-                        if pygame.sprite.collide_mask(player1_dino, po):
-                            player1_dino.collision_immune = True
-                            collision_time = pygame.time.get_ticks()
-                            po.image.set_alpha(0)
-                            potion_item_count += 1
 
                 player1_dino.update('pvp')
                 player2_dino.update('pvp')
@@ -768,6 +680,8 @@ def pvprunning():
                 new_ground_2p.update()
                 heart_1p.update(player1_dino.life)
                 heart_2p.update(player2_dino.life)
+                potion_1p.update(potion_item_count)
+                potion_2p.update(potion_item_count_2p)
                 dust_item.update()
                 water_item.update()
                 ice_item.update()
@@ -785,12 +699,15 @@ def pvprunning():
                     new_ground_2p.draw()
                     heart_1p.draw()
                     heart_2p.draw()
+                    potion_1p.draw()
+                    potion_2p.draw()
 
                     for m in m_list_1p:
                         m.show()
 
                     for m in m_list_2p:
                         m.show()
+                
                 cacti.draw(screen)
                 pteras.draw(screen)
                 stones.draw(screen)
@@ -844,7 +761,7 @@ def pvprunning():
                     pm.x = random.randrange(40, width-40)
                     pm.y = 210
                     pm.move = 3
-                    if len(pm_list) <= 5:
+                    if len(pm_list) < MAX_WATER:
                         pm_list.append(pm) 
                     pd_list = []
                     for i in range(len(pm_list)):
@@ -864,7 +781,7 @@ def pvprunning():
                     pm_2p.x = random.randrange(40, width-40)
                     pm_2p.y = 10
                     pm_2p.move = 3
-                    if len(pm_list_2p) <= MAX_WATER:
+                    if len(pm_list_2p) < MAX_WATER:
                         pm_list_2p.append(pm_2p)
                     pd_list_2p = []
 
@@ -882,25 +799,25 @@ def pvprunning():
                 if water_rest_time == 0 :
                     is_water_time = False
                     pm_list = []
-                    water_rest_time = ITEM_TIME
                     background_2p.update('spring',2)
+                    water_rest_time = ITEM_TIME
 
                 if water_rest_time_2p == 0 :
                     is_water_time_2p = False
                     pm_list_2p = []
-                    water_rest_time_2p = ITEM_TIME
                     background.update('spring',1)
+                    water_rest_time_2p = ITEM_TIME
 
                 # ice 아이템 효과 끝나면
                 if ice_rest_time == 0 :
                     is_ice_time = False
-                    ice_rest_time = ICE_TIME
                     background_2p.update('spring',2)
+                    ice_rest_time = ICE_TIME
 
                 if ice_rest_time_2p == 0 :
                     is_ice_time_2p = False
-                    ice_rest_time_2p = ICE_TIME
                     background.update('spring',1)
+                    ice_rest_time_2p = ICE_TIME
 
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
@@ -969,29 +886,29 @@ def pvprunning():
                         resized_screen_center)
                     pygame.display.update()
 
-                if len(dust_item) < 2:
+                if len(dust_item) < 3:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(DUST_INTERVAL) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(Dust_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
+                            last_obstacle.add(Dust_item(RUN_GAME_SPEED, object_size[0], object_size[1]))
                 
-                if len(water_item) < 2:
+                if len(water_item) < 3:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(WATER_INTERVAL) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(Water_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
+                            last_obstacle.add(Water_item(RUN_GAME_SPEED, object_size[0], object_size[1]))
 
-                if len(dust_item2) < 2:
+                if len(dust_item2) < 3:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(DUST_INTERVAL) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(Dust_item_pvp(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
+                            last_obstacle.add(Dust_item_pvp(RUN_GAME_SPEED, object_size[0], object_size[1]))
                 
-                if len(water_item2) < 2:
+                if len(water_item2) < 3:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(WATER_INTERVAL) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(Water_item_pvp(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
+                            last_obstacle.add(Water_item_pvp(RUN_GAME_SPEED, object_size[0], object_size[1]))
 
                 if (len(pm_list)== 0):
                     pass
@@ -1023,25 +940,25 @@ def pvprunning():
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(ICE_INTERVAL) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(Ice_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
+                            last_obstacle.add(Ice_item(RUN_GAME_SPEED, object_size[0], object_size[1] ))
 
                 if len(potion_item) < 2:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(ICE_INTERVAL) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(Potion_item(RUN_GAME_SPEED, object_size[0], object_size[1],type=1))
+                            last_obstacle.add(Potion_item(RUN_GAME_SPEED, object_size[0], object_size[1]))
 
                 if len(ice_item2) < 2:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(ICE_INTERVAL) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(Ice_item_pvp(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
+                            last_obstacle.add(Ice_item_pvp(RUN_GAME_SPEED, object_size[0], object_size[1]))
 
                 if len(potion_item2) < 2:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(ICE_INTERVAL) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(Potion_item_pvp(RUN_GAME_SPEED, object_size[0], object_size[1],type=2))
+                            last_obstacle.add(Potion_item_pvp(RUN_GAME_SPEED, object_size[0], object_size[1]))
 
 
                 if player1_dino.is_dead:
@@ -1050,9 +967,7 @@ def pvprunning():
                 if player2_dino.is_dead:
                     game_over = True
                     pygame.mixer.music.stop()
-                heart_1p.update(player1_dino.life)
-                heart_2p.update(player2_dino.life)
-                
+
             counter += 1
 
         if game_quit:
