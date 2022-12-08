@@ -45,7 +45,7 @@ class Cloud(pygame.sprite.Sprite):
 
 
 class Heart:
-    def __init__(self, sizex=-1, sizey=-1, x=-1, y=-1, heart_color=0):
+    def __init__(self, sizex=-1, sizey=-1, x=-1, y=-1, heart_color = 0):
         self.images, self.rect = load_sprite_sheet("heart_for_character.png", 2, 1, sizex, sizey, -1)
         self.image = self.images[heart_color]
         if x == -1:
@@ -62,7 +62,7 @@ class Heart:
         screen.blit(self.image, self.rect)
 
 class HeartIndicator:
-    def __init__(self, life, loc=-1):
+    def __init__(self, life, loc = -1):
         self.life = life
         if loc == -1:
             self.position_x = 0.01
@@ -89,7 +89,7 @@ class HeartIndicator:
 
     def update(self, life):
         self.life = life
-        self.life_set = Heart(object_size[0], object_size[1], x = width * self.position_x, y = height * self.position_y, heart_color=self.heart_color)
+        self.life_set = Heart(object_size[0], object_size[1], x = width * self.position_x, y = height * self.position_y, heart_color = self.heart_color)
         self.draw_heart_count()
 
     def draw_heart_count(self):
@@ -108,7 +108,7 @@ class HeartIndicator:
 
 class Potion:
     def __init__(self, sizex=-1, sizey=-1, x=-1, y=-1):
-        self.images, self.rect = load_sprite_sheet("green_potion.png", 2, 1, sizex, sizey, -1)
+        self.images, self.rect = load_image("green_potion.png", sizex, sizey, -1)
         if x == -1:
             self.rect.left = width * 0.01
         else:
@@ -123,17 +123,17 @@ class Potion:
         screen.blit(self.images, self.rect)
 
 class PotionIndicator:
-    def __init__(self, count, loc = 1):
+    def __init__(self, count, loc = -1):
         self.count = count
-        if loc == 1:
-            self.position_x = 0.01
+        if loc == -1: # 2p
+            self.position_x = 0.20
             self.position_y = 0.02
-            self.position_x2 = 0.065
+            self.position_x2 = 0.25
             self.position_y2 = 0.02
-        else:
-            self.position_x = 0.01
+        else: # 1p
+            self.position_x = 0.20
             self.position_y = 0.54
-            self.position_x2 = 0.065
+            self.position_x2 = 0.25
             self.position_y2 = 0.54
 
     def draw(self):
