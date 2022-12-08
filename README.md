@@ -8,18 +8,17 @@
 ## 팀원 : 정재혁 송영철 김재홍
 ---
 
-# 주제 : 오픈소스를 활용한 T-Rex Rush 게임 개발:
+# 프로젝트 제목 : 오픈소스를 활용한 T-Rex Rush 게임 개발:
 <center>
     <div style = "padding: 10px 1px 2px 10px;">
         <img src="sprites/intro_background.png" width="300" height="200"/>
-        #아래꺼 화면 캡쳐
         <img src="sprites/complete_screen.png" width="300" height="200"/>
     </div>
 </center>
 
 <br>
-
-__🦕 Chrome 이스터에그 게임 T-rex Rush에 다양한 모션, 공격기능, PVP 모드, 상점 기능을 추가하여 흥미를 더한 게임__
+# 프로젝트 내용 :
+__🦕 Chrome 이스터에그 게임 T-rex Rush에 다양한 모션, 공격기능, PVP BATTLE모드, PVP RUNNING모드 상점 기능을 추가하여 흥미를 더한 게임__
 
 <br>
 
@@ -34,6 +33,16 @@ __🦕 Chrome 이스터에그 게임 T-rex Rush에 다양한 모션, 공격기�
 <br>
 
 
+## SETTING TO PLAY GAME
+```
+Python version 3.7
+Git
+```
+
+## TO INSTALL THIS GAME
+```
+ git clone https://github.com/CSID-DGU/2022-2-OSSProj-Let-sGitIt-6.git
+```
 ## TO RUN THIS GAME
 ```
 pip install pygame
@@ -49,7 +58,7 @@ python run.py
         <img src="sprites/pvp_battle_rule.png" width="300" height="200"/>
         <img src="sprites/pvp_battle_rule2.png" width="300" height="200"/>
         <img src="sprites/pvp_running_rule.png" width="300" height="200"/>
-        <img src="sprites/pvp_running_rule2.png" width="300" height="200"/>
+        <img src="sprites/pvp_running_rule2.PNG" width="300" height="200"/>
     </div>
 </center>
 <br>
@@ -59,6 +68,11 @@ python run.py
 ### CSID-DGU - "Let's Git It"
 
  🦖 [JAEHYUK](https://github.com/jaehyukjung)      🦖 [JAEHONG](https://github.com/MealWithoutSoup)    🦖 [YOUNGCHUL](https://github.com/Song-YoungChul)
+
+### CONTACT US
+[JAEHYUK] : wjdwogur9@naver.com
+[JAEHONG] : 
+[YOUNGCHUL]: syc5002@naver.com
 
  <br>
 
