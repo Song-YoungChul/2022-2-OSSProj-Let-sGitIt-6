@@ -85,7 +85,7 @@ class SlowItem(pygame.sprite.Sprite):
     def __init__(self, speed=5, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self, self.containers)
         self.images, self.rect = load_sprite_sheet("slow_pic.png", 2, 1, sizex, sizey, -1)
-        self.slow_height = [height*0.82, height*0.75, height*0.60]
+        self.slow_height = [height * 0.82, height * 0.75, height * 0.60]
         self.rect.centery = self.slow_height[random.randrange(3)]
         self.rect.left = width + self.rect.width
         self.image = self.images[0]
@@ -135,17 +135,12 @@ class Obj(pygame.sprite.Sprite):
 
 
 class Dust_item(pygame.sprite.Sprite):
-    def __init__(self, speed=5, sizex=-1, sizey=-1, type = -1):
+    def __init__(self, speed = 5, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self,self.containers)
-        self.images, self.rect = load_sprite_sheet('dust_item.png', 1, 1, sizex, sizey, -1)
-        if type == 1:
-            self.rect.bottom = random.choice([int(0.45*height), int(height*0.35)]) 
-        elif type == 2:
-            self.rect.bottom = random.choice([int(0.95*height), int(height*0.85)]) 
-        
+        self.image, self.rect = load_image('dust_item.png', sizex, sizey, -1)
+        self.rect.bottom = random.choice([int(DEFAULT_HEIGHT * height), int(height * (DEFAULT_HEIGHT - 0.15)),  int(height * (DEFAULT_HEIGHT - 0.3)) ]) 
         self.rect.left = width + self.rect.width
-        self.image = self.images[0] #0과 3 사이의 난수를 반환
-        self.movement = [-1*speed, 0] #캐릭터에게 speed의 속도로 다가옴
+        self.movement = [-1 * speed, 0]
         
     def draw(self):
         screen.blit(self.image, self.rect)
@@ -157,18 +152,12 @@ class Dust_item(pygame.sprite.Sprite):
             self.kill()
 
 class Dust_item_pvp(pygame.sprite.Sprite):
-    def __init__(self, speed=5, sizex=-1, sizey=-1, type = -1):
+    def __init__(self, speed=5, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self,self.containers)
-        self.images, self.rect = load_sprite_sheet('dust_item.png', 1, 1, sizex, sizey, -1)
-        if type == 1:
-            self.rect.bottom = random.choice([int(0.45*height), int(height*0.35)]) 
-        elif type == 2:
-            self.rect.bottom = random.choice([int(0.95*height), int(height*0.85)]) 
-
-        
+        self.image, self.rect = load_image('dust_item.png', sizex, sizey, -1)
+        self.rect.bottom = random.choice([int(DEFAULT_HEIGHT_2P * height), int(height * (DEFAULT_HEIGHT_2P - 0.15)),  int(height * (DEFAULT_HEIGHT_2P - 0.3)) ]) 
         self.rect.left = width + self.rect.width
-        self.image = self.images[0] #0과 3 사이의 난수를 반환
-        self.movement = [-1*speed, 0] #캐릭터에게 speed의 속도로 다가옴
+        self.movement = [-1 * speed, 0] #캐릭터에게 speed의 속도로 다가옴
         
     def draw(self):
         screen.blit(self.image, self.rect)
@@ -180,17 +169,12 @@ class Dust_item_pvp(pygame.sprite.Sprite):
             self.kill()
 
 class Water_item(pygame.sprite.Sprite):
-    def __init__(self, speed=4, sizex=-1, sizey=-1, type = -1):
+    def __init__(self, speed=4, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self,self.containers)
-        self.images, self.rect = load_sprite_sheet('umbrella_icon.png', 1, 1, sizex, sizey, -1)
-        if type == 1:
-            self.rect.bottom = random.choice([int(0.45*height), int(height*0.35)]) 
-        elif type == 2:
-            self.rect.bottom = random.choice([int(0.95*height), int(height*0.85)]) 
-        
+        self.image, self.rect = load_image('umbrella_icon.png', sizex, sizey, -1)
+        self.rect.bottom = random.choice([int(DEFAULT_HEIGHT * height), int(height * (DEFAULT_HEIGHT - 0.15)),  int(height * (DEFAULT_HEIGHT - 0.3)) ]) 
         self.rect.left = width + self.rect.width
-        self.image = self.images[0]
-        self.movement = [-1*speed, 0] #캐릭터에게 speed의 속도로 다가옴
+        self.movement = [-1 * speed, 0] #캐릭터에게 speed의 속도로 다가옴
         
     def draw(self):
         screen.blit(self.image, self.rect)
@@ -202,16 +186,11 @@ class Water_item(pygame.sprite.Sprite):
             self.kill()
 
 class Water_item_pvp(pygame.sprite.Sprite):
-    def __init__(self, speed=4, sizex=-1, sizey=-1, type = -1):
+    def __init__(self, speed=4, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self,self.containers)
-        self.images, self.rect = load_sprite_sheet('umbrella_icon.png', 1, 1, sizex, sizey, -1)
-        if type == 1:
-            self.rect.bottom = random.choice([int(0.45*height), int(height*0.35)]) 
-        elif type == 2:
-            self.rect.bottom = random.choice([int(0.95*height), int(height*0.85)]) 
-        
+        self.image, self.rect = load_image('umbrella_icon.png', sizex, sizey, -1)
+        self.rect.bottom = random.choice([int(DEFAULT_HEIGHT_2P * height), int(height * (DEFAULT_HEIGHT_2P - 0.15)),  int(height * (DEFAULT_HEIGHT_2P - 0.3)) ]) 
         self.rect.left = width + self.rect.width
-        self.image = self.images[0]
         self.movement = [-1*speed, 0] #캐릭터에게 speed의 속도로 다가옴
         
     def draw(self):
@@ -222,16 +201,13 @@ class Water_item_pvp(pygame.sprite.Sprite):
 
         if self.rect.right < 0:
             self.kill()
+
 class Ice_item(pygame.sprite.Sprite):
-    def __init__(self, speed = 4, sizex=-1, sizey=-1, type = -1):
+    def __init__(self, speed = 4, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self,self.containers)
-        self.images, self.rect = load_sprite_sheet('ice_icon.png', 1, 1, sizex, sizey, -1)
-        if type == 2:
-            self.rect.bottom = random.choice([int(0.45*height), int(height*0.35)]) 
-        elif type == 1:
-            self.rect.bottom = random.choice([int(0.95*height), int(height*0.85)]) 
+        self.image, self.rect = load_image('ice_icon.png', sizex, sizey, -1)
+        self.rect.bottom = random.choice([int(DEFAULT_HEIGHT * height), int(height * (DEFAULT_HEIGHT - 0.15)),  int(height * (DEFAULT_HEIGHT - 0.3)) ]) 
         self.rect.left = width + self.rect.width
-        self.image = self.images[0]
         self.movement = [-1*speed, 0] #캐릭터에게 speed의 속도로 다가옴
         
     def draw(self):
@@ -244,15 +220,11 @@ class Ice_item(pygame.sprite.Sprite):
             self.kill()
 
 class Ice_item_pvp(pygame.sprite.Sprite):
-    def __init__(self, speed = 4, sizex=-1, sizey=-1, type = -1):
+    def __init__(self, speed = 4, sizex=-1, sizey=-1):
         pygame.sprite.Sprite.__init__(self,self.containers)
-        self.images, self.rect = load_sprite_sheet('ice_icon.png', 1, 1, sizex, sizey, -1)
-        if type == 2:
-            self.rect.bottom = random.choice([int(0.45*height), int(height*0.35)]) 
-        elif type == 1:
-            self.rect.bottom = random.choice([int(0.95*height), int(height*0.85)]) 
+        self.image, self.rect = load_image('ice_icon.png', sizex, sizey, -1)
+        self.rect.bottom = random.choice([int(DEFAULT_HEIGHT_2P * height), int(height * (DEFAULT_HEIGHT_2P - 0.15)),  int(height * (DEFAULT_HEIGHT_2P - 0.3)) ]) 
         self.rect.left = width + self.rect.width
-        self.image = self.images[0]
         self.movement = [-1*speed, 0] #캐릭터에게 speed의 속도로 다가옴
         
     def draw(self):
@@ -265,16 +237,11 @@ class Ice_item_pvp(pygame.sprite.Sprite):
             self.kill()
 
 class Potion_item(pygame.sprite.Sprite):
-    def __init__(self, speed = 5, sizex = -1, sizey = -1, type = -1):
+    def __init__(self, speed = 5, sizex = -1, sizey = -1):
         pygame.sprite.Sprite.__init__(self,self.containers)
-        self.images, self.rect = load_sprite_sheet('potion_item.png', 1, 1, sizex, sizey, -1)
-        if type == 2:
-            self.rect.bottom = random.choice([int(0.45*height), int(height*0.35)]) 
-        elif type == 1:
-            self.rect.bottom = random.choice([int(0.95*height), int(height*0.85)]) 
-        
+        self.image, self.rect = load_image('potion_item.png', sizex, sizey, -1)
+        self.rect.bottom = random.choice([int(DEFAULT_HEIGHT * height), int(height * (DEFAULT_HEIGHT - 0.15)),  int(height * (DEFAULT_HEIGHT - 0.3)) ]) 
         self.rect.left = width + self.rect.width
-        self.image = self.images[0]
         self.movement = [-1*speed, 0] #캐릭터에게 speed의 속도로 다가옴
         
     def draw(self):
@@ -287,16 +254,11 @@ class Potion_item(pygame.sprite.Sprite):
             self.kill()
 
 class Potion_item_pvp(pygame.sprite.Sprite):
-    def __init__(self, speed = 5, sizex = -1, sizey = -1, type = -1):
+    def __init__(self, speed = 5, sizex = -1, sizey = -1):
         pygame.sprite.Sprite.__init__(self,self.containers)
-        self.images, self.rect = load_sprite_sheet('potion_item.png', 1, 1, sizex, sizey, -1)
-        if type == 2:
-            self.rect.bottom = random.choice([int(0.45*height), int(height*0.35)]) 
-        elif type == 1:
-            self.rect.bottom = random.choice([int(0.95*height), int(height*0.85)]) 
-        
+        self.image, self.rect = load_sprite_sheet('potion_item.png', 1, 1, sizex, sizey, -1)
+        self.rect.bottom = random.choice([int(DEFAULT_HEIGHT_2P * height), int(height * (DEFAULT_HEIGHT_2P - 0.15)),  int(height * (DEFAULT_HEIGHT_2P - 0.3)) ]) 
         self.rect.left = width + self.rect.width
-        self.image = self.images[0]
         self.movement = [-1*speed, 0] #캐릭터에게 speed의 속도로 다가옴
         
     def draw(self):

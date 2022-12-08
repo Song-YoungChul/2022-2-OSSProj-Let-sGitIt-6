@@ -206,9 +206,6 @@ def pvprunning():
                             if event.key == pygame.K_q: # 물약 아이템
                                 if potion_item_count > 0: # 물약 개수가 1개 이상 일 때만 작동
                                     potion_item_count -= 1
-                                    # is_dust_time = False
-                                    # is_ice_time = False
-                                    # is_water_time = False
                                     water_rest_time = 0
                                     dust_rest_time_2p = 0
                                     ice_rest_time = 0
@@ -764,7 +761,7 @@ def pvprunning():
                     pm.x = random.randrange(40, width-40)
                     pm.y = 210
                     pm.move = 3
-                    if len(pm_list) <= 5:
+                    if len(pm_list) < MAX_WATER:
                         pm_list.append(pm) 
                     pd_list = []
                     for i in range(len(pm_list)):
@@ -784,7 +781,7 @@ def pvprunning():
                     pm_2p.x = random.randrange(40, width-40)
                     pm_2p.y = 10
                     pm_2p.move = 3
-                    if len(pm_list_2p) <= MAX_WATER:
+                    if len(pm_list_2p) < MAX_WATER:
                         pm_list_2p.append(pm_2p)
                     pd_list_2p = []
 
@@ -802,25 +799,25 @@ def pvprunning():
                 if water_rest_time == 0 :
                     is_water_time = False
                     pm_list = []
-                    water_rest_time = ITEM_TIME
                     background_2p.update('spring',2)
+                    water_rest_time = ITEM_TIME
 
                 if water_rest_time_2p == 0 :
                     is_water_time_2p = False
                     pm_list_2p = []
-                    water_rest_time_2p = ITEM_TIME
                     background.update('spring',1)
+                    water_rest_time_2p = ITEM_TIME
 
                 # ice 아이템 효과 끝나면
                 if ice_rest_time == 0 :
                     is_ice_time = False
-                    ice_rest_time = ICE_TIME
                     background_2p.update('spring',2)
+                    ice_rest_time = ICE_TIME
 
                 if ice_rest_time_2p == 0 :
                     is_ice_time_2p = False
-                    ice_rest_time_2p = ICE_TIME
                     background.update('spring',1)
+                    ice_rest_time_2p = ICE_TIME
 
                 resized_screen.blit(
                     pygame.transform.scale(screen, (resized_screen.get_width(), resized_screen.get_height())),
@@ -889,29 +886,29 @@ def pvprunning():
                         resized_screen_center)
                     pygame.display.update()
 
-                if len(dust_item) < 2:
+                if len(dust_item) < 3:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(DUST_INTERVAL) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(Dust_item(RUN_GAME_SPEED, object_size[0], object_size[1],type = 2))
+                            last_obstacle.add(Dust_item(RUN_GAME_SPEED, object_size[0], object_size[1]))
                 
-                if len(water_item) < 2:
+                if len(water_item) < 3:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(WATER_INTERVAL) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(Water_item(RUN_GAME_SPEED, object_size[0], object_size[1],type = 2))
+                            last_obstacle.add(Water_item(RUN_GAME_SPEED, object_size[0], object_size[1]))
 
-                if len(dust_item2) < 2:
+                if len(dust_item2) < 3:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(DUST_INTERVAL) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(Dust_item_pvp(RUN_GAME_SPEED, object_size[0], object_size[1],type = 1))
+                            last_obstacle.add(Dust_item_pvp(RUN_GAME_SPEED, object_size[0], object_size[1]))
                 
-                if len(water_item2) < 2:
+                if len(water_item2) < 3:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(WATER_INTERVAL) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(Water_item_pvp(RUN_GAME_SPEED, object_size[0], object_size[1],type = 1))
+                            last_obstacle.add(Water_item_pvp(RUN_GAME_SPEED, object_size[0], object_size[1]))
 
                 if (len(pm_list)== 0):
                     pass
@@ -943,25 +940,25 @@ def pvprunning():
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(ICE_INTERVAL) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(Ice_item(RUN_GAME_SPEED, object_size[0], object_size[1],type= 1 ))
+                            last_obstacle.add(Ice_item(RUN_GAME_SPEED, object_size[0], object_size[1] ))
 
                 if len(potion_item) < 2:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(ICE_INTERVAL) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(Potion_item(RUN_GAME_SPEED, object_size[0], object_size[1],type = 1))
+                            last_obstacle.add(Potion_item(RUN_GAME_SPEED, object_size[0], object_size[1]))
 
                 if len(ice_item2) < 2:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(ICE_INTERVAL) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(Ice_item_pvp(RUN_GAME_SPEED, object_size[0], object_size[1],type = 2))
+                            last_obstacle.add(Ice_item_pvp(RUN_GAME_SPEED, object_size[0], object_size[1]))
 
                 if len(potion_item2) < 2:
                     for l in last_obstacle:
                         if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(ICE_INTERVAL) == MAGIC_NUM:
                             last_obstacle.empty()
-                            last_obstacle.add(Potion_item_pvp(RUN_GAME_SPEED, object_size[0], object_size[1],type = 2))
+                            last_obstacle.add(Potion_item_pvp(RUN_GAME_SPEED, object_size[0], object_size[1]))
 
 
                 if player1_dino.is_dead:
