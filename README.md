@@ -71,20 +71,24 @@ python run.py
 
 ### CONTACT US
 [JAEHYUK] : wjdwogur9@naver.com
-[JAEHONG] : 
+[JAEHONG] : asdr111324@gmail.com
 [YOUNGCHUL]: syc5002@naver.com
 
  <br>
 
  ## Credits:
 - __Sprites__ : https://chromedino.com/assets/offline-sprite-2x-black.png or '2021-1-MilkDragon' made
-- __Logo__ : https://textcraft.net/
-- __Sounds__ : https://github.com/vicboma1/T-Rex-Game/tree/master/Unity/Sounds
 - __Obstacle__ :
   - __Snowman__ : Snowman by Michael J Pierce @ IsometricRobot.com
   - __Pumpkin__ : Copyright © 2018 TheGoatIsBetter under license CC-BY-SA 4.0 All Rights Reserved
   - __Tree__ : https://opengameart.org/content/lpc-modified-art <br>  https://opengameart.org/content/lpc-plant-repack <br> https://opengameart.org/content/lpc-all-seasons-apple-tree
+- __Items__ :
+  - __Ice__ : https://opengameart.org/content/snow-flake
+  - __Potion__ : http://pixelartmaker.com/art/5484d0007d98bb9
 - __Character__ : https://opengameart.org/content/tux-kyrodian-legends-style
+- __Logo__ : https://textcraft.net/
+- __Sounds__ : https://github.com/vicboma1/T-Rex-Game/tree/master/Unity/Sounds
+
 - __PVP Skin__ : Copyright/Attribution Notice: Original is by Hyptosis, under a CC0 license.
 
 <br>
