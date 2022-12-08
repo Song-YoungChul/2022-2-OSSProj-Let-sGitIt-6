@@ -226,9 +226,9 @@ class Ice_item(pygame.sprite.Sprite):
     def __init__(self, speed = 4, sizex=-1, sizey=-1, type = -1):
         pygame.sprite.Sprite.__init__(self,self.containers)
         self.images, self.rect = load_sprite_sheet('ice_icon.png', 1, 1, sizex, sizey, -1)
-        if type == 1:
+        if type == 2:
             self.rect.bottom = random.choice([int(0.45*height), int(height*0.35)]) 
-        elif type == 2:
+        elif type == 1:
             self.rect.bottom = random.choice([int(0.95*height), int(height*0.85)]) 
         self.rect.left = width + self.rect.width
         self.image = self.images[0]
@@ -247,9 +247,9 @@ class Ice_item_pvp(pygame.sprite.Sprite):
     def __init__(self, speed = 4, sizex=-1, sizey=-1, type = -1):
         pygame.sprite.Sprite.__init__(self,self.containers)
         self.images, self.rect = load_sprite_sheet('ice_icon.png', 1, 1, sizex, sizey, -1)
-        if type == 1:
+        if type == 2:
             self.rect.bottom = random.choice([int(0.45*height), int(height*0.35)]) 
-        elif type == 2:
+        elif type == 1:
             self.rect.bottom = random.choice([int(0.95*height), int(height*0.85)]) 
         self.rect.left = width + self.rect.width
         self.image = self.images[0]
@@ -263,13 +263,14 @@ class Ice_item_pvp(pygame.sprite.Sprite):
 
         if self.rect.right < 0:
             self.kill()
+
 class Potion_item(pygame.sprite.Sprite):
     def __init__(self, speed = 5, sizex = -1, sizey = -1, type = -1):
         pygame.sprite.Sprite.__init__(self,self.containers)
         self.images, self.rect = load_sprite_sheet('potion_item.png', 1, 1, sizex, sizey, -1)
-        if type == 1:
+        if type == 2:
             self.rect.bottom = random.choice([int(0.45*height), int(height*0.35)]) 
-        elif type == 2:
+        elif type == 1:
             self.rect.bottom = random.choice([int(0.95*height), int(height*0.85)]) 
         
         self.rect.left = width + self.rect.width
@@ -289,9 +290,9 @@ class Potion_item_pvp(pygame.sprite.Sprite):
     def __init__(self, speed = 5, sizex = -1, sizey = -1, type = -1):
         pygame.sprite.Sprite.__init__(self,self.containers)
         self.images, self.rect = load_sprite_sheet('potion_item.png', 1, 1, sizex, sizey, -1)
-        if type == 1:
+        if type == 2:
             self.rect.bottom = random.choice([int(0.45*height), int(height*0.35)]) 
-        elif type == 2:
+        elif type == 1:
             self.rect.bottom = random.choice([int(0.95*height), int(height*0.85)]) 
         
         self.rect.left = width + self.rect.width
