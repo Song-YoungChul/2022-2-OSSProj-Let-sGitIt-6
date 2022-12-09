@@ -20,31 +20,23 @@ db = InterfDB("db/data.db")
 def intro_screen():
     global resized_screen
     global temp_dino
-    # global type_idx
     global dino_type
-    dino_type = ['ORIGINAL','RED','ORANGE','YELLOW','GREEN','PURPLE','BLACK','PINK']
-    global skin_type
+    dino_type = ['ORIGINAL']
     global game_quit
-    # global type_idx2
-    click_count = 0
-    #
+    
     temp_dino = Dino(dino_size[0], dino_size[1])
     temp_dino.is_blinking = True
     game_start = False
     background, background_rect  = load_image('intro_background.png', width, height)
     # 버튼 이미지 (pvp모드에 대한 p 주석)
-    # r_r_btn_gamestart,_gamestart_oad_image(*resize('r_btn_gamestart.0, 60, -1))
-    # r_btn_gamestart,amestart_oad_image('r_btn_gamestart.0, 60, -1)
-    # r_btn_2p, r_btn_2p_rect = load_image(*resize('btn_2p.png', 150, 60, -1))
-    # btn_2p, btn_2p_rect = load_image('btn_2p.png', 150, 60, -1)
-    r_btn_gamestart, r_btn_gamestart_rect = load_image(*resize('game_start.png', 150, 50, -1))
-    btn_gamestart, btn_gamestart_rect = load_image('game_start.png', 150, 50, -1)
-    r_btn_board, r_btn_board_rect = load_image(*resize('score_board.png', 150, 50, -1))
-    btn_board, btn_board_rect = load_image('score_board.png', 150, 50, -1)
-    r_btn_store, r_btn_store_rect = load_image(*resize('store.png', 150, 50, -1))
-    btn_store, btn_store_rect = load_image('store.png', 150, 50, -1)
-    r_btn_option, r_btn_option_rect = load_image(*resize('option.png', 150, 50, -1))
-    btn_option, btn_option_rect = load_image('option.png', 150, 50, -1)
+    r_btn_gamestart, r_btn_gamestart_rect = load_image(*resize('game_start.png', INTRO_BTN_X, INTRO_BTN_Y, -1))
+    btn_gamestart, btn_gamestart_rect = load_image('game_start.png', INTRO_BTN_X,INTRO_BTN_Y, -1)
+    r_btn_board, r_btn_board_rect = load_image(*resize('score_board.png', INTRO_BTN_X, INTRO_BTN_Y, -1))
+    btn_board, btn_board_rect = load_image('score_board.png', INTRO_BTN_X, INTRO_BTN_Y, -1)
+    r_btn_store, r_btn_store_rect = load_image(*resize('store.png', INTRO_BTN_X, INTRO_BTN_Y, -1))
+    btn_store, btn_store_rect = load_image('store.png', INTRO_BTN_X, INTRO_BTN_Y, -1)
+    r_btn_option, r_btn_option_rect = load_image(*resize('option.png', INTRO_BTN_X, INTRO_BTN_Y, -1))
+    btn_option, btn_option_rect = load_image('option.png', INTRO_BTN_X, INTRO_BTN_Y, -1)
     # DINO IMAGE
     while not game_start:
         if pygame.display.get_surface() == None:
@@ -140,16 +132,17 @@ def option():
     r_init_btn_image, r_init_btn_rect = load_image(*resize('scorereset.png', 80, 80, -1))
     btn_gamerule, btn_gamerule_rect = load_image('btn_gamerule.png', 80, 80, -1)
     r_btn_gamerule, r_btn_gamerule_rect = load_image(*resize('btn_gamerule.png', 80, 80, -1))
-    btn_home, btn_home_rect = load_image('back.png', 75, 30, -1)
-    r_btn_home, r_btn_home_rect = load_image(*resize('back.png', 75, 30, -1))
-    btn_credit, btn_credit_rect = load_image('btn_credit.png', 150, 50, -1)
-    r_btn_credit, r_btn_credit_rect = load_image(*resize('btn_credit.png', 180, 80, -1))
+    btn_credit, btn_credit_rect = load_image('btn_credit.png', INTRO_BTN_X, INTRO_BTN_Y, -1)
+    r_btn_credit, r_btn_credit_rect = load_image(*resize('btn_credit.png', INTRO_BTN_X, INTRO_BTN_Y, -1))
+    # 버튼 이미지
+    back_btn_image, back_btn_rect = load_image('back.png', 75, 30, -1)
+    r_back_btn_image, r_back_btn_rect = load_image(*resize('back.png', 75, 30, -1))
 
     text_rect.center = (width * 0.5, height * 0.15)
     btn_bgm_on_rect.center = (width * 0.25, height * 0.5)
     init_btn_rect.center = (width * 0.5, height * 0.5)
     btn_gamerule_rect.center = (width * 0.75, height * 0.5)
-    btn_home_rect.center = (width * 0.1, height * 0.15)
+    back_btn_rect =  (width * 0.025, height * 0.025)
     btn_credit_rect.center = (width * 0.9, height * 0.85)
 
     while not done:
@@ -167,7 +160,7 @@ def option():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if pygame.mouse.get_pressed() == (1, 0, 0):
                     x, y = event.pos
-                    if r_btn_home_rect.collidepoint(x, y):
+                    if r_back_btn_rect.collidepoint(x, y):
                         intro_screen()
 
                     if r_btn_bgm_on_rect.collidepoint(x, y) and setting.bgm_on:
@@ -200,16 +193,15 @@ def option():
         r_init_btn_rect.centery = resized_screen.get_height() * 0.5
         r_btn_gamerule_rect.centerx = resized_screen.get_width() * 0.75
         r_btn_gamerule_rect.centery = resized_screen.get_height() * 0.5
-        r_btn_home_rect.centerx = resized_screen.get_width() * 0.1
-        r_btn_home_rect.centery = resized_screen.get_height() * 0.15
         r_btn_credit_rect.centerx = resized_screen.get_width() * 0.9
         r_btn_credit_rect.centery = resized_screen.get_height() * 0.85
+        r_back_btn_rect.centerx, r_back_btn_rect.centery = resized_screen.get_width() * 0.03, resized_screen.get_height() * 0.03
 
         screen.fill(background_col)
         screen.blit(text_surf, text_rect)
         screen.blit(init_btn_image, init_btn_rect)
         screen.blit(btn_gamerule, btn_gamerule_rect)
-        screen.blit(btn_home, btn_home_rect)
+        screen.blit(back_btn_image, back_btn_rect)
         screen.blit(btn_credit, btn_credit_rect)
 
         if setting.bgm_on:
@@ -241,19 +233,19 @@ def select_mode():
     back_btn_image, back_btn_rect = load_image('back.png', 75, 30, -1)
     r_back_btn_image, r_back_btn_rect = load_image(*resize('back.png', 75, 30, -1))
     ##easy mode button
-    easymode_btn_image, easymode_btn_rect = load_image('easy_mode.png', 150, 50, -1)
-    r_easymode_btn_image, r_easy_btn_rect = load_image(*resize('easy_mode.png', 150, 50, -1))
+    easymode_btn_image, easymode_btn_rect = load_image('easy_mode.png', INTRO_BTN_X, INTRO_BTN_Y, -1)
+    r_easymode_btn_image, r_easy_btn_rect = load_image(*resize('easy_mode.png', INTRO_BTN_X, INTRO_BTN_Y, -1))
     # hardmode button
-    btn_hardmode, btn_hardmode_rect = load_image('hard_mode.png', 150, 50, -1)
-    r_btn_hardmode, r_btn_hardmode_rect = load_image(*resize('hard_mode.png', 150, 50, -1))
+    btn_hardmode, btn_hardmode_rect = load_image('hard_mode.png', INTRO_BTN_X, INTRO_BTN_Y, -1)
+    r_btn_hardmode, r_btn_hardmode_rect = load_image(*resize('hard_mode.png', INTRO_BTN_X, INTRO_BTN_Y, -1))
     # runningmode button, 임시로 hardmode 이미지로 진행
-    btn_runningmode, btn_runningmode_rect = load_image('pvp_running.png', 150, 50, -1)
-    r_btn_runningmode, r_btn_runningmode_rect = load_image(*resize('pvp_running.png', 150, 50, -1))
+    btn_runningmode, btn_runningmode_rect = load_image('pvp_running.png', INTRO_BTN_X, INTRO_BTN_Y, -1)
+    r_btn_runningmode, r_btn_runningmode_rect = load_image(*resize('pvp_running.png', INTRO_BTN_X, INTRO_BTN_Y, -1))
     # battlemode button, 임시로 hardmode 이미지로 진행
-    btn_battlemode, btn_battlemode_rect = load_image('pvp_battle.png', 150, 50, -1)
-    r_btn_battlemode, r_btn_battlemode_rect = load_image(*resize('pvp_battle.png', 150, 50, -1))
+    btn_battlemode, btn_battlemode_rect = load_image('pvp_battle.png', INTRO_BTN_X, INTRO_BTN_Y, -1)
+    r_btn_battlemode, r_btn_battlemode_rect = load_image(*resize('pvp_battle.png', INTRO_BTN_X, INTRO_BTN_Y, -1))
     
-    
+     
     # 배경 이미지
     Background, Background_rect = load_image('intro_background.png', width, height, -1)
 
@@ -302,7 +294,7 @@ def select_mode():
 
             if event.type == pygame.VIDEORESIZE:
                 check_scr_size(event.w, event.h)
-        r_back_btn_rect.centerx, r_back_btn_rect.centery = resized_screen.get_width() * 0.03, resized_screen.get_height() * 0.025
+        r_back_btn_rect.centerx, r_back_btn_rect.centery = resized_screen.get_width() * 0.025, resized_screen.get_height() * 0.025
         r_easy_btn_rect.centerx, r_easy_btn_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * 0.5
         r_btn_hardmode_rect.centerx, r_btn_hardmode_rect.centery = resized_screen.get_width() * 0.66, resized_screen.get_height() * (
                 0.75)
@@ -719,8 +711,6 @@ def gameplay_hard():
     
     if type_idx2 ==0:
         new_background = ImgBack(-1 * game_speed, "spring")
-    else:
-        new_background = ImgBack(-1 * game_speed, f"{skin_type[type_idx2]}")
     new_ground = Ground(-1 * game_speed)
 
     scb = Scoreboard( y = height * SCB_HEIGHT)
@@ -1545,17 +1535,17 @@ def gamerule():
     # 버튼 이미지
 
     ##easy mode button
-    easymoderule_btn_image, easymoderule_btn_rect = load_image('easy_mode.png', 150, 50, -1)
-    r_easymoderule_btn_image, r_easyrule_btn_rect = load_image(*resize('easy_mode.png', 150, 50, -1))
+    easymoderule_btn_image, easymoderule_btn_rect = load_image('easy_mode.png', INTRO_BTN_X, INTRO_BTN_Y, -1)
+    r_easymoderule_btn_image, r_easyrule_btn_rect = load_image(*resize('easy_mode.png', INTRO_BTN_X, INTRO_BTN_Y, -1))
     # hardmode button
-    btn_hardmoderule, btn_hardmoderule_rect = load_image('hard_mode.png', 150, 50, -1)
-    r_btn_hardmoderule, r_btn_hardmoderule_rect = load_image(*resize('hard_mode.png', 150, 50, -1))
+    btn_hardmoderule, btn_hardmoderule_rect = load_image('hard_mode.png', INTRO_BTN_X, INTRO_BTN_Y, -1)
+    r_btn_hardmoderule, r_btn_hardmoderule_rect = load_image(*resize('hard_mode.png', INTRO_BTN_X, INTRO_BTN_Y, -1))
     # runningmode button, 임시로 hardmode 이미지로 진행
-    btn_runningmoderule, btn_runningmoderule_rect = load_image('pvp_running.png', 150, 50, -1)
-    r_btn_runningmoderule, r_btn_runningmoderule_rect = load_image(*resize('pvp_running.png', 150, 50, -1))
+    btn_runningmoderule, btn_runningmoderule_rect = load_image('pvp_running.png', INTRO_BTN_X, INTRO_BTN_Y, -1)
+    r_btn_runningmoderule, r_btn_runningmoderule_rect = load_image(*resize('pvp_running.png', INTRO_BTN_X, INTRO_BTN_Y, -1))
     # battlemode button, 임시로 hardmode 이미지로 진행
-    btn_battlemoderule, btn_battlemoderule_rect = load_image('pvp_battle.png', 150, 50, -1)
-    r_btn_battlemoderule, r_btn_battlemoderule_rect = load_image(*resize('pvp_battle.png', 150, 50, -1))
+    btn_battlemoderule, btn_battlemoderule_rect = load_image('pvp_battle.png', INTRO_BTN_X, INTRO_BTN_Y, -1)
+    r_btn_battlemoderule, r_btn_battlemoderule_rect = load_image(*resize('pvp_battle.png', INTRO_BTN_X, INTRO_BTN_Y, -1))
     #back 버튼
     btn_home, btn_home_rect = load_image('back.png', 75, 30, -1)
     r_btn_home, r_btn_home_rect = load_image(*resize('back.png', 75, 30, -1))
@@ -1755,7 +1745,10 @@ def pausing():
     pause_pic_rect.centery = height * 0.2
 
     pygame.mixer.music.pause()  # 일시정지상태가 되면 배경음악도 일시정지
-
+    # 배경 이미지
+    back_store, back_store_rect = load_image('mode_background.png', width, height)
+    alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + ALPHA_MOVE, height)
+    alpha_back_rect.left = -ALPHA_MOVE
     # BUTTON IMG LOAD
     retbutton_image, retbutton_rect = load_image('main_button.png', 70, 62, -1)
     resume_image, resume_rect = load_image('continue_button.png', 70, 62, -1)
@@ -1803,7 +1796,8 @@ def pausing():
                 if event.type == pygame.VIDEORESIZE:
                     check_scr_size(event.w, event.h)
 
-            screen.fill(white)
+            screen.blit(back_store, back_store_rect)
+            screen.blit(alpha_back, alpha_back_rect)
             screen.blit(pause_pic, pause_pic_rect)
             screen.blit(retbutton_image, retbutton_rect)
             screen.blit(resume_image, resume_rect)
