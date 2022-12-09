@@ -1,7 +1,5 @@
 <img alt="MIT" src ="https://img.shields.io/badge/license-MIT-salmon"> <img alt="" src ="https://img.shields.io/badge/pygame-2.0.2-lightsalmon"> <img alt="" src ="https://img.shields.io/badge/OS-ubuntu-coral"> <img alt="" src ="https://img.shields.io/badge/IDE-VSCode-indianred"><br>
-<img src="https://img.shields.io/badge/python-blue?style=뱃지모양&logo=Python&logoColor=white"/> 
-<img src="https://img.shields.io/badge/GitHub-skyblue?style=뱃지모양&logo=GitHub&logoColor=white"/>
-<img src="https://img.shields.io/badge/notion-dodgerblue?style=뱃지모양&logo=notion&logoColor=white"/>
+
 
 # 2022-2-OSSProj-Let-sGitIt-6
 
@@ -25,10 +23,13 @@ __🦕 Chrome 이스터에그 게임 T-rex Rush에 다양한 모션, 공격기�
 
 ## Major Change
 - Intro Screen 디자인 변경 및 GUI 버그 수정
-- PVP 모드 추가
+- PVP battle모드 추가 및 개선
+- PVP running모드 개발
 - 상점 기능 추가
-- 다양한 캐릭터 및 스킨 추가
 - 목숨 시스템을 count로 변경
+- HARD모드 아이템 및 오류 수정
+- 리사이즈 개선
+- 신기록 페이지 추가
 
 <br>
 
@@ -56,7 +57,7 @@ python run.py
         <img src="sprites/easy_mode_rule.png" width="300" height="200"/>
         <img src="sprites/hard_mode_rule.png" width="300" height="200"/>
         <img src="sprites/pvp_battle_rule.png" width="300" height="200"/>
-        <img src="sprites/pvp_battle_rule2.png" width="300" height="200"/>
+        <img src="sprites/pvp_battle_rule2.PNG" width="300" height="200"/>
         <img src="sprites/pvp_running_rule.png" width="300" height="200"/>
         <img src="sprites/pvp_running_rule2.PNG" width="300" height="200"/>
     </div>
