@@ -18,14 +18,14 @@ def store():
     alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + ALPHA_MOVE, height)
     alpha_back_rect.left = -ALPHA_MOVE
     # 버튼 이미지
-    item_btn_image, item_btn_rect = load_image('item_btn.png', 150, 80, -1)
-    r_item_btn_image, r_item_btn_rect = load_image(*resize('item_btn.png', 150, 80, -1))
+    item_btn_image, item_btn_rect = load_image('item_btn.png', INTRO_BTN_X, INTRO_BTN_Y, -1)
+    r_item_btn_image, r_item_btn_rect = load_image(*resize('item_btn.png', INTRO_BTN_X, INTRO_BTN_Y, -1))
     # 뒤로 가기 버튼 이미지
-    back_btn_image, back_btn_rect = load_image('back.png', 75, 30, -1)
-    r_back_btn_image, r_back_btn_rect = load_image(*resize('back.png', 75, 30, -1))
+    back_btn_image, back_btn_rect = load_image('back.png', BACK_BTN_X, BACK_BTN_Y, -1)
+    r_back_btn_image, r_back_btn_rect = load_image(*resize('back.png', BACK_BTN_X, BACK_BTN_Y, -1))
 
     # 뒤로가기 버튼
-    back_btn_rect =  (width * 0.025, height * 0.025)
+    back_btn_rect =  (width * BACK_BTN_SIZE, height * BACK_BTN_SIZE)
 
     while not game_start:
         for event in pygame.event.get():
@@ -99,11 +99,11 @@ def item_store():
     no_money3_image, no_money3_rect = load_image('X.png', STORE_BTN_X, STORE_BTN_Y, -1)
     
     # 뒤로 가기 버튼 이미지
-    back_btn_image, back_btn_rect = load_image('back.png', 75, 30, -1)
-    r_back_btn_image, r_back_btn_rect = load_image(*resize('back.png', 75, 30, -1))
+    back_btn_image, back_btn_rect = load_image('back.png', BACK_BTN_X, BACK_BTN_Y, -1)
+    r_back_btn_image, r_back_btn_rect = load_image(*resize('back.png', BACK_BTN_X, BACK_BTN_Y, -1))
 
     # 뒤로가기 버튼
-    back_btn_rect =  (width * 0.025, height * 0.025)
+    back_btn_rect =  (width * BACK_BTN_SIZE, height * BACK_BTN_SIZE)
 
     # 아이템
     life_item_count = db.query_db("select count from item where name='life';", one=True)['count']
@@ -127,29 +127,28 @@ def item_store():
     user_coin = user_font.render(f'X{coin_item_count}', True, black)
 
     # 배치
-    (life_rect.centerx, life_rect.centery) = (width * (0.35), height * 0.37)
-    (coin2_rect.centerx, coin2_rect.centery) = (width * (0.33), height * (0.37 + item_price_offset))
-    life_price_rect = life_price.get_rect(center=(width * (0.38), height * (0.37 + item_price_offset)))
-    (buy_btn2_rect.centerx, buy_btn2_rect.centery) = (width * (0.35), height * (0.37 + item_btn_offset))
-    (no_money2_rect.centerx, no_money2_rect.centery) = (width * (0.35), height * (0.37 + item_btn_offset))
+    (life_rect.centerx, life_rect.centery) = (width * (STORE_ITEM_X), height * STORE_ITEM_Y)
+    (coin2_rect.centerx, coin2_rect.centery) = (width * (STORE_ITEM_X-0.02), height * (STORE_ITEM_Y + item_price_offset))
+    life_price_rect = life_price.get_rect(center=(width * (STORE_ITEM_X+0.03), height * (STORE_ITEM_Y + item_price_offset)))
+    (buy_btn2_rect.centerx, buy_btn2_rect.centery) = (width * (STORE_ITEM_X), height * (STORE_ITEM_Y + item_btn_offset))
+    (no_money2_rect.centerx, no_money2_rect.centery) = (width * (STORE_ITEM_X), height * (STORE_ITEM_Y + item_btn_offset))
 
-    (time_rect.centerx, time_rect.centery) = (width * (0.35 + btn_offset), height * 0.37)
-    (coin3_rect.centerx, coin3_rect.centery) = (width * (0.33 + btn_offset), height * (0.37 + item_price_offset))
-    time_price_rect = time_price.get_rect(center=(width * (0.38 + btn_offset), height * (0.37 + item_price_offset)))
+    (time_rect.centerx, time_rect.centery) = (width * (STORE_ITEM_X + btn_offset), height * STORE_ITEM_Y)
+    (coin3_rect.centerx, coin3_rect.centery) = (width * (STORE_ITEM_X -0.02 + btn_offset), height * (STORE_ITEM_Y + item_price_offset))
+    time_price_rect = time_price.get_rect(center=(width * (STORE_ITEM_X + 0.03 + btn_offset), height * (STORE_ITEM_Y + item_price_offset)))
     (buy_btn3_rect.centerx, buy_btn3_rect.centery) = (
-                                                    width * (0.35 + btn_offset), height * (0.37 + item_btn_offset))
+                                                    width * (STORE_ITEM_X + btn_offset), height * (STORE_ITEM_Y + item_btn_offset))
     (no_money3_rect.centerx, no_money3_rect.centery) = (
-                                                    width * (0.35 + btn_offset), height * (0.37 + item_btn_offset))
+                                                    width * (STORE_ITEM_X + btn_offset), height * (STORE_ITEM_Y + item_btn_offset))
     #
     user_count_offset = 0.04
     user_btn_offset = 0.09
-    # info_rect = info.get_rect(center=(width * 0.55, height * 0.08))
-    (user_life_rect.centerx, user_life_rect.centery) = (width * (0.64 + user_btn_offset), height * 0.08)
-    user_l_rect = user_life.get_rect(center=(width * (0.64 + user_btn_offset + user_count_offset), height * 0.08))
-    (user_time_rect.centerx, user_time_rect.centery) = (width * (0.64 + 2 * user_btn_offset), height * 0.08)
-    user_t_rect = user_time.get_rect(center=(width * (0.64 + (2 * user_btn_offset) + user_count_offset), height * 0.08))
-    (user_coin_rect.centerx, user_coin_rect.centery) = (width * (0.64 + 3 * user_btn_offset), height * 0.08)
-    user_c_rect = user_coin.get_rect(center=(width * (0.64 + (3 * user_btn_offset) + user_count_offset), height * 0.08))
+    (user_life_rect.centerx, user_life_rect.centery) = (width * (STORE_ITEM2_X + user_btn_offset), height * STORE_ITEM2_Y)
+    user_l_rect = user_life.get_rect(center=(width * (STORE_ITEM2_X + user_btn_offset + user_count_offset), height * STORE_ITEM2_Y))
+    (user_time_rect.centerx, user_time_rect.centery) = (width * (STORE_ITEM2_X + 2 * user_btn_offset), height * STORE_ITEM2_Y)
+    user_t_rect = user_time.get_rect(center=(width * (STORE_ITEM2_X + (2 * user_btn_offset) + user_count_offset), height * STORE_ITEM2_Y))
+    (user_coin_rect.centerx, user_coin_rect.centery) = (width * (STORE_ITEM2_X + 3 * user_btn_offset), height * STORE_ITEM2_Y)
+    user_c_rect = user_coin.get_rect(center=(width * (STORE_ITEM2_X + (3 * user_btn_offset) + user_count_offset), height * STORE_ITEM2_Y))
 
     while not game_start:
         for event in pygame.event.get():
@@ -182,10 +181,10 @@ def item_store():
                         f"UPDATE item SET count = {coin_item_count - t_price} where name = 'coin'"
                     )
                     db.commit()
-        (r_buy_btn2_rect.centerx, r_buy_btn2_rect.centery) = (resized_screen.get_width() * (0.35),
-                                                          resized_screen.get_height() * (0.37 + item_btn_offset))
-        (r_buy_btn3_rect.centerx, r_buy_btn3_rect.centery) = (resized_screen.get_width() * (0.35 + btn_offset),
-                                                          resized_screen.get_height() * (0.37 + item_btn_offset))
+        (r_buy_btn2_rect.centerx, r_buy_btn2_rect.centery) = (resized_screen.get_width() * (STORE_ITEM_X),
+                                                          resized_screen.get_height() * (STORE_ITEM_Y + item_btn_offset))
+        (r_buy_btn3_rect.centerx, r_buy_btn3_rect.centery) = (resized_screen.get_width() * (STORE_ITEM_X + btn_offset),
+                                                          resized_screen.get_height() * (STORE_ITEM_Y + item_btn_offset))
 
         life_item_count = db.query_db("select count from item where name='life';", one=True)['count']
         slow_item_count = db.query_db("select count from item where name='slow';", one=True)['count']
