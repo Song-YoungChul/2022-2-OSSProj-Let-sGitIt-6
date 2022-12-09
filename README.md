@@ -71,9 +71,9 @@ python run.py
  🦖 [JAEHYUK](https://github.com/jaehyukjung)      🦖 [JAEHONG](https://github.com/MealWithoutSoup)    🦖 [YOUNGCHUL](https://github.com/Song-YoungChul)
 
 ### CONTACT US
-[JAEHYUK] : wjdwogur9@naver.com
-[JAEHONG] : asdr111324@gmail.com
-[YOUNGCHUL]: syc5002@naver.com
+[JAEHYUK] : wjdwogur9@naver.com <br>
+[JAEHONG] : asdr111324@gmail.com <br>
+[YOUNGCHUL]: syc5002@naver.com <br>
 
  <br>
 
