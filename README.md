@@ -56,8 +56,10 @@ python run.py
     <div style = "padding: 10px 1px 2px 10px;">
         <img src="sprites/easy_mode_rule.png" width="300" height="200"/>
         <img src="sprites/hard_mode_rule.png" width="300" height="200"/>
+        
         <img src="sprites/pvp_battle_rule.png" width="300" height="200"/>
         <img src="sprites/pvp_battle_rule2.PNG" width="300" height="200"/>
+
         <img src="sprites/pvp_running_rule.PNG" width="300" height="200"/>
         <img src="sprites/pvp_running_rule2.PNG" width="300" height="200"/>
     </div>
