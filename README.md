@@ -1,7 +1,5 @@
 <img alt="MIT" src ="https://img.shields.io/badge/license-MIT-salmon"> <img alt="" src ="https://img.shields.io/badge/pygame-2.0.2-lightsalmon"> <img alt="" src ="https://img.shields.io/badge/OS-ubuntu-coral"> <img alt="" src ="https://img.shields.io/badge/IDE-VSCode-indianred"><br>
-<img src="https://img.shields.io/badge/python-blue?style=뱃지모양&logo=Python&logoColor=white"/> 
-<img src="https://img.shields.io/badge/GitHub-skyblue?style=뱃지모양&logo=GitHub&logoColor=white"/>
-<img src="https://img.shields.io/badge/notion-dodgerblue?style=뱃지모양&logo=notion&logoColor=white"/>
+
 
 # 2022-2-OSSProj-Let-sGitIt-6
 
@@ -57,7 +55,7 @@ python run.py
         <img src="sprites/hard_mode_rule.png" width="300" height="200"/>
         <img src="sprites/pvp_battle_rule.png" width="300" height="200"/>
         <img src="sprites/pvp_battle_rule2.png" width="300" height="200"/>
-        <img src="sprites/pvp_running_rule.png" width="300" height="200"/>
+        <img src="sprites/pvp_running_rule.PNG" width="300" height="200"/>
         <img src="sprites/pvp_running_rule2.PNG" width="300" height="200"/>
     </div>
 </center>
