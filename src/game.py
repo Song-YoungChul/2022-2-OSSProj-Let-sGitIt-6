@@ -679,7 +679,6 @@ def gameplay_hard():
     stage = 1
     life = LIFE
     pking_life = PKING_LIFE # 보스 목숨
-    # shield_item_count = db.query_db("select count from item where name='shield';", one=True)['count']
     life_item_count = db.query_db("select count from item where name='life';", one=True)['count']
     slow_item_count = db.query_db("select count from item where name='slow';", one=True)['count']
     coin_item_count = db.query_db("select count from item where name='coin';", one=True)['count']
@@ -1018,21 +1017,6 @@ def gameplay_hard():
                     elif l.rect.right < 0:
                         c.kill()
 
-                if is_pking_alive and (rest_time <= PKING_APPEARANCE_TIME):
-                    is_pking_time = True
-                else:
-                    is_pking_time = False
-
-                if len(coin_items) < 2:
-                    if len(coin_items) == 0:
-                        last_obstacle.empty()
-                        last_obstacle.add(CoinItem(game_speed, object_size[0], object_size[1]))
-                else:
-                    for l in last_obstacle:
-                        if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(CACTUS_INTERVAL) == MAGIC_NUM:
-                            last_obstacle.empty()
-                            last_obstacle.add(CoinItem(game_speed, object_size[0], object_size[1]))
-                
                 for c in life_items:
                     c.movement[0] = -1 * game_speed
                     if pygame.sprite.collide_mask(player_dino, c):
@@ -1043,10 +1027,22 @@ def gameplay_hard():
                     elif l.rect.right < 0:
                         c.kill()
 
+                if is_pking_alive and (rest_time <= PKING_APPEARANCE_TIME):
+                    is_pking_time = True
+                else:
+                    is_pking_time = False
+
+                if len(coin_items) < 2:
+                    for l in last_obstacle:
+                        if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(COIN_INTERVAL) == MAGIC_NUM:
+                            last_obstacle.empty()
+                            last_obstacle.add(CoinItem(game_speed, object_size[0], object_size[1]))                
+
                 if len(life_items) < 2:
-                    if len(life_items) == 0:
-                        last_obstacle.empty()
-                        last_obstacle.add(LifeItem(game_speed, object_size[0], object_size[1]))
+                    for l in last_obstacle:
+                        if l.rect.right < OBJECT_REFRESH_LINE and random.randrange(LIFEITEM_INTERVAL) == MAGIC_NUM:
+                            last_obstacle.empty()
+                            last_obstacle.add(LifeItem(game_speed, object_size[0], object_size[1]))
                 
                 
                 
