@@ -9,8 +9,8 @@
 # 프로젝트 제목 : 오픈소스를 활용한 T-Rex Rush 게임 개발:
 <center>
     <div style = "padding: 10px 1px 2px 10px;">
-        <img src="sprites/screen1.png" width="500" height="300"/>
-        <img src="sprites/screen2.png" width="500" height="300"/>
+        <img src="sprites/screen1.png" width="400" height="250"/>
+        <img src="sprites/screen2.png" width="400" height="250"/>
     </div>
 </center>
 
