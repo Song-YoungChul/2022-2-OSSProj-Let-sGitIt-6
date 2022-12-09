@@ -209,6 +209,8 @@ def pvprunning():
                                     water_rest_time = 0
                                     dust_rest_time_2p = 0
                                     ice_rest_time = 0
+                                    background.update('spring',1)
+                                    background_2p.update(background_2p.name,2)
 
                                     
                                 
@@ -251,6 +253,8 @@ def pvprunning():
                                     water_rest_time_2p =0
                                     dust_rest_time = 0
                                     ice_rest_time_2p = 0
+                                    background.update(background.name,1)
+                                    background_2p.update('spring',2)
      
 
                         if not is_ice_time_2p: # 아이스 아이템 먹으면 키 못움직임
