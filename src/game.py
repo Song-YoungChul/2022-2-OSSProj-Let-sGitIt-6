@@ -697,8 +697,9 @@ def gameplay_hard():
     scb = Scoreboard( y = height * SCB_HEIGHT)
     highsc = Scoreboard(width * SCB_WIDTH, height * SCB_HEIGHT)
     heart = HeartIndicator(player_dino.life)
+    speed_indicator = Scoreboard(width * INDICATOR_X, height * INDICATOR_Y)
     counter = 0
-
+    speed_text = font.render("SPEED", True, black)
 
     item_back, item_back_rect = alpha_image('item_back.png', ITEM_BACK_WIDTH *0.75, ITEM_BACK_HEIGHT, -1)
     (item_back_rect.centerx, item_back_rect.top) = (width * ITEM_BACK_X, ITEM_BACK_Y)
@@ -1171,6 +1172,7 @@ def gameplay_hard():
                 new_ground.update()
                 scb.update(player_dino.score)
                 highsc.update(hard_high_score)
+                speed_indicator.update(game_speed - 3)
                 heart.update(player_dino.life)
                 slow_items.update()
                 coin_items.update()
@@ -1190,6 +1192,8 @@ def gameplay_hard():
                     new_ground.draw()
                     clouds.draw(screen)
                     scb.draw()
+                    speed_indicator.draw()
+                    screen.blit(speed_text, (width * 0.01, height * 0.15))
                     screen.blit(item_back, item_back_rect)
                     screen.blit(coin_image[0], (width * 0.35, height * HARD_ITEM_HEIGHT))
                     screen.blit(heart_item_image, (width * (0.35 + HARD_ITEM_OFF), height * HARD_ITEM_HEIGHT))
