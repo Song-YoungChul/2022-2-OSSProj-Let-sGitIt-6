@@ -321,8 +321,6 @@ def gameplay_easy():
     global high_score
     spring_image, spring_rect = load_image('ex_spring.png', EASY_BACK_W, EASY_BACK_H, -1)
     r_spring_image, r_spring_rect = load_image(*resize('ex_spring.png', EASY_BACK_W, EASY_BACK_H, -1))
-    un_spring_image, un_spring_rect = load_image('unselect_spring.png', EASY_BACK_W, EASY_BACK_H, -1)
-    r_un_spring_image, r_un_spring_rect = load_image(*resize('unselect_spring.png', EASY_BACK_W, EASY_BACK_H, -1))
     screen.blit(spring_image, spring_rect)
     result = db.query_db("select score from easy_mode order by score desc;", one=True)
     if result is not None:
@@ -1696,21 +1694,21 @@ def pausing():
     alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + ALPHA_MOVE, height)
     alpha_back_rect.left = -ALPHA_MOVE
     # BUTTON IMG LOAD
-    retbutton_image, retbutton_rect = load_image('main_button.png', 70, 62, -1)
-    resume_image, resume_rect = load_image('continue_button.png', 70, 62, -1)
+    retbutton_image, retbutton_rect = load_image('home_button.png', 150, 55, -1)
+    resume_image, resume_rect = load_image('resume_button.png', 150, 55, -1)
 
-    resized_retbutton_image, resized_retbutton_rect = load_image(*resize('main_button.png', 70, 62, -1))
-    resized_resume_image, resized_resume_rect = load_image(*resize('continue_button.png', 70, 62, -1))
+    resized_retbutton_image, resized_retbutton_rect = load_image(*resize('home_button.png', 150, 55, -1))
+    resized_resume_image, resized_resume_rect = load_image(*resize('resume_button.png', 150, 55, -1))
 
     # BUTTONPOS
-    retbutton_rect.centerx = width * 0.4
+    retbutton_rect.centerx = width * 0.35
     retbutton_rect.top = height * 0.52
-    resume_rect.centerx = width * 0.6
+    resume_rect.centerx = width * 0.65
     resume_rect.top = height * 0.52
 
-    resized_retbutton_rect.centerx = resized_screen.get_width() * 0.4
+    resized_retbutton_rect.centerx = resized_screen.get_width() * 0.35
     resized_retbutton_rect.top = resized_screen.get_height() * 0.52
-    resized_resume_rect.centerx = resized_screen.get_width() * 0.6
+    resized_resume_rect.centerx = resized_screen.get_width() * 0.65
     resized_resume_rect.top = resized_screen.get_height() * 0.52
 
     while not game_quit:
