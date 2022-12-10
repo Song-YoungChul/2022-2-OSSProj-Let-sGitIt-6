@@ -1584,7 +1584,7 @@ def gamerule_image(mode = ""):
     elif mode == "battle":
         gamerule_image, gamerule_rect= load_image("pvp_battle_rule.png",800,400,-1)
     elif mode == "running":
-        gamerule_image, gamerule_rect= load_image("pvp_running_rule.PNG",800,400,-1)
+        gamerule_image, gamerule_rect= load_image("pvp_running_rule.png",800,400,-1)
     gamerule_rect.centerx=width*0.5
     gamerule_rect.centery=height*0.5
 
@@ -1642,7 +1642,7 @@ def gamerule_image2(mode = ""):
     if mode == "battle":
         gamerule_image, gamerule_rect= load_image("pvp_battle_rule2.png",800,400,-1)
     elif mode == "running":
-        gamerule_image, gamerule_rect= load_image("pvp_running_rule2.PNG",800,400,-1)
+        gamerule_image, gamerule_rect= load_image("pvp_running_rule2.png",800,400,-1)
     elif mode == "hard":
         gamerule_image, gamerule_rect= load_image("hard_mode_rule2.png",800,400,-1)
     gamerule_rect.centerx=width*0.5
