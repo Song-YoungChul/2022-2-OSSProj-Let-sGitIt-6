@@ -10,7 +10,6 @@ from db.db_interface import InterfDB
 from src.store import store
 from src.pvp import *
 from src.pvprunning import *
-from src.story import *
 from time import sleep
 import threading
 import time
@@ -107,7 +106,8 @@ def option():
     global on_pushtime
     global off_pushtime
     global bgm_on
-    global high_score
+    global hard_high_score
+    global easy_high_score
     global resized_screen
     btnpush_interval = 500  # ms
     pygame.mixer.music.stop()
@@ -167,7 +167,8 @@ def option():
                         db.query_db("delete from hard_mode;")
                         db.query_db("delete from easy_mode")
                         db.commit()
-                        high_score = 0
+                        easy_high_score = 0
+                        hard_high_score = 0
                         db_init = True
 
                     if r_btn_gamerule_rect.collidepoint(x, y):
@@ -318,15 +319,16 @@ def select_mode():
 ## 게임 작동 ##
 def gameplay_easy():
     global resized_screen
-    global high_score
+    global easy_high_score
     spring_image, spring_rect = load_image('ex_spring.png', EASY_BACK_W, EASY_BACK_H, -1)
     r_spring_image, r_spring_rect = load_image(*resize('ex_spring.png', EASY_BACK_W, EASY_BACK_H, -1))
     un_spring_image, un_spring_rect = load_image('unselect_spring.png', EASY_BACK_W, EASY_BACK_H, -1)
     r_un_spring_image, r_un_spring_rect = load_image(*resize('unselect_spring.png', EASY_BACK_W, EASY_BACK_H, -1))
     screen.blit(spring_image, spring_rect)
+    result = None
     result = db.query_db("select score from easy_mode order by score desc;", one=True)
     if result is not None:
-        high_score = result['score']
+        easy_high_score = result['score']
     if bgm_on:
         pygame.mixer.music.play(-1) # 배경음악 실행
     game_speed = 4
@@ -544,7 +546,7 @@ def gameplay_easy():
                 life_items.update()
                 new_ground.update()
                 scb.update(player_dino.score)
-                highsc.update(high_score)
+                highsc.update(easy_high_score)
                 heart.update(life)
                 slow_items.update()
                 stones.update()
@@ -556,7 +558,7 @@ def gameplay_easy():
                     scb.draw()
 
                     heart.draw()
-                    if high_score != 0:
+                    if easy_high_score != 0:
                         highsc.draw()
                         screen.blit(high_image, high_rect)
                     cacti.draw(screen)
@@ -576,8 +578,8 @@ def gameplay_easy():
                 if player_dino.is_dead:
                     game_over = True
                     pygame.mixer.music.stop()  # 죽으면 배경음악 멈춤
-                    if player_dino.score > high_score:
-                        high_score = player_dino.score
+                    if player_dino.score > easy_high_score:
+                        easy_high_score = player_dino.score
                         
 
                 if counter % speed_up_limit == speed_up_limit - 1:
@@ -606,7 +608,7 @@ def gameplay_easy():
                         if event.key == pygame.K_RETURN or event.key == pygame.K_SPACE:
                             game_over = False
                             game_quit = True
-                            if high_score > player_dino.score:
+                            if easy_high_score > player_dino.score:
                                 type_score(player_dino.score)
                                 if not db.is_limit_data(player_dino.score, mode = "easy"):
                                     db.query_db(
@@ -621,7 +623,7 @@ def gameplay_easy():
                     if event.type == pygame.MOUSEBUTTONDOWN:
                         game_over = False
                         game_quit = True
-                        if high_score > player_dino.score:
+                        if easy_high_score > player_dino.score:
                             type_score(player_dino.score)
                             if not db.is_limit_data(player_dino.score, mode = "easy"):
                                 db.query_db(
@@ -636,10 +638,10 @@ def gameplay_easy():
                     if event.type == pygame.VIDEORESIZE:
                         check_scr_size(event.w, event.h)
 
-            highsc.update(high_score)
+            highsc.update(easy_high_score)
             if pygame.display.get_surface() != None:
                 disp_gameover_msg(game_over_image)
-                if high_score != 0:
+                if easy_high_score != 0:
                         highsc.draw()
                         screen.blit(high_image, high_rect)
                 resized_screen.blit(
@@ -653,12 +655,13 @@ def gameplay_easy():
 
 def gameplay_hard():
     global resized_screen
-    global high_score
+    global hard_high_score
     global game_over
     global paused
+    result = None
     result = db.query_db("select score from hard_mode order by score desc;", one=True)
     if result is not None:
-        high_score = result['score']
+        hard_high_score = result['score']
 
     # HERE: REMOVE SOUND!!    
     if bgm_on:
@@ -1169,7 +1172,7 @@ def gameplay_hard():
                 new_background.update()
                 new_ground.update()
                 scb.update(player_dino.score)
-                highsc.update(high_score)
+                highsc.update(hard_high_score)
                 heart.update(player_dino.life)
                 slow_items.update()
                 coin_items.update()
@@ -1215,7 +1218,7 @@ def gameplay_hard():
                                                            height * HARD_ITEM_HEIGHT))
                     heart.draw()
   
-                    if high_score != 0:
+                    if hard_high_score != 0:
                         highsc.draw()
                         screen.blit(high_image, high_rect)
                     obst1.draw(screen)
@@ -1252,8 +1255,8 @@ def gameplay_hard():
                 if player_dino.is_dead:
                     game_over = True
                     pygame.mixer.music.stop()  # 죽으면 배경음악 멈춤
-                    if player_dino.score > high_score:
-                        high_score = player_dino.score
+                    if player_dino.score > hard_high_score:
+                        hard_high_score = player_dino.score
                 counter += 1
 
         if game_quit:
@@ -1290,7 +1293,7 @@ def gameplay_hard():
                                     f"UPDATE item SET count = {coin_item_count} where name= 'coin';"
                                 )
                                 db.commit()
-                                if high_score > player_dino.score:
+                                if hard_high_score > player_dino.score:
                                     type_score(player_dino.score)
                                     if not db.is_limit_data(player_dino.score, mode = "hard"):
                                         db.query_db(
@@ -1322,7 +1325,7 @@ def gameplay_hard():
                                         f"UPDATE item SET count = {coin_item_count} where name= 'coin';"
                                     )
                                     db.commit()
-                                    if high_score > player_dino.score:
+                                    if hard_high_score > player_dino.score:
                                         type_score(player_dino.score)
                                         if not db.is_limit_data(player_dino.score, mode = "hard"):
                                             db.query_db(
@@ -1340,7 +1343,7 @@ def gameplay_hard():
                     if event.type == pygame.VIDEORESIZE:
                         check_scr_size(event.w, event.h)
 
-            highsc.update(high_score)
+            highsc.update(hard_high_score)
             if pygame.display.get_surface() != None:
                 disp_gameover_msg(game_over_image)
                 if high_score != 0:
