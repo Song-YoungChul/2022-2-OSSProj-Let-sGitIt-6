@@ -37,7 +37,6 @@
 ## SETTING TO PLAY GAME
 ```
 Python version 3.7
-Git
 ```
 
 ## TO INSTALL THIS GAME
