@@ -1647,11 +1647,11 @@ def gamerule_image2(mode = ""):
         ))
 
     if mode == "battle":
-        gamerule_image, gamerule_rect= load_image("pvp_battle_rule2.png",800,400,-1)
+        gamerule_image, gamerule_rect= load_image("pvp_battle_rule_item.png",800,400,-1)
     elif mode == "running":
-        gamerule_image, gamerule_rect= load_image("pvp_running_rule2.png",800,400,-1)
+        gamerule_image, gamerule_rect= load_image("pvp_running_rule_item.png",800,400,-1)
     elif mode == "hard":
-        gamerule_image, gamerule_rect= load_image("hard_mode_rule2.png",800,400,-1)
+        gamerule_image, gamerule_rect= load_image("hard_mode_rule_item.png",800,400,-1)
     gamerule_rect.centerx=width*0.5
     gamerule_rect.centery=height*0.5
 
@@ -1701,10 +1701,10 @@ def pausing():
     alpha_back, alpha_back_rect = alpha_image('alpha_back.png', width + ALPHA_MOVE, height)
     alpha_back_rect.left = -ALPHA_MOVE
     # BUTTON IMG LOAD
-    retbutton_image, retbutton_rect = load_image('home_button.png', 150, 55, -1)
+    retbutton_image, retbutton_rect = load_image('home_btn.png', 150, 55, -1)
     resume_image, resume_rect = load_image('resume_button.png', 150, 55, -1)
 
-    resized_retbutton_image, resized_retbutton_rect = load_image(*resize('home_button.png', 150, 55, -1))
+    resized_retbutton_image, resized_retbutton_rect = load_image(*resize('home_btn.png', 150, 55, -1))
     resized_resume_image, resized_resume_rect = load_image(*resize('resume_button.png', 150, 55, -1))
 
     # BUTTONPOS
