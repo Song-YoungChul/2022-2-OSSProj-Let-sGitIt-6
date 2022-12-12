@@ -74,6 +74,8 @@ python run.py
 [JAEHONG] : asdr111324@gmail.com <br>
 [YOUNGCHUL]: syc5002@naver.com <br>
 
+[게임시연영상] : https://github.com/Song-YoungChul/2022-2-OSSProj-Let-sGitIt-6.git<br>
+
  <br>
 
  ## Credits:
