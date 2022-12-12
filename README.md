@@ -56,9 +56,9 @@ python run.py
         <img src="sprites/easy_mode_rule.png" width="300" height="200"/>
         <img src="sprites/hard_mode_rule.png" width="300" height="200"/>
         <img src="sprites/pvp_battle_rule.png" width="300" height="200"/>
-        <img src="sprites/pvp_battle_rule2.png" width="300" height="200"/>
+        <img src="sprites/pvp_battle_item.png" width="300" height="200"/>
         <img src="sprites/pvp_running_rule.png" width="300" height="200"/>
-        <img src="sprites/pvp_running_rule2.png" width="300" height="200"/>
+        <img src="sprites/pvp_running_item.png" width="300" height="200"/>
     </div>
 </center>
 <br>
